@@ -56,14 +56,6 @@ export default function Inventory() {
   return (
     <div className="min-h-screen bg-[#F0F4F8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - 5 Day Lookout */}
-          <div className="lg:col-span-1">
-            <FiveDayLookout />
-          </div>
-
-          {/* Main Content */}
-          <div className="lg:col-span-3">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
