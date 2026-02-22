@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "./utils";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
+import { canView } from "./lib/PageNotFound";
 import {
   CalendarDays,
   Package,
@@ -36,6 +37,11 @@ const NAV = [
 
 export default function Layout({ children, currentPageName }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    base44.auth.me().then(setCurrentUser).catch(() => null);
+  }, []);
 
   const { data: alerts = [] } = useQuery({
     queryKey: ["alerts"],
@@ -43,6 +49,29 @@ export default function Layout({ children, currentPageName }) {
     refetchInterval: 20000,
   });
   const alertCount = alerts.length;
+
+  // Filter nav items based on user role
+  const visibleNav = NAV.filter(item => {
+    const section = item.page;
+    // Map page names to section names for permission check
+    const sectionMap = {
+      Schedule: "Schedule",
+      ScheduleLookout: "ScheduleLookout",
+      Inventory: "Inventory",
+      ScanHistory: "Inventory",
+      Alerts: "Alerts",
+      RNCall: "RNCall",
+      STCall: "STCall",
+      Vendors: "Vendors",
+      SpecialtyEquipment: "Equipment",
+      StaffRoster: "StaffManagement",
+      StaffingSchedule: "StaffManagement",
+      TextNotifications: "TextNotifications",
+      EducationalResources: "EducationalResources",
+    };
+    const sectionName = sectionMap[section] || section;
+    return canView(currentUser?.role || "user", sectionName);
+  });
 
   return (
     <div className="min-h-screen bg-[#F0F4F8] flex">
@@ -60,7 +89,7 @@ export default function Layout({ children, currentPageName }) {
           </div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {NAV.map(({ label, page, icon: Icon, badge }) => {
+          {visibleNav.map(({ label, page, icon: Icon, badge }) => {
             const active = currentPageName === page;
             return (
               <Link
@@ -116,7 +145,7 @@ export default function Layout({ children, currentPageName }) {
         <div className="lg:hidden fixed inset-0 z-20 bg-black/30" onClick={() => setMobileOpen(false)}>
           <div className="bg-white w-64 h-full shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 pt-16 pb-4 space-y-1">
-              {NAV.map(({ label, page, icon: Icon, badge }) => {
+                {visibleNav.map(({ label, page, icon: Icon, badge }) => {
                 const active = currentPageName === page;
                 return (
                   <Link
