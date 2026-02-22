@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
+import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Calendar, X, Plus } from "lucide-react";
+import { Loader2, Calendar, X, Plus, TriangleAlert, Wrench } from "lucide-react";
 
 export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate }) {
   const [form, setForm] = useState({
@@ -19,6 +20,7 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
     or_room: "",
     surgeon: "",
     required_sets: [],
+    required_equipment: [],
     special_requests: "",
     special_limitations: "",
     notes: "",
@@ -26,6 +28,12 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
   });
   const [saving, setSaving] = useState(false);
   const [setSearch, setSetSearch] = useState("");
+  const [eqSearch, setEqSearch] = useState("");
+
+  const { data: allEquipment = [] } = useQuery({
+    queryKey: ["specialty-equipment"],
+    queryFn: () => base44.entities.SpecialtyEquipment.list("-created_date", 100),
+  });
 
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
