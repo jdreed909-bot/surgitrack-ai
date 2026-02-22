@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format, isToday, isTomorrow, parseISO, addHours, isBefore } from "date-fns";
-import { Calendar, Clock, AlertTriangle, CheckCircle2, User, ChevronDown, ChevronUp, Bell, Package, MapPin } from "lucide-react";
+import { Calendar, Clock, AlertTriangle, CheckCircle2, User, ChevronDown, ChevronUp, Bell, Package, MapPin, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import CaseCard from "../components/schedule/CaseCard";
 import AddCaseModal from "../components/schedule/AddCaseModal";
 import StaffingBoard from "../components/schedule/StaffingBoard";
 import CaseTrackingBoard from "../components/schedule/CaseTrackingBoard";
-
+import { canModify } from "../lib/PageNotFound";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [addOpen, setAddOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    base44.auth.me().then(setCurrentUser).catch(() => null);
+  }, []);
 
   const { data: cases = [], isLoading: casesLoading } = useQuery({
     queryKey: ["cases", selectedDate],
@@ -86,12 +91,18 @@ export default function Schedule() {
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Surgical Schedule</h1>
             <p className="text-slate-500 mt-1 text-sm">Cases and instrument set availability</p>
           </div>
-          <Button
-            onClick={() => setAddOpen(true)}
-            className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm w-full sm:w-auto"
-          >
-            <Calendar className="w-4 h-4 mr-2" /> Add Case
-          </Button>
+          {currentUser && canModify(currentUser.role, "Schedule") ? (
+            <Button
+              onClick={() => setAddOpen(true)}
+              className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm w-full sm:w-auto"
+            >
+              <Calendar className="w-4 h-4 mr-2" /> Add Case
+            </Button>
+          ) : (
+            <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-xl text-sm text-slate-600">
+              <Lock className="w-4 h-4" /> View Only
+            </div>
+          )}
         </div>
 
         {/* Date Tabs */}
