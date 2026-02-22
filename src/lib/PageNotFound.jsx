@@ -17,6 +17,7 @@ const PERMISSIONS = {
     Vendors: ["view", "modify"],
     SpecialtyEquipment: ["view", "modify"],
     EducationalResources: ["view", "modify"],
+    Admin: ["view", "modify"],
   },
   manager: {
     Schedule: ["view", "modify"],
@@ -31,6 +32,7 @@ const PERMISSIONS = {
     Vendors: ["view"],
     SpecialtyEquipment: ["view"],
     EducationalResources: ["view"],
+    Admin: ["view", "modify"],
   },
   charge_nurse: {
     Schedule: ["view", "modify"],
@@ -45,6 +47,7 @@ const PERMISSIONS = {
     Vendors: ["view"],
     SpecialtyEquipment: ["view"],
     EducationalResources: ["view"],
+    Admin: ["view"],
   },
   user: {
     Schedule: ["view"],
@@ -59,6 +62,7 @@ const PERMISSIONS = {
     Vendors: ["view"],
     SpecialtyEquipment: ["view"],
     EducationalResources: ["view"],
+    Admin: ["view"],
   },
 };
 
