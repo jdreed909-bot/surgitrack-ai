@@ -106,6 +106,13 @@ export default function CaseCard({ caseData, setsMap, conflictSetIds, unavailabl
 
           {/* Actions */}
           <div className="flex flex-col items-end gap-2">
+            <Button
+              size="sm"
+              onClick={() => setTurnoverOpen(true)}
+              className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs h-8 gap-1"
+            >
+              <Timer className="w-3 h-3" /> Turnover
+            </Button>
             {hasConflict && !caseData.vendor_notification_sent && (
               <Button
                 size="sm"
