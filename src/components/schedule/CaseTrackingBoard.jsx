@@ -224,6 +224,11 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
         dstList.splice(destination.index, 0, updatedCase);
         setBoard((prev) => ({ ...prev, [dstId]: dstList }));
         setMovedIds((prev) => new Set([...prev, caseId]));
+        // Notify team
+        notifyTeam(updatedCase, dstId, assignmentMap, selectedDate).then(({ sent, log }) => {
+          setNotifyBanner({ caseId, room: dstId, sent, log, procedure: caseData.procedure_name });
+          setTimeout(() => setNotifyBanner(null), 8000);
+        });
       }
       return;
     }
