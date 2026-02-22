@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Check, X, Clock } from "lucide-react";
 
-export default function SwitchLedger({ switches, onApprove, onDeny, userRole }) {
+export default function SwitchLedger({ switches, onApprove, onDeny, userRole, canApprove = true }) {
   const [filter, setFilter] = useState("pending"); // "all", "pending", "approved"
 
   const filteredSwitches = switches.filter((s) => {
@@ -84,7 +84,7 @@ export default function SwitchLedger({ switches, onApprove, onDeny, userRole }) 
                 </div>
               </div>
 
-              {sw.status === "Pending" && userRole === "admin" && (
+              {sw.status === "Pending" && canApprove && (userRole === "admin" || userRole === "manager") && (
                 <div className="flex gap-2 pt-2 border-t border-slate-200">
                   <Button
                     onClick={() => onApprove(sw.id)}
