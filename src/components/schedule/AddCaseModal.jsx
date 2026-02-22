@@ -51,13 +51,85 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
     s.set_code?.toLowerCase().includes(setSearch.toLowerCase())
   );
 
+  const filteredEquipment = allEquipment.filter((e) =>
+    e.name?.toLowerCase().includes(eqSearch.toLowerCase()) ||
+    e.equipment_code?.toLowerCase().includes(eqSearch.toLowerCase())
+  );
+
+  // Count how many times each equipment is already selected by OTHER cases on the same date
+  // For simplicity we check conflicts at save time via query
+  const getEquipmentConflict = (eqId) => {
+    const eq = allEquipment.find((e) => e.id === eqId);
+    if (!eq) return null;
+    const timesSelected = form.required_equipment.filter((id) => id === eqId).length;
+    if (timesSelected > eq.quantity) return `Only ${eq.quantity} available`;
+    return null;
+  };
+
+  const toggleEquipment = (id) => {
+    setForm((f) => ({
+      ...f,
+      required_equipment: f.required_equipment.includes(id)
+        ? f.required_equipment.filter((e) => e !== id)
+        : [...f.required_equipment, id],
+    }));
+  };
+
+  // Compute equipment discrepancies for selected items
+  const equipmentDiscrepancies = form.required_equipment
+    .map((id) => {
+      const eq = allEquipment.find((e) => e.id === id);
+      if (!eq) return null;
+      const count = form.required_equipment.filter((x) => x === id).length;
+      if (count > eq.quantity) return eq.name;
+      return null;
+    })
+    .filter(Boolean);
+
   const handleSave = async () => {
     if (!form.procedure_name || !form.scheduled_date) return;
     setSaving(true);
+
+    // Check for equipment quantity discrepancies across existing cases on same date
+    const sameDayCases = await base44.entities.SurgicalCase.filter(
+      { scheduled_date: form.scheduled_date },
+      "-created_date",
+      50
+    );
+    const equipmentUsageCounts = {};
+    sameDayCases.forEach((c) => {
+      (c.required_equipment || []).forEach((eqId) => {
+        equipmentUsageCounts[eqId] = (equipmentUsageCounts[eqId] || 0) + 1;
+      });
+    });
+
+    const conflictFlags = [];
+    form.required_equipment.forEach((eqId) => {
+      const eq = allEquipment.find((e) => e.id === eqId);
+      if (eq) {
+        const totalUsed = (equipmentUsageCounts[eqId] || 0) + 1;
+        if (totalUsed > eq.quantity) {
+          conflictFlags.push(`Equipment conflict: ${eq.name} — only ${eq.quantity} available, ${totalUsed} requested on this date`);
+        }
+      }
+    });
+
     await base44.entities.SurgicalCase.create({
       ...form,
       estimated_duration: form.estimated_duration ? Number(form.estimated_duration) : undefined,
+      conflict_flags: conflictFlags.length ? conflictFlags : undefined,
     });
+
+    // Create alerts for conflicts
+    for (const flag of conflictFlags) {
+      await base44.entities.Alert.create({
+        type: "Case Conflict",
+        severity: "High",
+        message: flag,
+        is_resolved: false,
+      });
+    }
+
     setSaving(false);
     onCreated();
     onClose();
