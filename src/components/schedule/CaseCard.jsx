@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, CheckCircle2, Clock, MapPin, User, Package, Bell, ChevronDown, ChevronUp, Loader2, Wrench } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Clock, MapPin, User, Package, Bell, ChevronDown, ChevronUp, Loader2, Wrench, Timer, Stethoscope } from "lucide-react";
+import TurnoverCountdownModal from "./TurnoverCountdownModal";
 
 const STATUS_BADGE = {
   Available:    "bg-emerald-100 text-emerald-700 border-emerald-200",
