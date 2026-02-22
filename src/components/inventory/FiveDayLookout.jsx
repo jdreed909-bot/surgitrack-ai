@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "date-fns";
 import { addDays } from "date-fns";
 import AddManualIssueModal from "./AddManualIssueModal";
+import ContactsManagerModal from "./ContactsManagerModal";
 
 const ISSUE_CATEGORIES = {
   "Materials": { icon: ShoppingCart, color: "text-blue-600", bg: "bg-blue-50" },
