@@ -11,10 +11,12 @@ import { X, Plus, Mail } from "lucide-react";
 const CATEGORIES = ["Materials", "Scheduling", "SPD", "OR"];
 const SEVERITY_OPTIONS = ["Critical", "High", "Medium", "Low"];
 
-export default function AddManualIssueModal({ open, onClose, onCreated }) {
+export default function AddManualIssueModal({ open, onClose, onCreated, defaultDate, defaultSurgeon }) {
   const [category, setCategory] = useState("");
   const [severity, setSeverity] = useState("Medium");
   const [message, setMessage] = useState("");
+  const [surgeon, setSurgeon] = useState(defaultSurgeon || "");
+  const [issueDate, setIssueDate] = useState(defaultDate || "");
   const [contacts, setContacts] = useState([]);
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
