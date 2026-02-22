@@ -28,6 +28,7 @@ const NAV = [
   { label: "Staff Roster",      page: "StaffRoster",        icon: Users },
   { label: "Staffing Schedule", page: "StaffingSchedule",   icon: CalendarDays },
   { label: "Text Notifications", page: "TextNotifications",  icon: MessageSquare },
+  { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
 ];
 
 export default function Layout({ children, currentPageName }) {
