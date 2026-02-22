@@ -6,11 +6,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Phone, AlertCircle } from "lucide-react";
+import { Phone, AlertCircle, Lock } from "lucide-react";
 import CallCalendar from "../components/call/CallCalendar";
 import CallSlot from "../components/call/CallSlot";
 import SwitchLedger from "../components/call/SwitchLedger";
 import HolidaySchedule from "../components/call/HolidaySchedule";
+import { canModify } from "../lib/PageNotFound";
 
 export default function STCall() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -25,6 +26,8 @@ export default function STCall() {
   React.useEffect(() => {
     base44.auth.me().then(setCurrentUser).catch(() => null);
   }, []);
+
+  const canUserModify = currentUser && canModify(currentUser.role, "STCall");
 
   const { data: schedules = [] } = useQuery({
     queryKey: ["call-schedules-st"],
@@ -76,12 +79,14 @@ export default function STCall() {
   });
 
   const handlePickup = (call) => {
+    if (!canUserModify) return;
     setSelectedCall(call);
     setSwitchType("pickup");
     setSwitchDialogOpen(true);
   };
 
   const handleGiveaway = (call) => {
+    if (!canUserModify) return;
     setSelectedCall(call);
     setSwitchType("giveaway");
     setSwitchDialogOpen(true);
@@ -178,6 +183,7 @@ export default function STCall() {
                       onPickup={handlePickup}
                       onGiveaway={handleGiveaway}
                       isCurrentUser={call.staff_email === currentUser?.email}
+                      canModify={canUserModify}
                       isPending={switches.some(
                         (s) =>
                           s.status === "Pending" &&
@@ -197,6 +203,7 @@ export default function STCall() {
               onApprove={(id) => approveSwitchMutation.mutate(id)}
               onDeny={(id) => denySwitchMutation.mutate(id)}
               userRole={currentUser?.role}
+              canApprove={canUserModify}
             />
           </div>
         </div>
