@@ -62,6 +62,7 @@ import RNCall from './pages/RNCall';
 import STCall from './pages/STCall';
 import Admin from './pages/Admin';
 import Turnover from './pages/Turnover';
+import PolicyBot from './pages/PolicyBot';
 import __Layout from './Layout.jsx';
 
 
@@ -81,6 +82,7 @@ export const PAGES = {
     "STCall": STCall,
     "Admin": Admin,
     "Turnover": Turnover,
+    "PolicyBot": PolicyBot,
 }
 
 export const pagesConfig = {
