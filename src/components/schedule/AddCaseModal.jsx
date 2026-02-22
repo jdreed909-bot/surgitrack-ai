@@ -297,7 +297,67 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
                   </button>
                 );
               })}
-              {filteredEquipment.length === 0 && <div className="text-center text-slate-400 text-sm py-4">No equipment found</div>}
+              {filteredEquipment.length === 0 && (
+                <div className="text-center text-slate-400 text-sm py-4">
+                  {eqSearch ? "No equipment matches your search" : "No equipment in library yet"}
+                </div>
+              )}
+            </div>
+
+            {/* Add new equipment inline */}
+            <div className="mt-2">
+              <button
+                onClick={() => setShowAddEquipment((v) => !v)}
+                className="flex items-center gap-1.5 text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors"
+              >
+                {showAddEquipment ? <ChevronUp className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+                {showAddEquipment ? "Cancel" : "Add new equipment to library"}
+              </button>
+              {showAddEquipment && (
+                <div className="mt-2 p-3 bg-teal-50 border border-teal-100 rounded-xl space-y-2">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="col-span-2">
+                      <Input
+                        value={newEq.name}
+                        onChange={(e) => setNewEq((n) => ({ ...n, name: e.target.value }))}
+                        placeholder="Equipment name *"
+                        className="rounded-lg border-slate-200 text-sm h-8"
+                      />
+                    </div>
+                    <Input
+                      type="number"
+                      min={1}
+                      value={newEq.quantity}
+                      onChange={(e) => setNewEq((n) => ({ ...n, quantity: e.target.value }))}
+                      placeholder="Qty"
+                      className="rounded-lg border-slate-200 text-sm h-8"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Input
+                      value={newEq.location}
+                      onChange={(e) => setNewEq((n) => ({ ...n, location: e.target.value }))}
+                      placeholder="Location (optional)"
+                      className="rounded-lg border-slate-200 text-sm h-8"
+                    />
+                    <Input
+                      value={newEq.notes}
+                      onChange={(e) => setNewEq((n) => ({ ...n, notes: e.target.value }))}
+                      placeholder="Notes (optional)"
+                      className="rounded-lg border-slate-200 text-sm h-8"
+                    />
+                  </div>
+                  <Button
+                    onClick={handleAddNewEquipment}
+                    disabled={addingEq || !newEq.name}
+                    size="sm"
+                    className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-lg h-8 text-xs"
+                  >
+                    {addingEq ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> : <Plus className="w-3.5 h-3.5 mr-1" />}
+                    Add to Library & Select
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
