@@ -165,6 +165,14 @@ export default function FiveDayLookout() {
         </div>
         <div className="ml-auto flex items-center gap-2">
           <Button
+            onClick={() => setContactsOpen(true)}
+            variant="outline"
+            className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
+            size="sm"
+          >
+            <Mail className="w-4 h-4 mr-1" /> Manage Contacts
+          </Button>
+          <Button
             onClick={() => setManualIssueOpen(true)}
             variant="outline"
             className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
