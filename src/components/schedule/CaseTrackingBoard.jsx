@@ -45,7 +45,12 @@ function CaseChip({ caseData, isDragging, compact = false }) {
       ${isDragging ? "shadow-lg ring-2 ring-teal-400 border-teal-300" : "border-slate-200 hover:border-teal-300 hover:shadow-md"}`}>
       <GripVertical className="w-4 h-4 text-slate-300 mt-0.5 shrink-0" />
       <div className="min-w-0 flex-1">
-        <div className="font-semibold text-slate-800 text-xs truncate">{caseData.procedure_name}</div>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <div className="font-semibold text-slate-800 text-xs truncate">{caseData.procedure_name}</div>
+          {caseData.status === "Add-On" && (
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200 shrink-0">Add-On</span>
+          )}
+        </div>
         <div className="text-[11px] text-slate-400 mt-0.5">
           #{caseData.case_number}
           {start && <> · {start}{end && ` – ${end}`}</>}
