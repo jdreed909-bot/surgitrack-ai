@@ -314,6 +314,12 @@ export default function FiveDayLookout() {
           setManualIssueOpen(false);
         }}
       />
+
+      <ContactsManagerModal
+        open={contactsOpen}
+        onClose={() => setContactsOpen(false)}
+        onSave={(contacts) => setGlobalContacts(contacts)}
+      />
     </div>
   );
 }
