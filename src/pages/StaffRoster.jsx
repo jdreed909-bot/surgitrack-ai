@@ -6,13 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ImportStaffModal from "../components/staff/ImportStaffModal";
 
-const ROLES = ["RN", "Scrub Tech", "Charge RN", "Surgeon", "Anesthesia Provider"];
+const ROLES = ["RN", "Scrub Tech", "Charge RN", "Surgeon", "Anesthesia Provider", "RNFA", "PA", "NP"];
 const ROLE_COLORS = {
   "RN":         "bg-teal-100 text-teal-700",
   "Scrub Tech": "bg-indigo-100 text-indigo-700",
   "Charge RN":  "bg-amber-100 text-amber-800",
   "Surgeon":    "bg-emerald-100 text-emerald-700",
   "Anesthesia Provider": "bg-pink-100 text-pink-700",
+  "RNFA":       "bg-orange-100 text-orange-700",
+  "PA":         "bg-purple-100 text-purple-700",
+  "NP":         "bg-rose-100 text-rose-700",
 };
 
 const EMPTY = { name: "", role: "RN", vocera_id: "", vocera_group: "", phone: "", email: "", is_active: true };
