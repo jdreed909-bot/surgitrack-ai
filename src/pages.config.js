@@ -53,6 +53,7 @@ import ScanHistory from './pages/ScanHistory';
 import Alerts from './pages/Alerts';
 import Vendors from './pages/Vendors';
 import SpecialtyEquipment from './pages/SpecialtyEquipment';
+import StaffRoster from './pages/StaffRoster';
 import __Layout from './Layout.jsx';
 
 
@@ -63,6 +64,7 @@ export const PAGES = {
     "Alerts": Alerts,
     "Vendors": Vendors,
     "SpecialtyEquipment": SpecialtyEquipment,
+    "StaffRoster": StaffRoster,
 }
 
 export const pagesConfig = {
