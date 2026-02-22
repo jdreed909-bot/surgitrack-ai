@@ -4,17 +4,16 @@ import { createPageUrl } from "./utils";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import {
-  LayoutDashboard,
   CalendarDays,
   Package,
   ScanLine,
   Bell,
-  ClipboardList,
   Menu,
   X,
   Activity,
   Building2,
   Wrench,
+  Users,
 } from "lucide-react";
 
 const NAV = [
