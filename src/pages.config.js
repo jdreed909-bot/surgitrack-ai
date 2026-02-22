@@ -48,29 +48,29 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import Alerts from './pages/Alerts';
+import EducationalResources from './pages/EducationalResources';
 import Inventory from './pages/Inventory';
 import ScanHistory from './pages/ScanHistory';
 import Schedule from './pages/Schedule';
 import SpecialtyEquipment from './pages/SpecialtyEquipment';
 import StaffRoster from './pages/StaffRoster';
+import StaffingSchedule from './pages/StaffingSchedule';
 import TextNotifications from './pages/TextNotifications';
 import Vendors from './pages/Vendors';
-import StaffingSchedule from './pages/StaffingSchedule';
-import EducationalResources from './pages/EducationalResources';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Alerts": Alerts,
+    "EducationalResources": EducationalResources,
     "Inventory": Inventory,
     "ScanHistory": ScanHistory,
     "Schedule": Schedule,
     "SpecialtyEquipment": SpecialtyEquipment,
     "StaffRoster": StaffRoster,
+    "StaffingSchedule": StaffingSchedule,
     "TextNotifications": TextNotifications,
     "Vendors": Vendors,
-    "StaffingSchedule": StaffingSchedule,
-    "EducationalResources": EducationalResources,
 }
 
 export const pagesConfig = {

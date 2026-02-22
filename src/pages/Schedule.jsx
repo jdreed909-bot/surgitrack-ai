@@ -156,6 +156,8 @@ export default function Schedule() {
             setsMap={setsMap}
             conflictSetIds={conflictSetIds}
             unavailableSets={unavailableSets}
+            assignmentMap={assignmentMap}
+            selectedDate={selectedDate}
           />
         )}
       </div>
