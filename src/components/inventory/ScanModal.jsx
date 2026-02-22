@@ -30,6 +30,41 @@ export default function ScanModal({ onClose, onScanned, sets }) {
     setTimeout(() => inputRef.current?.focus(), 100);
   }, []);
 
+  useEffect(() => {
+    if (cameraActive && videoRef.current) {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then((stream) => {
+          videoRef.current.srcObject = stream;
+        })
+        .catch((err) => console.error("Camera error:", err));
+    }
+    return () => {
+      if (videoRef.current?.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, [cameraActive]);
+
+  const captureBarcode = () => {
+    if (canvasRef.current && videoRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.drawImage(videoRef.current, 0, 0);
+      const imageData = canvasRef.current.toDataURL("image/jpeg");
+      setIssuePhoto(imageData);
+      setCameraActive(false);
+    }
+  };
+
+  const captureIssuePhoto = () => {
+    if (canvasRef.current && videoRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.drawImage(videoRef.current, 0, 0);
+      const imageData = canvasRef.current.toDataURL("image/jpeg");
+      setIssuePhoto(imageData);
+      setCameraActive(false);
+    }
+  };
+
   const handleScan = (code) => {
     const trimmed = code.trim().toUpperCase();
     if (!trimmed) return;
