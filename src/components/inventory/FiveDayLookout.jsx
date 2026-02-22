@@ -64,6 +64,15 @@ export default function FiveDayLookout() {
     });
   }, [cases, today, fiveDaysFromNow]);
 
+  const pastFiveDays = useMemo(() => {
+    const fiveDaysAgo = addDays(today, -5);
+    return resolvedAlerts.filter((alert) => {
+      if (!alert.resolved_at) return false;
+      const resolvedDate = new Date(alert.resolved_at);
+      return resolvedDate >= fiveDaysAgo && resolvedDate < today;
+    });
+  }, [resolvedAlerts, today]);
+
   // Group issues by date
   const dateGroups = useMemo(() => {
     const groups = {};
