@@ -60,6 +60,7 @@ import TextNotifications from './pages/TextNotifications';
 import Vendors from './pages/Vendors';
 import RNCall from './pages/RNCall';
 import STCall from './pages/STCall';
+import Admin from './pages/Admin';
 import __Layout from './Layout.jsx';
 
 
@@ -77,6 +78,7 @@ export const PAGES = {
     "Vendors": Vendors,
     "RNCall": RNCall,
     "STCall": STCall,
+    "Admin": Admin,
 }
 
 export const pagesConfig = {
