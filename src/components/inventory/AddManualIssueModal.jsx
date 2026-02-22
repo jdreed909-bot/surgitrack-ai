@@ -40,6 +40,8 @@ export default function AddManualIssueModal({ open, onClose, onCreated, defaultD
       type: category,
       severity,
       message,
+      surgeon,
+      issue_date: issueDate,
       points_of_contact: contacts,
     });
     setSaving(false);
@@ -51,6 +53,8 @@ export default function AddManualIssueModal({ open, onClose, onCreated, defaultD
     setCategory("");
     setSeverity("Medium");
     setMessage("");
+    setSurgeon(defaultSurgeon || "");
+    setIssueDate(defaultDate || "");
     setContacts([]);
     setContactName("");
     setContactEmail("");
