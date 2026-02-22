@@ -35,15 +35,22 @@ function TurnoverSlot({ startMins, endMins }) {
   );
 }
 
-function CaseChip({ caseData, isDragging, compact = false }) {
+function CaseChip({ caseData, isDragging, compact = false, onEdit }) {
   const start = caseData.scheduled_time ? minutesToDisplay(parseTime(caseData.scheduled_time)) : "";
   const end = caseData.scheduled_time && caseData.estimated_duration
     ? minutesToDisplay(parseTime(caseData.scheduled_time) + Number(caseData.estimated_duration))
     : "";
 
   return (
-    <div className={`bg-white border rounded-xl px-3 py-2.5 shadow-sm flex items-start gap-2 transition-all cursor-grab active:cursor-grabbing
-      ${isDragging ? "shadow-lg ring-2 ring-teal-400 border-teal-300" : "border-slate-200 hover:border-teal-300 hover:shadow-md"}`}>
+    <div
+      className={`bg-white border rounded-xl px-3 py-2.5 shadow-sm flex items-start gap-2 transition-all cursor-grab active:cursor-grabbing
+      ${isDragging ? "shadow-lg ring-2 ring-teal-400 border-teal-300" : "border-slate-200 hover:border-teal-300 hover:shadow-md"}`}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onEdit?.(caseData);
+      }}
+    >
       <GripVertical className="w-4 h-4 text-slate-300 mt-0.5 shrink-0" />
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5 flex-wrap">
