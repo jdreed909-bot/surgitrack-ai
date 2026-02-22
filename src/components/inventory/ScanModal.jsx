@@ -158,19 +158,37 @@ export default function ScanModal({ onClose, onScanned, sets }) {
         <div className="p-6 space-y-5">
           <div className="space-y-2">
             <Label className="text-slate-600 text-xs font-semibold uppercase tracking-wide">Set Code / Barcode</Label>
-            <div className="flex gap-2">
-              <Input
-                ref={inputRef}
-                value={scanCode}
-                onChange={(e) => { setScanCode(e.target.value); setNotFound(false); setFoundSet(null); }}
-                onKeyDown={handleKeyDown}
-                placeholder="Scan or type set code..."
-                className="rounded-xl border-slate-200 font-mono text-sm"
-              />
-              <Button onClick={() => handleScan(scanCode)} className="bg-teal-600 hover:bg-teal-700 rounded-xl px-4">
-                <ScanLine className="w-4 h-4" />
-              </Button>
-            </div>
+            {!cameraActive ? (
+              <div className="flex gap-2">
+                <Input
+                  ref={inputRef}
+                  value={scanCode}
+                  onChange={(e) => { setScanCode(e.target.value); setNotFound(false); setFoundSet(null); }}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Scan or type set code..."
+                  className="rounded-xl border-slate-200 font-mono text-sm"
+                />
+                <Button onClick={() => handleScan(scanCode)} className="bg-teal-600 hover:bg-teal-700 rounded-xl px-4">
+                  <ScanLine className="w-4 h-4" />
+                </Button>
+                <Button onClick={() => setCameraActive(true)} variant="outline" className="rounded-xl px-4 border-slate-200">
+                  <Camera className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <video ref={videoRef} autoPlay className="w-full rounded-xl bg-slate-900" />
+                <canvas ref={canvasRef} className="hidden" width={640} height={480} />
+                <div className="flex gap-2">
+                  <Button onClick={captureBarcode} className="flex-1 bg-teal-600 hover:bg-teal-700 rounded-xl">
+                    Capture Barcode
+                  </Button>
+                  <Button onClick={() => setCameraActive(false)} variant="outline" className="rounded-xl border-slate-200">
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           {notFound && (
