@@ -26,41 +26,56 @@ const WEEKEND_SHIFTS = [
   { time: "11p–7a",  label: "RN / ST Call",    color: "bg-slate-100 border-slate-300 text-slate-500", call: true },
 ];
 
-// Map shift time labels → matching shift_start prefixes for StaffAssignment records
-const SHIFT_START_MAP = {
-  "7a":     ["07:00", "7:00"],
-  "3p":     ["15:00", "15:3"],
-  "5p":     ["17:00", "17:3"],
-  "8p":     ["20:00"],
-  "7p":     ["19:00"],
-  "11p–7a": ["23:00"],
-  "5–11p":  ["17:00", "17:3"],
-  "7–11p":  ["19:00"],
-};
+// Convert "7a" → 7, "3p" → 15, "11p–7a" → 23, etc.
+function shiftLabelToHour(timeLabel) {
+  const clean = timeLabel.split("–")[0].trim(); // take start of range
+  const match = clean.match(/^(\d+)(a|p)/i);
+  if (!match) return null;
+  let h = parseInt(match[1], 10);
+  const period = match[2].toLowerCase();
+  if (period === "p" && h !== 12) h += 12;
+  if (period === "a" && h === 12) h = 0;
+  return h;
+}
 
-function getStaffForShift(shiftTime, staff, assignments) {
-  // Match staff whose shift_start aligns with the shift time bucket
-  const prefixes = SHIFT_START_MAP[shiftTime] || [];
-  if (prefixes.length === 0) return [];
+function parseTimeToHour(t) {
+  if (!t) return null;
+  const [h] = t.split(":").map(Number);
+  return isNaN(h) ? null : h;
+}
 
-  // Find assignment records that have a shift_start matching the bucket
-  const matched = [];
+function getStaffForShift(shiftTime, assignments) {
+  const shiftHour = shiftLabelToHour(shiftTime);
+
+  // Collect all staff from all assignment records for this day
+  const all = [];
   assignments.forEach((a) => {
-    const start = a.rn_shift_start || a.shift_start || "";
-    const stStart = a.scrub_tech_shift_start || a.shift_start || "";
-    const crStart = a.charge_rn_shift_start || a.shift_start || "";
-
-    if (a.rn_name && prefixes.some((p) => start.startsWith(p))) {
-      matched.push({ name: a.rn_name, role: "RN", room: a.or_room, shiftStart: start, shiftEnd: a.rn_shift_end || a.shift_end || "" });
-    }
-    if (a.scrub_tech_name && prefixes.some((p) => stStart.startsWith(p))) {
-      matched.push({ name: a.scrub_tech_name, role: "Scrub Tech", room: a.or_room, shiftStart: stStart, shiftEnd: a.scrub_tech_shift_end || a.shift_end || "" });
-    }
-    if (a.charge_rn_name && prefixes.some((p) => crStart.startsWith(p))) {
-      matched.push({ name: a.charge_rn_name, role: "Charge RN", room: a.or_room, shiftStart: crStart, shiftEnd: a.charge_rn_shift_end || a.shift_end || "" });
-    }
+    const people = [
+      a.rn_name      ? { name: a.rn_name,         role: "RN",        room: a.or_room, start: a.rn_shift_start      || a.shift_start, end: a.rn_shift_end      || a.shift_end } : null,
+      a.scrub_tech_name ? { name: a.scrub_tech_name, role: "Scrub Tech", room: a.or_room, start: a.scrub_tech_shift_start || a.shift_start, end: a.scrub_tech_shift_end || a.shift_end } : null,
+      a.charge_rn_name  ? { name: a.charge_rn_name,  role: "Charge RN", room: a.or_room, start: a.charge_rn_shift_start  || a.shift_start, end: a.charge_rn_shift_end  || a.shift_end } : null,
+    ].filter(Boolean);
+    all.push(...people);
   });
-  return matched;
+
+  if (shiftHour === null) return all;
+
+  // If staff have shift_start times, filter to those whose shift covers this time slot
+  const withTimes = all.filter((p) => p.start);
+  if (withTimes.length > 0) {
+    return withTimes.filter((p) => {
+      const startH = parseTimeToHour(p.start);
+      const endH = parseTimeToHour(p.end);
+      if (startH === null) return false;
+      if (endH === null) return startH === shiftHour;
+      // Handle overnight shifts (e.g. 23:00 – 07:00)
+      if (endH < startH) return shiftHour >= startH || shiftHour < endH;
+      return shiftHour >= startH && shiftHour < endH;
+    });
+  }
+
+  // No shift times stored — just show everyone assigned that day
+  return all;
 }
 
 function ShiftPopover({ shift, staff, onClose }) {
