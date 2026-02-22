@@ -69,6 +69,13 @@ export default function Inventory() {
               </div>
             )}
             <Button
+              onClick={() => setImportOpen(true)}
+              variant="outline"
+              className="border-slate-200 text-slate-700 rounded-xl"
+            >
+              <Upload className="w-4 h-4 mr-2" /> Import Sets
+            </Button>
+            <Button
               onClick={() => setAddOpen(true)}
               variant="outline"
               className="border-slate-200 text-slate-700 rounded-xl"
