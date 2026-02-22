@@ -158,6 +158,7 @@ export default function Schedule() {
                 setsMap={setsMap}
                 conflictSetIds={conflictSetIds}
                 unavailableSets={unavailableSets}
+                assignmentMap={assignmentMap}
                 onUpdated={() => {
                   queryClient.invalidateQueries(["cases"]);
                   queryClient.invalidateQueries(["sets"]);
