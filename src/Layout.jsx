@@ -18,6 +18,7 @@ import {
   MessageSquare,
   BookOpen,
   Bot,
+  Droplet,
 } from "lucide-react";
 
 const NAV = [
@@ -36,6 +37,7 @@ const NAV = [
   { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
   { label: "Turnover", page: "Turnover", icon: Users },
   { label: "OR Assistant", page: "PolicyBot", icon: Bot },
+  { label: "TrackCore", page: "TrackCore", icon: Droplet },
   { label: "Admin", page: "Admin", icon: Building2 },
 ];
 
@@ -74,8 +76,9 @@ export default function Layout({ children, currentPageName }) {
       EducationalResources: "EducationalResources",
       Turnover: "Turnover",
       PolicyBot: "PolicyBot",
+      TrackCore: "TrackCore",
       Admin: "Admin",
-    };
+      };
     const sectionName = sectionMap[section] || section;
     return canView(currentUser?.role || "user", sectionName);
   });

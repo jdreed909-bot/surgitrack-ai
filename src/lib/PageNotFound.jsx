@@ -19,6 +19,7 @@ const PERMISSIONS = {
     EducationalResources: ["view", "modify"],
     Turnover: ["view", "modify"],
     PolicyBot: ["view", "modify"],
+    TrackCore: ["view"],
     Admin: ["view", "modify"],
   },
   manager: {
@@ -36,6 +37,7 @@ const PERMISSIONS = {
     EducationalResources: ["view"],
     Turnover: ["view", "modify"],
     PolicyBot: ["view", "modify"],
+    TrackCore: ["view"],
     Admin: ["view", "modify"],
   },
   charge_nurse: {
@@ -53,6 +55,7 @@ const PERMISSIONS = {
     EducationalResources: ["view"],
     Turnover: ["view", "modify"],
     PolicyBot: ["view", "modify"],
+    TrackCore: ["view"],
     Admin: ["view"],
   },
   user: {
@@ -70,6 +73,7 @@ const PERMISSIONS = {
     EducationalResources: ["view"],
     Turnover: ["view"],
     PolicyBot: ["view"],
+    TrackCore: ["view"],
     Admin: ["view"],
   },
 };
