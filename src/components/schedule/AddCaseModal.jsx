@@ -193,7 +193,7 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
               <Select value={form.or_room} onValueChange={(v) => update("or_room", v)}>
                 <SelectTrigger className="rounded-xl border-slate-200"><SelectValue placeholder="Room" /></SelectTrigger>
                 <SelectContent>
-                  {["OR 1","OR 2","OR 3","OR 4","OR 5","OR 6"].map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                  {["OR 1","OR 2","OR 3","OR 4","OR 5","OR 6","OR 7"].map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
                 </SelectContent>
               </Select>
             </Field>
