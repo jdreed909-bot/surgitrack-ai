@@ -6,8 +6,9 @@ import SetStatusCard from "../components/inventory/SetStatusCard";
 import InventoryFilters from "../components/inventory/InventoryFilters";
 import AlertBanner from "../components/inventory/AlertBanner";
 import { Button } from "@/components/ui/button";
-import { ScanLine, Plus, Bell, Building2 } from "lucide-react";
+import { ScanLine, Plus, Bell, Building2, Upload } from "lucide-react";
 import AddSetModal from "../components/inventory/AddSetModal";
+import ImportSetsModal from "../components/inventory/ImportSetsModal";
 
 export default function Inventory() {
   const [scanOpen, setScanOpen] = useState(false);
