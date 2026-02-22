@@ -15,6 +15,7 @@ import {
   Wrench,
   Users,
   MessageSquare,
+  BookOpen,
 } from "lucide-react";
 
 const NAV = [
