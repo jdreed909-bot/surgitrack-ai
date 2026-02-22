@@ -63,6 +63,9 @@ export default function Alerts() {
                 {counts.High > 0 && <span>{counts.High} High</span>}
               </div>
             )}
+            <Button onClick={() => setTurnoverOpen(true)} className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl">
+              <Zap className="w-4 h-4 mr-2" /> Turnover Hit List
+            </Button>
             <Button onClick={() => setAddOpen(true)} className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl">
               <Bell className="w-4 h-4 mr-2" /> Create Alert
             </Button>
