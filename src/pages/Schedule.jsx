@@ -135,10 +135,7 @@ export default function Schedule() {
         {/* Staffing */}
         <StaffingBoard date={selectedDate} />
 
-        {/* Case Tracking Board */}
-        <CaseTrackingBoard cases={cases} />
-
-        {/* Cases */}
+        {/* Case Tracking Board + draggable case list */}
         {casesLoading ? (
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
@@ -154,22 +151,12 @@ export default function Schedule() {
             </Button>
           </div>
         ) : (
-          <div className="space-y-4">
-            {cases.map((c) => (
-              <CaseCard
-                key={c.id}
-                caseData={c}
-                setsMap={setsMap}
-                conflictSetIds={conflictSetIds}
-                unavailableSets={unavailableSets}
-                assignmentMap={assignmentMap}
-                onUpdated={() => {
-                  queryClient.invalidateQueries(["cases"]);
-                  queryClient.invalidateQueries(["sets"]);
-                }}
-              />
-            ))}
-          </div>
+          <CaseTrackingBoard
+            cases={cases}
+            setsMap={setsMap}
+            conflictSetIds={conflictSetIds}
+            unavailableSets={unavailableSets}
+          />
         )}
       </div>
 
