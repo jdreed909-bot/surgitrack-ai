@@ -102,6 +102,26 @@ export default function AddManualIssueModal({ open, onClose, onCreated, defaultD
           </div>
 
           <div className="space-y-2">
+            <Label className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Date of Surgery</Label>
+            <Input
+              type="date"
+              value={issueDate}
+              onChange={(e) => setIssueDate(e.target.value)}
+              className="rounded-xl border-slate-200 text-sm"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Surgeon</Label>
+            <Input
+              value={surgeon}
+              onChange={(e) => setSurgeon(e.target.value)}
+              placeholder="Surgeon name (optional)"
+              className="rounded-xl border-slate-200 text-sm"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Issue Description</Label>
             <Textarea
               value={message}
