@@ -164,6 +164,16 @@ export default function Alerts() {
         )}
       </div>
 
+      {turnoverOpen && (
+        <TurnoverHitListModal
+          onClose={() => setTurnoverOpen(false)}
+          onSent={() => {
+            queryClient.invalidateQueries(["all-alerts"]);
+            queryClient.invalidateQueries(["alerts"]);
+          }}
+        />
+      )}
+
       {addOpen && (
         <CreateAlertModal
           onClose={() => setAddOpen(false)}
