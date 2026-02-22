@@ -47,9 +47,13 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import Admin from './pages/Admin';
 import Alerts from './pages/Alerts';
 import EducationalResources from './pages/EducationalResources';
 import Inventory from './pages/Inventory';
+import PolicyBot from './pages/PolicyBot';
+import RNCall from './pages/RNCall';
+import STCall from './pages/STCall';
 import ScanHistory from './pages/ScanHistory';
 import Schedule from './pages/Schedule';
 import ScheduleLookout from './pages/ScheduleLookout';
@@ -57,19 +61,20 @@ import SpecialtyEquipment from './pages/SpecialtyEquipment';
 import StaffRoster from './pages/StaffRoster';
 import StaffingSchedule from './pages/StaffingSchedule';
 import TextNotifications from './pages/TextNotifications';
-import Vendors from './pages/Vendors';
-import RNCall from './pages/RNCall';
-import STCall from './pages/STCall';
-import Admin from './pages/Admin';
 import Turnover from './pages/Turnover';
-import PolicyBot from './pages/PolicyBot';
+import Vendors from './pages/Vendors';
+import TrackCore from './pages/TrackCore';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "Admin": Admin,
     "Alerts": Alerts,
     "EducationalResources": EducationalResources,
     "Inventory": Inventory,
+    "PolicyBot": PolicyBot,
+    "RNCall": RNCall,
+    "STCall": STCall,
     "ScanHistory": ScanHistory,
     "Schedule": Schedule,
     "ScheduleLookout": ScheduleLookout,
@@ -77,12 +82,9 @@ export const PAGES = {
     "StaffRoster": StaffRoster,
     "StaffingSchedule": StaffingSchedule,
     "TextNotifications": TextNotifications,
-    "Vendors": Vendors,
-    "RNCall": RNCall,
-    "STCall": STCall,
-    "Admin": Admin,
     "Turnover": Turnover,
-    "PolicyBot": PolicyBot,
+    "Vendors": Vendors,
+    "TrackCore": TrackCore,
 }
 
 export const pagesConfig = {
