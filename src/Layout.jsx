@@ -14,6 +14,7 @@ import {
   X,
   Activity,
   Building2,
+  Wrench,
 } from "lucide-react";
 
 const NAV = [
