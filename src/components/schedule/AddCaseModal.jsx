@@ -234,6 +234,54 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
             </div>
           </div>
 
+          {/* Specialty Equipment */}
+          <div>
+            <Label className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-2 block">Specialty Equipment</Label>
+            {form.required_equipment.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {form.required_equipment.map((id, idx) => {
+                  const eq = allEquipment.find((x) => x.id === id);
+                  const over = eq && eq.quantity < 1;
+                  return eq ? (
+                    <div key={`${id}-${idx}`} className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border ${over ? "bg-red-50 border-red-300 text-red-700" : "bg-purple-50 border-purple-200 text-purple-700"}`}>
+                      {over && <TriangleAlert className="w-3 h-3" />}
+                      {eq.name}
+                      <button onClick={() => toggleEquipment(id)} className="ml-0.5 opacity-60 hover:opacity-100"><X className="w-3 h-3" /></button>
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            )}
+            <Input
+              value={eqSearch}
+              onChange={(e) => setEqSearch(e.target.value)}
+              placeholder="Search specialty equipment..."
+              className="rounded-xl border-slate-200 text-sm mb-2"
+            />
+            <div className="max-h-40 overflow-y-auto space-y-1 border border-slate-100 rounded-xl p-2 bg-slate-50">
+              {filteredEquipment.slice(0, 20).map((eq) => {
+                const selected = form.required_equipment.includes(eq.id);
+                return (
+                  <button
+                    key={eq.id}
+                    onClick={() => toggleEquipment(eq.id)}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${selected ? "bg-purple-100 text-purple-800 font-medium" : "hover:bg-white text-slate-700"}`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Wrench className="w-3.5 h-3.5 opacity-40" />
+                      {eq.name}
+                      {eq.equipment_code && <span className="text-slate-400 font-mono text-xs">({eq.equipment_code})</span>}
+                    </span>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${eq.quantity <= 1 ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"}`}>
+                      Qty {eq.quantity}
+                    </span>
+                  </button>
+                );
+              })}
+              {filteredEquipment.length === 0 && <div className="text-center text-slate-400 text-sm py-4">No equipment found</div>}
+            </div>
+          </div>
+
           {/* Special requests */}
           <Field label="Special Equipment Requests">
             <Textarea value={form.special_requests} onChange={(e) => update("special_requests", e.target.value)} placeholder="Any special equipment needed..." className="rounded-xl border-slate-200 text-sm" rows={2} />
