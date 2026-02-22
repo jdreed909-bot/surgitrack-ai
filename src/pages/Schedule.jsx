@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import CaseCard from "../components/schedule/CaseCard";
 import AddCaseModal from "../components/schedule/AddCaseModal";
 import StaffingBoard from "../components/schedule/StaffingBoard";
+import { useQuery as useAssignmentsQuery } from "@tanstack/react-query";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
