@@ -185,7 +185,7 @@ export default function StaffingSchedule() {
                   return (
                     <div
                       key={dateStr}
-                      className={`min-h-[110px] border-r border-slate-100 last:border-r-0 p-1.5 flex flex-col gap-1 ${
+                      className={`min-h-[200px] border-r border-slate-100 last:border-r-0 p-1.5 flex flex-col gap-1 ${
                         isToday ? "bg-teal-50/60" : "hover:bg-slate-50/50"
                       }`}
                     >
