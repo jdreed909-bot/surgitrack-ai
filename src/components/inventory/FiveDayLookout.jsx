@@ -257,11 +257,44 @@ export default function FiveDayLookout() {
         </div>
       )}
 
+      {/* Past 5 Days - Resolved Issues */}
+      {pastFiveDays.length > 0 && (
+        <div className="mt-8 pt-6 border-t border-slate-200">
+          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <Clock className="w-4 h-4 text-slate-500" />
+            Past 5 Days — Resolved Issues
+          </h3>
+          <div className="space-y-2">
+            {pastFiveDays.map((alert, idx) => (
+              <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-emerald-50 border border-emerald-200">
+                <CheckCircle className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-semibold text-emerald-700">{alert.type}</span>
+                    {alert.surgeon && (
+                      <span className="text-xs text-emerald-600">{alert.surgeon}</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-emerald-700 mt-1">{alert.message}</p>
+                  {alert.resolved_at && (
+                    <div className="text-[10px] text-emerald-600 mt-1">
+                      Resolved {formatDate(new Date(alert.resolved_at), "MMM d")}
+                      {alert.resolved_by && ` by ${alert.resolved_by}`}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <AddManualIssueModal
         open={manualIssueOpen}
         onClose={() => setManualIssueOpen(false)}
         onCreated={() => {
           queryClient.invalidateQueries(["alerts-lookout"]);
+          queryClient.invalidateQueries(["alerts-resolved"]);
           setManualIssueOpen(false);
         }}
       />
