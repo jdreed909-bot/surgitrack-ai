@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Calendar, X, Plus, TriangleAlert, Wrench } from "lucide-react";
+import { Loader2, Calendar, X, Plus, TriangleAlert, Wrench, ChevronDown, ChevronUp } from "lucide-react";
 
 export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate }) {
   const [form, setForm] = useState({
