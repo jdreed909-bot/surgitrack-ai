@@ -234,37 +234,20 @@ export default function ResourceBoard({ orRooms, assignmentMap, roster }) {
         </div>
 
         {/* Staffing Depot */}
-        <div
-          onDragOver={(e) => { e.preventDefault(); setDragOver("depot"); }}
-          onDragLeave={() => setDragOver(null)}
+        <DepotSection
+          depotStaff={depotStaff}
+          roster={roster}
+          dragOver={dragOver}
+          setDragOver={setDragOver}
           onDrop={handleDropDepot}
-          className={`rounded-xl border-2 border-dashed p-3 transition-colors ${
-            dragOver === "depot" ? "border-teal-400 bg-teal-50" : "border-slate-200 bg-slate-50"
-          }`}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="w-4 h-4 text-slate-500" />
-            <span className="text-xs font-semibold text-slate-600">Staffing Depot — Working Today</span>
-            <span className="text-xs text-slate-400">({depotStaff.length} available)</span>
-          </div>
-          {depotStaff.length === 0 && (
-            <p className="text-xs text-slate-300 italic">All staff have been assigned — drag here to return someone</p>
-          )}
-          <div className="flex flex-wrap gap-2">
-            {depotStaff.map((p) => (
-              <div
-                key={p.name}
-                draggable
-                onDragStart={(e) => e.dataTransfer.setData("text/plain", JSON.stringify(p))}
-                className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-xs font-medium cursor-grab select-none shadow-sm ${roleBadgeColor(p.role).bg} ${roleBadgeColor(p.role).text} ${roleBadgeColor(p.role).border}`}
-              >
-                <span>{p.name}</span>
-                <span className="opacity-50 text-[10px]">{p.role}</span>
-                {p.shift && <span className="opacity-50 text-[10px]">{p.shift}</span>}
-              </div>
-            ))}
-          </div>
-        </div>
+          onAddFromRoster={(person) => {
+            // Just make them draggable from depot by adding to a local "extra" list via state — handled inside DepotSection
+          }}
+          slottedNames={slottedNames}
+          onAddPerson={(person) => {
+            // person is already in depotStaff via roster, nothing to do; this is handled inside
+          }}
+        />
 
         {/* Legend */}
         <div className="flex flex-wrap gap-4 text-xs text-slate-400 pt-1 border-t border-slate-100">
