@@ -14,6 +14,7 @@ import {
   Building2,
   Wrench,
   Users,
+  MessageSquare,
 } from "lucide-react";
 
 const NAV = [
