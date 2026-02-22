@@ -8,6 +8,7 @@ import ORSettingsModal from "./ORSettingsModal";
 import ORFloorPlan from "./ORFloorPlan";
 import StaffingGantt from "./StaffingGantt";
 import VoceraNotificationPanel from "./VoceraNotificationPanel";
+import ResourceBoard from "./ResourceBoard";
 
 // Dropdown selector for staff by role
 function StaffSelect({ role, value, voceraId, roster, onChange }) {
