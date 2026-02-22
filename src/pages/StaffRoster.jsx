@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Users, Plus, Edit2, Trash2, Radio, Search } from "lucide-react";
+import { Users, Plus, Edit2, Trash2, Radio, Search, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ImportStaffModal from "../components/staff/ImportStaffModal";
 
-const ROLES = ["RN", "Scrub Tech", "Charge RN"];
+const ROLES = ["RN", "Scrub Tech", "Charge RN", "Surgeon", "Anesthesia Provider"];
 const ROLE_COLORS = {
   "RN":         "bg-teal-100 text-teal-700",
   "Scrub Tech": "bg-indigo-100 text-indigo-700",
   "Charge RN":  "bg-amber-100 text-amber-800",
+  "Surgeon":    "bg-emerald-100 text-emerald-700",
+  "Anesthesia Provider": "bg-pink-100 text-pink-700",
 };
 
 const EMPTY = { name: "", role: "RN", vocera_id: "", vocera_group: "", phone: "", email: "", is_active: true };
