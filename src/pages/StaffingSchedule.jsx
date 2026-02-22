@@ -26,15 +26,116 @@ const WEEKEND_SHIFTS = [
   { time: "11p–7a",  label: "RN / ST Call",    color: "bg-slate-100 border-slate-300 text-slate-500", call: true },
 ];
 
-function ShiftSlots({ isWeekend }) {
+// Map shift time labels → matching shift_start prefixes for StaffAssignment records
+const SHIFT_START_MAP = {
+  "7a":     ["07:00", "7:00"],
+  "3p":     ["15:00", "15:3"],
+  "5p":     ["17:00", "17:3"],
+  "8p":     ["20:00"],
+  "7p":     ["19:00"],
+  "11p–7a": ["23:00"],
+  "5–11p":  ["17:00", "17:3"],
+  "7–11p":  ["19:00"],
+};
+
+function getStaffForShift(shiftTime, staff, assignments) {
+  // Match staff whose shift_start aligns with the shift time bucket
+  const prefixes = SHIFT_START_MAP[shiftTime] || [];
+  if (prefixes.length === 0) return [];
+
+  // Find assignment records that have a shift_start matching the bucket
+  const matched = [];
+  assignments.forEach((a) => {
+    const start = a.rn_shift_start || a.shift_start || "";
+    const stStart = a.scrub_tech_shift_start || a.shift_start || "";
+    const crStart = a.charge_rn_shift_start || a.shift_start || "";
+
+    if (a.rn_name && prefixes.some((p) => start.startsWith(p))) {
+      matched.push({ name: a.rn_name, role: "RN", room: a.or_room, shiftStart: start, shiftEnd: a.rn_shift_end || a.shift_end || "" });
+    }
+    if (a.scrub_tech_name && prefixes.some((p) => stStart.startsWith(p))) {
+      matched.push({ name: a.scrub_tech_name, role: "Scrub Tech", room: a.or_room, shiftStart: stStart, shiftEnd: a.scrub_tech_shift_end || a.shift_end || "" });
+    }
+    if (a.charge_rn_name && prefixes.some((p) => crStart.startsWith(p))) {
+      matched.push({ name: a.charge_rn_name, role: "Charge RN", room: a.or_room, shiftStart: crStart, shiftEnd: a.charge_rn_shift_end || a.shift_end || "" });
+    }
+  });
+  return matched;
+}
+
+function ShiftPopover({ shift, staff, onClose }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    function handle(e) { if (ref.current && !ref.current.contains(e.target)) onClose(); }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={ref}
+      className="absolute z-50 left-0 mt-0.5 w-56 bg-white border border-slate-200 rounded-xl shadow-xl p-3"
+      style={{ top: "100%" }}
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-1.5">
+          <Clock className="w-3.5 h-3.5 text-slate-400" />
+          <span className="text-xs font-bold text-slate-700">{shift.time} — {shift.label}</span>
+        </div>
+        <button onClick={onClose} className="text-slate-300 hover:text-slate-500"><X className="w-3 h-3" /></button>
+      </div>
+      {staff.length === 0 ? (
+        <p className="text-[11px] text-slate-400 italic">No staff assigned to this shift yet.</p>
+      ) : (
+        <div className="space-y-1.5">
+          {staff.map((p, i) => (
+            <div key={i} className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${
+                  p.role === "RN" ? "bg-teal-50 border-teal-200 text-teal-700" :
+                  p.role === "Scrub Tech" ? "bg-indigo-50 border-indigo-200 text-indigo-700" :
+                  "bg-amber-50 border-amber-200 text-amber-700"
+                }`}>{p.role === "Scrub Tech" ? "ST" : p.role === "Charge RN" ? "CRN" : "RN"}</span>
+                <span className="text-xs text-slate-800 font-medium truncate">{p.name}</span>
+              </div>
+              <div className="text-[10px] text-slate-400 shrink-0">
+                {p.shiftStart && p.shiftEnd ? `${p.shiftStart}–${p.shiftEnd}` : p.room}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ShiftSlot({ s, dayAssignments }) {
+  const [open, setOpen] = useState(false);
+  const staff = getStaffForShift(s.time, [], dayAssignments);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className={`w-full flex items-center gap-1 px-1 py-0.5 rounded border text-[9px] leading-tight transition-opacity hover:opacity-80 active:scale-95 ${s.color}`}
+      >
+        <span className="font-bold shrink-0 w-10">{s.time}</span>
+        <span className="opacity-75 truncate">{s.label}</span>
+        {staff.length > 0 && (
+          <span className="ml-auto shrink-0 font-bold">{staff.length}</span>
+        )}
+      </button>
+      {open && <ShiftPopover shift={s} staff={staff} onClose={() => setOpen(false)} />}
+    </div>
+  );
+}
+
+function ShiftSlots({ isWeekend, dayAssignments }) {
   const shifts = isWeekend ? WEEKEND_SHIFTS : WEEKDAY_SHIFTS;
   return (
     <div className="mt-1 border-t border-slate-100 pt-1 space-y-0.5">
       {shifts.map((s) => (
-        <div key={s.time} className={`flex items-center gap-1 px-1 py-0.5 rounded border text-[9px] leading-tight ${s.color}`}>
-          <span className="font-bold shrink-0 w-10">{s.time}</span>
-          <span className="opacity-75 truncate">{s.label}</span>
-        </div>
+        <ShiftSlot key={s.time} s={s} dayAssignments={dayAssignments} />
       ))}
     </div>
   );
