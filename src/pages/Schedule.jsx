@@ -135,6 +135,9 @@ export default function Schedule() {
         {/* Staffing */}
         <StaffingBoard date={selectedDate} />
 
+        {/* Case Tracking Board */}
+        <CaseTrackingBoard cases={cases} />
+
         {/* Cases */}
         {casesLoading ? (
           <div className="space-y-4">
