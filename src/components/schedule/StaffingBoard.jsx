@@ -209,6 +209,9 @@ export default function StaffingBoard({ date }) {
         </div>
       )}
 
+      {/* Resource & Coverage Board */}
+      <ResourceBoard orRooms={orRooms} assignmentMap={assignmentMap} roster={roster} />
+
       {/* Gantt */}
       <StaffingGantt orRooms={orRooms} assignmentMap={assignmentMap} />
 
