@@ -154,11 +154,8 @@ export default function Inventory() {
             ))}
           </div>
         )}
-          </div>
-        </div>
-      </div>
 
-      {scanOpen && (
+        {scanOpen && (
         <ScanModal
           onClose={() => setScanOpen(false)}
           onScanned={() => {
