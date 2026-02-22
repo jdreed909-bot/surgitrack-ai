@@ -106,6 +106,15 @@ export default function SetStatusCard({ set, onUpdated }) {
             </Button>
             <Button
               size="sm"
+              variant="outline"
+              onClick={() => setReportOpen(true)}
+              className="text-xs rounded-lg border-red-200 text-red-600 hover:bg-red-50 px-2"
+              title="Report an issue"
+            >
+              <TriangleAlert className="w-3.5 h-3.5" />
+            </Button>
+            <Button
+              size="sm"
               variant="ghost"
               onClick={() => setExpanded(!expanded)}
               className="text-slate-400 rounded-lg px-2"
