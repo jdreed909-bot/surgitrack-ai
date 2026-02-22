@@ -60,6 +60,7 @@ const PERMISSIONS = {
   },
   user: {
     Schedule: ["view"],
+    CaseTracking: ["view"],
     ScheduleLookout: ["view"],
     RNCall: ["view"],
     STCall: ["view"],

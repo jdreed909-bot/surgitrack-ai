@@ -64,6 +64,7 @@ import TextNotifications from './pages/TextNotifications';
 import Turnover from './pages/Turnover';
 import Vendors from './pages/Vendors';
 import TrackCore from './pages/TrackCore';
+import CaseTracking from './pages/CaseTracking';
 import __Layout from './Layout.jsx';
 
 
@@ -85,6 +86,7 @@ export const PAGES = {
     "Turnover": Turnover,
     "Vendors": Vendors,
     "TrackCore": TrackCore,
+    "CaseTracking": CaseTracking,
 }
 
 export const pagesConfig = {

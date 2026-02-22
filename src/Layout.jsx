@@ -23,6 +23,7 @@ import {
 
 const NAV = [
   { label: "Schedule",  page: "Schedule",    icon: CalendarDays },
+  { label: "Case Tracking", page: "CaseTracking", icon: Package },
   { label: "5-Day Lookout", page: "ScheduleLookout", icon: CalendarDays },
   { label: "Instrument Sets", page: "Inventory", icon: Package },
   { label: "Scan Log",  page: "ScanHistory", icon: ScanLine },
@@ -62,6 +63,7 @@ export default function Layout({ children, currentPageName }) {
     // Map page names to section names for permission check
     const sectionMap = {
       Schedule: "Schedule",
+      CaseTracking: "CaseTracking",
       ScheduleLookout: "ScheduleLookout",
       Inventory: "Inventory",
       ScanHistory: "Inventory",
