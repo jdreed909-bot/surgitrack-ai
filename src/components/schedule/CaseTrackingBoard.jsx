@@ -235,7 +235,7 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
         setBoard((prev) => ({ ...prev, [dstId]: dstList }));
         setMovedIds((prev) => new Set([...prev, caseId]));
         // Notify team
-        notifyTeam(updatedCase, dstId, assignmentMap, selectedDate).then(({ sent, log }) => {
+        notifyTeam(updatedCase, dstId, assignmentMap, staffRoster, selectedDate).then(({ sent, log }) => {
           setNotifyBanner({ caseId, room: dstId, sent, log, procedure: caseData.procedure_name });
           setTimeout(() => setNotifyBanner(null), 8000);
         });
