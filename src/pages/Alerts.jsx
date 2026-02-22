@@ -19,6 +19,7 @@ const SEVERITY_CONFIG = {
 export default function Alerts() {
   const [filter, setFilter] = useState("active");
   const [addOpen, setAddOpen] = useState(false);
+  const [turnoverOpen, setTurnoverOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: alerts = [], isLoading } = useQuery({
