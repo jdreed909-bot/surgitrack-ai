@@ -30,7 +30,9 @@ export default function Inventory() {
 
   const activeAlerts = alerts.filter((a) => !a.is_resolved);
 
-  const filtered = sets.filter((s) => {
+  const tabSets = tab === "consignment" ? sets.filter((s) => s.is_loaner) : sets.filter((s) => !s.is_loaner);
+
+  const filtered = tabSets.filter((s) => {
     const matchStatus = filters.status === "all" || s.status === filters.status;
     const matchLocation = filters.location === "all" || s.location === filters.location;
     const matchSearch =
