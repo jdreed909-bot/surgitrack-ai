@@ -14,9 +14,27 @@ const STATUS_BADGE = {
   "Loaned Out": "bg-slate-100 text-slate-600 border-slate-200",
 };
 
-export default function CaseCard({ caseData, setsMap, conflictSetIds, unavailableSets, onUpdated }) {
+export default function CaseCard({ caseData, setsMap, conflictSetIds, unavailableSets, onUpdated, assignmentMap }) {
   const [expanded, setExpanded] = useState(false);
   const [notifying, setNotifying] = useState(false);
+  const [turnoverOpen, setTurnoverOpen] = useState(false);
+  const [editingProviders, setEditingProviders] = useState(false);
+  const [physician, setPhysician] = useState(caseData.physician || "");
+  const [anesthesiaProvider, setAnesthesiaProvider] = useState(caseData.anesthesia_provider || "");
+  const [assistant, setAssistant] = useState(caseData.assistant || "");
+  const [savingProviders, setSavingProviders] = useState(false);
+
+  const saveProviders = async () => {
+    setSavingProviders(true);
+    await base44.entities.SurgicalCase.update(caseData.id, {
+      physician,
+      anesthesia_provider: anesthesiaProvider,
+      assistant,
+    });
+    setSavingProviders(false);
+    setEditingProviders(false);
+    onUpdated();
+  };
 
   const requiredSets = (caseData.required_sets || []).map((id) => setsMap[id]).filter(Boolean);
   const hasConflict = requiredSets.some((s) => conflictSetIds.has(s.id) || unavailableSets.has(s.id));
