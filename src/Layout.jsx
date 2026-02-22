@@ -23,6 +23,7 @@ const NAV = [
   { label: "Alerts",    page: "Alerts",      icon: Bell, badge: true },
   { label: "Vendors",   page: "Vendors",          icon: Building2 },
   { label: "Equipment", page: "SpecialtyEquipment", icon: Wrench },
+  { label: "Staff Roster", page: "StaffRoster", icon: Users },
 ];
 
 export default function Layout({ children, currentPageName }) {
