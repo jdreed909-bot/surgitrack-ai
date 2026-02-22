@@ -220,6 +220,13 @@ export default function StaffRoster() {
           </table>
         </div>
       )}
+
+      {importOpen && (
+        <ImportStaffModal
+          onClose={() => setImportOpen(false)}
+          onSuccess={() => queryClient.invalidateQueries(["staff_roster"])}
+        />
+      )}
     </div>
   );
 }
