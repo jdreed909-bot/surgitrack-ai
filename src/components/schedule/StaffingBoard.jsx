@@ -68,15 +68,19 @@ export default function StaffingBoard({ date }) {
   const startEdit = (room) => {
     const existing = assignmentMap[room] || {};
     setEditData({
-      rn_name:              existing.rn_name || "",
-      rn_vocera_id:         existing.rn_vocera_id || "",
-      scrub_tech_name:      existing.scrub_tech_name || "",
-      scrub_tech_vocera_id: existing.scrub_tech_vocera_id || "",
-      charge_rn_name:       existing.charge_rn_name || "",
-      charge_rn_vocera_id:  existing.charge_rn_vocera_id || "",
-      shift_start:          existing.shift_start || "07:00",
-      shift_end:            existing.shift_end || "15:30",
-      notes:                existing.notes || "",
+      rn_name:                existing.rn_name || "",
+      rn_vocera_id:           existing.rn_vocera_id || "",
+      rn_shift_start:         existing.rn_shift_start || existing.shift_start || "07:00",
+      rn_shift_end:           existing.rn_shift_end || existing.shift_end || "15:30",
+      scrub_tech_name:        existing.scrub_tech_name || "",
+      scrub_tech_vocera_id:   existing.scrub_tech_vocera_id || "",
+      scrub_tech_shift_start: existing.scrub_tech_shift_start || existing.shift_start || "07:00",
+      scrub_tech_shift_end:   existing.scrub_tech_shift_end || existing.shift_end || "15:30",
+      charge_rn_name:         existing.charge_rn_name || "",
+      charge_rn_vocera_id:    existing.charge_rn_vocera_id || "",
+      charge_rn_shift_start:  existing.charge_rn_shift_start || existing.shift_start || "07:00",
+      charge_rn_shift_end:    existing.charge_rn_shift_end || existing.shift_end || "15:30",
+      notes:                  existing.notes || "",
     });
     setEditingRoom(room);
   };
