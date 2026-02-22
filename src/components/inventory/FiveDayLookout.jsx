@@ -77,6 +77,7 @@ export default function FiveDayLookout() {
           surgeon: caseData.surgeon,
           issue: caseData.conflict_flags[0],
           severity: "high",
+          isManual: false,
         });
       }
 
@@ -89,6 +90,7 @@ export default function FiveDayLookout() {
           surgeon: caseData.surgeon,
           issue: "Case delayed",
           severity: "high",
+          isManual: false,
         });
       }
 
@@ -101,12 +103,29 @@ export default function FiveDayLookout() {
           surgeon: caseData.surgeon,
           issue: caseData.special_requests,
           severity: "medium",
+          isManual: false,
         });
       }
     });
 
+    // Add manually created alerts
+    manualAlerts.forEach((alert) => {
+      const dateStr = formatDate(today, "MMM d, yyyy");
+      if (!groups[dateStr]) {
+        groups[dateStr] = [];
+      }
+      groups[dateStr].push({
+        id: alert.id,
+        type: alert.type,
+        issue: alert.message,
+        severity: alert.severity?.toLowerCase(),
+        isManual: true,
+        contacts: alert.points_of_contact || [],
+      });
+    });
+
     return groups;
-  }, [upcomingCases]);
+  }, [upcomingCases, manualAlerts, today]);
 
   const totalIssues = Object.values(dateGroups).reduce((sum, arr) => sum + arr.length, 0);
 
