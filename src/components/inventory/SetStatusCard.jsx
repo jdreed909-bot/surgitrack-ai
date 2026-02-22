@@ -3,8 +3,9 @@ import { base44 } from "@/api/base44Client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Clock, Wrench, Package, ChevronDown, ChevronUp, CheckCircle2, AlertTriangle } from "lucide-react";
+import { MapPin, Clock, Wrench, Package, ChevronDown, ChevronUp, CheckCircle2, AlertTriangle, TriangleAlert } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import ReportIssueModal from "./ReportIssueModal";
 
 const STATUS_CONFIG = {
   Available:    { color: "bg-emerald-100 text-emerald-700 border-emerald-200", dot: "bg-emerald-500" },
