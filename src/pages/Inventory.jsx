@@ -43,11 +43,11 @@ export default function Inventory() {
   });
 
   const statusCounts = {
-    Available: sets.filter((s) => s.status === "Available").length,
-    "In Use": sets.filter((s) => s.status === "In Use").length,
-    Sterilizing: sets.filter((s) => s.status === "Sterilizing").length,
-    "Under Repair": sets.filter((s) => s.status === "Under Repair").length,
-    Missing: sets.filter((s) => s.status === "Missing").length,
+    Available: tabSets.filter((s) => s.status === "Available").length,
+    "In Use": tabSets.filter((s) => s.status === "In Use").length,
+    Sterilizing: tabSets.filter((s) => s.status === "Sterilizing").length,
+    "Under Repair": tabSets.filter((s) => s.status === "Under Repair").length,
+    Missing: tabSets.filter((s) => s.status === "Missing").length,
   };
 
   return (
