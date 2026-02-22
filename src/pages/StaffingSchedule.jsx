@@ -126,7 +126,7 @@ function ShiftPopover({ shift, staff, onClose }) {
 
 function ShiftSlot({ s, dayAssignments }) {
   const [open, setOpen] = useState(false);
-  const staff = getStaffForShift(s.time, [], dayAssignments);
+  const staff = getStaffForShift(s.time, dayAssignments);
 
   return (
     <div className="relative">
