@@ -70,6 +70,9 @@ export default function StaffRoster() {
           </h1>
           <p className="text-sm text-slate-500 mt-0.5">Manage OR staff with Vocera badge IDs for automated notifications</p>
         </div>
+        <Button onClick={() => setImportOpen(true)} variant="outline" className="border-slate-200 text-slate-700 rounded-xl gap-2">
+          <Upload className="w-4 h-4" /> Import Staff
+        </Button>
         <Button onClick={openNew} className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl gap-2">
           <Plus className="w-4 h-4" /> Add Staff
         </Button>
