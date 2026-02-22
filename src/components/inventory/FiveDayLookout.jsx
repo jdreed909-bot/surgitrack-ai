@@ -35,6 +35,12 @@ export default function FiveDayLookout() {
     refetchInterval: 30000,
   });
 
+  const { data: resolvedAlerts = [] } = useQuery({
+    queryKey: ["alerts-resolved"],
+    queryFn: () => base44.entities.Alert.filter({ is_resolved: true }, "-resolved_at", 50),
+    refetchInterval: 30000,
+  });
+
   const handleEditStart = (caseId, currentText) => {
     setEditingId(caseId);
     setEditText(currentText);
