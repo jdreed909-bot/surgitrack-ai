@@ -114,7 +114,7 @@ function FullCaseRow({ caseData, setsMap, conflictSetIds, unavailableSets, onMov
   );
 }
 
-async function notifyTeam(caseData, orRoom, assignmentMap, selectedDate) {
+async function notifyTeam(caseData, orRoom, assignmentMap, staffRoster = [], selectedDate = "") {
   const assignment = assignmentMap?.[orRoom];
   if (!assignment) return { sent: 0, log: ["No staff assignment found for " + orRoom] };
 
@@ -134,10 +134,26 @@ async function notifyTeam(caseData, orRoom, assignmentMap, selectedDate) {
       })()
     : "TBD";
 
+  const msg = `${caseData.procedure_name} assigned to ${orRoom} at ${timeDisplay}. Date: ${selectedDate}`;
   const log = [];
 
   for (const s of staff) {
     const voceraLine = s.vocera_id ? `Vocera ID: ${s.vocera_id}` : "(No Vocera ID on file)";
+    
+    // Send SMS to staff as backup notification
+    const rosterMember = staffRoster.find((r) => r.name === s.name);
+    if (rosterMember?.phone) {
+      try {
+        await base44.integrations.Core.SendEmail({
+          to: `sms:${rosterMember.phone}`,
+          subject: `Case Assignment: ${caseData.procedure_name}`,
+          body: msg,
+        });
+      } catch (e) {
+        // SMS backup failed, continue with log
+      }
+    }
+    
     log.push(`✓ ${s.name} (${s.role}) — ${voceraLine}`);
   }
 
