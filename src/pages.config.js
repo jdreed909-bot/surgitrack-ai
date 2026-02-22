@@ -49,14 +49,20 @@
  */
 import Inventory from './pages/Inventory';
 import Schedule from './pages/Schedule';
+import ScanHistory from './pages/ScanHistory';
+import Alerts from './pages/Alerts';
+import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Inventory": Inventory,
     "Schedule": Schedule,
+    "ScanHistory": ScanHistory,
+    "Alerts": Alerts,
 }
 
 export const pagesConfig = {
     mainPage: "Inventory",
     Pages: PAGES,
+    Layout: __Layout,
 };
