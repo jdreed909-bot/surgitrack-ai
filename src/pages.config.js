@@ -56,6 +56,7 @@ import StaffRoster from './pages/StaffRoster';
 import TextNotifications from './pages/TextNotifications';
 import Vendors from './pages/Vendors';
 import StaffingSchedule from './pages/StaffingSchedule';
+import EducationalResources from './pages/EducationalResources';
 import __Layout from './Layout.jsx';
 
 
@@ -69,6 +70,7 @@ export const PAGES = {
     "TextNotifications": TextNotifications,
     "Vendors": Vendors,
     "StaffingSchedule": StaffingSchedule,
+    "EducationalResources": EducationalResources,
 }
 
 export const pagesConfig = {
