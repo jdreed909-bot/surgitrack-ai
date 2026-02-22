@@ -207,7 +207,7 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
               <Select value={form.status} onValueChange={(v) => update("status", v)}>
                 <SelectTrigger className="rounded-xl border-slate-200"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {["Scheduled","In Progress","Completed","Cancelled","Delayed"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  {["Scheduled","Add-On","In Progress","Completed","Cancelled","Delayed"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
             </Field>
