@@ -10,6 +10,7 @@ import { Phone, AlertCircle } from "lucide-react";
 import CallCalendar from "../components/call/CallCalendar";
 import CallSlot from "../components/call/CallSlot";
 import SwitchLedger from "../components/call/SwitchLedger";
+import HolidaySchedule from "../components/call/HolidaySchedule";
 
 export default function RNCall() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -143,11 +144,15 @@ export default function RNCall() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Calendar */}
-          <div>
+          {/* Calendar & Holidays */}
+          <div className="space-y-6">
             <CallCalendar
               selectedDate={selectedDate}
               onDateSelect={setSelectedDate}
+              callSchedules={schedules}
+              role="RN"
+            />
+            <HolidaySchedule
               callSchedules={schedules}
               role="RN"
             />
