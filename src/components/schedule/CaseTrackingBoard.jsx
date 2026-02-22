@@ -170,6 +170,7 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
 
   // Track which case ids have been moved out of the list
   const [movedIds, setMovedIds] = useState(new Set());
+  const [notifyBanner, setNotifyBanner] = useState(null); // { caseId, room, sent, log }
 
   const listCases = cases.filter((c) => !movedIds.has(c.id));
 
