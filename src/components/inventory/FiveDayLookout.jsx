@@ -139,11 +139,21 @@ export default function FiveDayLookout() {
           <h2 className="font-bold text-slate-900 text-lg">5-Day Schedule Lookout</h2>
           <p className="text-xs text-slate-400">Issues & alerts from today through next 4 days</p>
         </div>
-        {totalIssues > 0 && (
-          <div className="ml-auto bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">
-            {totalIssues} Issue{totalIssues !== 1 ? "s" : ""}
-          </div>
-        )}
+        <div className="ml-auto flex items-center gap-2">
+          <Button
+            onClick={() => setManualIssueOpen(true)}
+            variant="outline"
+            className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
+            size="sm"
+          >
+            <Plus className="w-4 h-4 mr-1" /> Add Issue
+          </Button>
+          {totalIssues > 0 && (
+            <div className="bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">
+              {totalIssues} Issue{totalIssues !== 1 ? "s" : ""}
+            </div>
+          )}
+        </div>
       </div>
 
       {totalIssues === 0 ? (
