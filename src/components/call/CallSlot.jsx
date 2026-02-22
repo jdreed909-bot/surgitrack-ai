@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, User, MoreVertical } from "lucide-react";
 
-export default function CallSlot({ call, onPickup, onGiveaway, isCurrentUser, isPending }) {
+export default function CallSlot({ call, onPickup, onGiveaway, isCurrentUser, canModify = true, isPending }) {
   const getStatusColor = (status) => {
     switch (status) {
       case "Available":
@@ -30,7 +30,7 @@ export default function CallSlot({ call, onPickup, onGiveaway, isCurrentUser, is
         <Badge className={getStatusColor(call.status)}>{call.status}</Badge>
       </div>
 
-      {isCurrentUser && call.status === "Assigned" && !isPending && (
+      {canModify && isCurrentUser && call.status === "Assigned" && !isPending && (
         <div className="flex gap-2 pt-2">
           <Button
             onClick={() => onGiveaway(call)}
@@ -43,7 +43,7 @@ export default function CallSlot({ call, onPickup, onGiveaway, isCurrentUser, is
         </div>
       )}
 
-      {call.status === "Available" && !isCurrentUser && !isPending && (
+      {canModify && call.status === "Available" && !isCurrentUser && !isPending && (
         <div className="pt-2">
           <Button
             onClick={() => onPickup(call)}
