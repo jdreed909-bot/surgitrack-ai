@@ -194,15 +194,24 @@ export default function StaffingSchedule() {
   // Filter assignments to this period
   const periodAssignments = assignments.filter((a) => a.date >= startStr && a.date <= endStr);
 
-  // Group by date
+  // Group by date — chips
   const byDate = useMemo(() => {
     const map = {};
     periodAssignments.forEach((a) => {
       if (!map[a.date]) map[a.date] = [];
-      // Add each assigned person as a chip
-      if (a.rn_name) map[a.date].push({ name: a.rn_name, role: "RN", room: a.or_room, id: a.id, field: "rn_name" });
-      if (a.scrub_tech_name) map[a.date].push({ name: a.scrub_tech_name, role: "Scrub Tech", room: a.or_room, id: a.id, field: "scrub_tech_name" });
-      if (a.charge_rn_name) map[a.date].push({ name: a.charge_rn_name, role: "Charge RN", room: a.or_room, id: a.id, field: "charge_rn_name" });
+      if (a.rn_name) map[a.date].push({ name: a.rn_name, role: "RN", room: a.or_room, id: a.id });
+      if (a.scrub_tech_name) map[a.date].push({ name: a.scrub_tech_name, role: "Scrub Tech", room: a.or_room, id: a.id });
+      if (a.charge_rn_name) map[a.date].push({ name: a.charge_rn_name, role: "Charge RN", room: a.or_room, id: a.id });
+    });
+    return map;
+  }, [periodAssignments]);
+
+  // Group raw assignment records by date (for shift popover lookup)
+  const assignmentsByDate = useMemo(() => {
+    const map = {};
+    periodAssignments.forEach((a) => {
+      if (!map[a.date]) map[a.date] = [];
+      map[a.date].push(a);
     });
     return map;
   }, [periodAssignments]);
