@@ -27,6 +27,12 @@ export default function Schedule() {
     refetchInterval: 20000,
   });
 
+  const { data: assignments = [] } = useQuery({
+    queryKey: ["staff_assignments", selectedDate],
+    queryFn: () => base44.entities.StaffAssignment.filter({ date: selectedDate }, "or_room", 50),
+  });
+  const assignmentMap = Object.fromEntries(assignments.map((a) => [a.or_room, a]));
+
   // Build a map of set_id → set
   const setsMap = Object.fromEntries(allSets.map((s) => [s.id, s]));
 
