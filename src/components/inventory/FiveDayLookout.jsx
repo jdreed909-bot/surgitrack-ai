@@ -143,9 +143,46 @@ export default function FiveDayLookout() {
                 <div className="space-y-2 pl-6 border-l border-slate-200">
                   {items.map((item, idx) => (
                     <div key={idx} className={`text-xs p-2.5 rounded-lg ${config.bg} border border-slate-200`}>
-                      <div className="font-semibold text-slate-800 truncate">{item.surgeon || "N/A"}</div>
-                      <div className="text-slate-600 text-[11px] mt-0.5">{formatDate(new Date(item.date), "MMM d, yyyy")}</div>
-                      <div className="text-slate-700 mt-1.5 text-xs leading-snug">{item.issue}</div>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1">
+                          <div className="font-semibold text-slate-800 truncate">{item.surgeon || "N/A"}</div>
+                          <div className="text-slate-600 text-[11px] mt-0.5">{formatDate(new Date(item.date), "MMM d, yyyy")}</div>
+                        </div>
+                        {editingId !== item.caseId && (
+                          <button
+                            onClick={() => handleEditStart(item.caseId, item.issue)}
+                            className="p-1 hover:bg-black/10 rounded transition-colors shrink-0"
+                          >
+                            <Edit2 className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                      {editingId === item.caseId ? (
+                        <div className="mt-2 space-y-1.5">
+                          <textarea
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            className="w-full text-xs p-2 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-1 focus:ring-teal-500"
+                            rows="2"
+                          />
+                          <div className="flex gap-1.5">
+                            <button
+                              onClick={() => handleEditSave(item.caseId)}
+                              className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-700 transition-colors"
+                            >
+                              <Check className="w-3 h-3" /> Save
+                            </button>
+                            <button
+                              onClick={handleEditCancel}
+                              className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold bg-slate-300 text-slate-700 px-2 py-1 rounded hover:bg-slate-400 transition-colors"
+                            >
+                              <X className="w-3 h-3" /> Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-slate-700 mt-1.5 text-xs leading-snug whitespace-pre-wrap break-words">{item.issue}</div>
+                      )}
                     </div>
                   ))}
                 </div>
