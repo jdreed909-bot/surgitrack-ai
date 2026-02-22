@@ -147,6 +147,14 @@ export default function SetStatusCard({ set, onUpdated }) {
         )}
       </div>
 
+      {reportOpen && (
+        <ReportIssueModal
+          set={set}
+          onClose={() => setReportOpen(false)}
+          onReported={() => { setReportOpen(false); onUpdated(); }}
+        />
+      )}
+
       {/* Expanded detail */}
       {expanded && (
         <div className="border-t border-slate-100 bg-slate-50 px-5 py-4 space-y-2">
