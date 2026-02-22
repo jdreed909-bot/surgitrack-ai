@@ -179,6 +179,8 @@ export default function StaffingSchedule() {
                   const dateStr = format(day, "yyyy-MM-dd");
                   const isToday = isSameDay(day, new Date());
                   const staff = byDate[dateStr] || [];
+                  const dayOfWeek = day.getDay(); // 0=Sun, 6=Sat
+                  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
                   return (
                     <div
