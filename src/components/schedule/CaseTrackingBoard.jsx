@@ -134,16 +134,10 @@ async function notifyTeam(caseData, orRoom, assignmentMap, selectedDate) {
       })()
     : "TBD";
 
-  const msg = `📋 Case Update — ${orRoom} | ${caseData.procedure_name} | ${timeDisplay}${caseData.estimated_duration ? ` (${caseData.estimated_duration} min)` : ""}${caseData.surgeon ? ` | Surgeon: ${caseData.surgeon}` : ""} | Date: ${selectedDate}`;
   const log = [];
 
   for (const s of staff) {
     const voceraLine = s.vocera_id ? `Vocera ID: ${s.vocera_id}` : "(No Vocera ID on file)";
-    await base44.integrations.Core.SendEmail({
-      to: "vocera-log@surgtrack.local",
-      subject: `[Case Assigned] ${caseData.procedure_name} → ${orRoom} — ${s.name}`,
-      body: `Case Assignment Notification\nRecipient: ${s.name} (${s.role})\n${voceraLine}\nRoom: ${orRoom}\nProcedure: ${caseData.procedure_name}\nTime: ${timeDisplay}\nDuration: ${caseData.estimated_duration || "TBD"} min\nSurgeon: ${caseData.surgeon || "TBD"}\nDate: ${selectedDate}\n\nMessage sent: ${msg}`,
-    });
     log.push(`✓ ${s.name} (${s.role}) — ${voceraLine}`);
   }
 
