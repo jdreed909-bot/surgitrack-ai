@@ -435,6 +435,8 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
           </Droppable>
         </div>
       )}
+
+      <EditCaseModal open={!!editingCase} onClose={() => setEditingCase(null)} caseData={editingCase} />
     </DragDropContext>
   );
 }
