@@ -7,6 +7,39 @@ import { Button } from "@/components/ui/button";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+// Shift templates
+const WEEKDAY_SHIFTS = [
+  { time: "7a",      label: "RN / ST",         color: "bg-teal-50 border-teal-200 text-teal-700" },
+  { time: "3p",      label: "RN / ST",         color: "bg-sky-50 border-sky-200 text-sky-700" },
+  { time: "5p",      label: "RN / ST",         color: "bg-violet-50 border-violet-200 text-violet-700" },
+  { time: "8p",      label: "RN / ST",         color: "bg-orange-50 border-orange-200 text-orange-700" },
+  { time: "11p–7a",  label: "RN / ST Call",    color: "bg-slate-100 border-slate-300 text-slate-500", call: true },
+];
+
+const WEEKEND_SHIFTS = [
+  { time: "7a",      label: "RN / ST",         color: "bg-teal-50 border-teal-200 text-teal-700" },
+  { time: "3p",      label: "RN / ST",         color: "bg-sky-50 border-sky-200 text-sky-700" },
+  { time: "5p",      label: "RN / ST",         color: "bg-violet-50 border-violet-200 text-violet-700" },
+  { time: "7p",      label: "RN / ST",         color: "bg-orange-50 border-orange-200 text-orange-700" },
+  { time: "5–11p",   label: "RN Call",         color: "bg-rose-50 border-rose-200 text-rose-600", call: true },
+  { time: "7–11p",   label: "ST Call",         color: "bg-pink-50 border-pink-200 text-pink-600", call: true },
+  { time: "11p–7a",  label: "RN / ST Call",    color: "bg-slate-100 border-slate-300 text-slate-500", call: true },
+];
+
+function ShiftSlots({ isWeekend }) {
+  const shifts = isWeekend ? WEEKEND_SHIFTS : WEEKDAY_SHIFTS;
+  return (
+    <div className="mt-1 border-t border-slate-100 pt-1 space-y-0.5">
+      {shifts.map((s) => (
+        <div key={s.time} className={`flex items-center gap-1 px-1 py-0.5 rounded border text-[9px] leading-tight ${s.color}`}>
+          <span className="font-bold shrink-0 w-10">{s.time}</span>
+          <span className="opacity-75 truncate">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function roleBadgeColor(role) {
   if (role === "RN") return "bg-teal-100 text-teal-800 border-teal-300";
   if (role === "Scrub Tech") return "bg-indigo-100 text-indigo-800 border-indigo-300";
