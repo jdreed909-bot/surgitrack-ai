@@ -51,6 +51,7 @@ import Inventory from './pages/Inventory';
 import Schedule from './pages/Schedule';
 import ScanHistory from './pages/ScanHistory';
 import Alerts from './pages/Alerts';
+import Vendors from './pages/Vendors';
 import __Layout from './Layout.jsx';
 
 
@@ -59,6 +60,7 @@ export const PAGES = {
     "Schedule": Schedule,
     "ScanHistory": ScanHistory,
     "Alerts": Alerts,
+    "Vendors": Vendors,
 }
 
 export const pagesConfig = {
