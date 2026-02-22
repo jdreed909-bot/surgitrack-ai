@@ -6,6 +6,7 @@
 const PERMISSIONS = {
   admin: {
     Schedule: ["view", "modify"],
+    CaseTracking: ["view", "modify"],
     ScheduleLookout: ["view", "modify"],
     RNCall: ["view", "modify"],
     STCall: ["view", "modify"],
@@ -24,6 +25,7 @@ const PERMISSIONS = {
   },
   manager: {
     Schedule: ["view", "modify"],
+    CaseTracking: ["view", "modify"],
     ScheduleLookout: ["view", "modify"],
     RNCall: ["view", "modify"],
     STCall: ["view", "modify"],
@@ -42,6 +44,7 @@ const PERMISSIONS = {
   },
   charge_nurse: {
     Schedule: ["view", "modify"],
+    CaseTracking: ["view", "modify"],
     ScheduleLookout: ["view", "modify"],
     RNCall: ["view"],
     STCall: ["view"],
