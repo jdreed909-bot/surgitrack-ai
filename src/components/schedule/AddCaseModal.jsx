@@ -29,8 +29,12 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
   const [saving, setSaving] = useState(false);
   const [setSearch, setSetSearch] = useState("");
   const [eqSearch, setEqSearch] = useState("");
+  const [showAddEquipment, setShowAddEquipment] = useState(false);
+  const [newEq, setNewEq] = useState({ name: "", quantity: 1, category: "", location: "", notes: "" });
+  const [addingEq, setAddingEq] = useState(false);
+  const queryClient = useQueryClient();
 
-  const { data: allEquipment = [] } = useQuery({
+  const { data: allEquipment = [], refetch: refetchEquipment } = useQuery({
     queryKey: ["specialty-equipment"],
     queryFn: () => base44.entities.SpecialtyEquipment.list("-created_date", 100),
   });
