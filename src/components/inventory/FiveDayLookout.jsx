@@ -240,6 +240,15 @@ export default function FiveDayLookout() {
           })}
         </div>
       )}
+
+      <AddManualIssueModal
+        open={manualIssueOpen}
+        onClose={() => setManualIssueOpen(false)}
+        onCreated={() => {
+          queryClient.invalidateQueries(["alerts-lookout"]);
+          setManualIssueOpen(false);
+        }}
+      />
     </div>
   );
 }
