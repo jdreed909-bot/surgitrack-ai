@@ -52,7 +52,7 @@ export default function Layout({ children, currentPageName }) {
             </div>
             <div>
               <div className="text-sm font-bold text-slate-900 leading-tight">ModeRN OR</div>
-              <div className="text-xs text-slate-400">Instrument Management</div>
+              <div className="text-xs text-slate-400">A Cut Above</div>
             </div>
           </div>
         </div>
