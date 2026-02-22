@@ -24,6 +24,7 @@ export default function StaffRoster() {
   const [editing, setEditing] = useState(null); // null | "new" | record
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
 
   const { data: roster = [], isLoading } = useQuery({
     queryKey: ["staff_roster"],
