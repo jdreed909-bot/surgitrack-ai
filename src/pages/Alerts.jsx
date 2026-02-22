@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CreateAlertModal from "../components/alerts/CreateAlertModal";
+import TurnoverHitListModal from "../components/alerts/TurnoverHitListModal";
 
 const SEVERITY_CONFIG = {
   Critical: { bar: "border-l-red-500",    badge: "bg-red-100 text-red-700 border-red-200",      icon: "text-red-500" },
