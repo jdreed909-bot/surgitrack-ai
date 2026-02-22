@@ -19,7 +19,7 @@ import {
 
 const NAV = [
   { label: "Schedule",  page: "Schedule",    icon: CalendarDays },
-  { label: "Inventory", page: "Inventory",   icon: Package },
+  { label: "Instrument Sets", page: "Inventory", icon: Package },
   { label: "Scan Log",  page: "ScanHistory", icon: ScanLine },
   { label: "Alerts",    page: "Alerts",      icon: Bell, badge: true },
   { label: "Vendors",   page: "Vendors",          icon: Building2 },
