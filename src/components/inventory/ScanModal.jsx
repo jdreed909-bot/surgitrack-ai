@@ -252,6 +252,32 @@ export default function ScanModal({ onClose, onScanned, sets }) {
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label className="text-xs text-slate-500 font-semibold uppercase tracking-wide">Issue Photo (optional)</Label>
+                {!cameraActive && !issuePhoto && (
+                  <Button
+                    onClick={() => setCameraActive(true)}
+                    variant="outline"
+                    className="w-full rounded-xl border-slate-200"
+                  >
+                    <Camera className="w-4 h-4 mr-2" /> Take Photo
+                  </Button>
+                )}
+                {issuePhoto && (
+                  <div className="relative rounded-xl overflow-hidden">
+                    <img src={issuePhoto} alt="Issue" className="w-full rounded-xl" />
+                    <Button
+                      onClick={() => setIssuePhoto(null)}
+                      size="icon"
+                      variant="ghost"
+                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+
               <Button
                 onClick={handleConfirm}
                 disabled={saving}
