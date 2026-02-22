@@ -179,9 +179,10 @@ export default function Inventory() {
           onSuccess={() => queryClient.invalidateQueries(["sets"])}
         />
       )}
-    </div>
-  );
-}
+      </div>
+      </div>
+      );
+      }
 
 function StatusSummaryCard({ status, count, total }) {
   const config = {
