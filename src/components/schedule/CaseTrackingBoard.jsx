@@ -114,7 +114,43 @@ function FullCaseRow({ caseData, setsMap, conflictSetIds, unavailableSets, onMov
   );
 }
 
-export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unavailableSets }) {
+async function notifyTeam(caseData, orRoom, assignmentMap, selectedDate) {
+  const assignment = assignmentMap?.[orRoom];
+  if (!assignment) return { sent: 0, log: ["No staff assignment found for " + orRoom] };
+
+  const staff = [];
+  if (assignment.rn_name)         staff.push({ name: assignment.rn_name,         role: "RN",        vocera_id: assignment.rn_vocera_id });
+  if (assignment.scrub_tech_name) staff.push({ name: assignment.scrub_tech_name, role: "Scrub Tech", vocera_id: assignment.scrub_tech_vocera_id });
+  if (assignment.charge_rn_name)  staff.push({ name: assignment.charge_rn_name,  role: "Charge RN",  vocera_id: assignment.charge_rn_vocera_id });
+
+  if (staff.length === 0) return { sent: 0, log: ["No staff members assigned to " + orRoom] };
+
+  const timeDisplay = caseData.scheduled_time
+    ? (() => {
+        const [h, m] = caseData.scheduled_time.split(":").map(Number);
+        const ampm = h >= 12 ? "PM" : "AM";
+        const dh = h % 12 === 0 ? 12 : h % 12;
+        return `${dh}:${String(m).padStart(2, "0")} ${ampm}`;
+      })()
+    : "TBD";
+
+  const msg = `📋 Case Update — ${orRoom} | ${caseData.procedure_name} | ${timeDisplay}${caseData.estimated_duration ? ` (${caseData.estimated_duration} min)` : ""}${caseData.surgeon ? ` | Surgeon: ${caseData.surgeon}` : ""} | Date: ${selectedDate}`;
+  const log = [];
+
+  for (const s of staff) {
+    const voceraLine = s.vocera_id ? `Vocera ID: ${s.vocera_id}` : "(No Vocera ID on file)";
+    await base44.integrations.Core.SendEmail({
+      to: "vocera-log@surgtrack.local",
+      subject: `[Case Assigned] ${caseData.procedure_name} → ${orRoom} — ${s.name}`,
+      body: `Case Assignment Notification\nRecipient: ${s.name} (${s.role})\n${voceraLine}\nRoom: ${orRoom}\nProcedure: ${caseData.procedure_name}\nTime: ${timeDisplay}\nDuration: ${caseData.estimated_duration || "TBD"} min\nSurgeon: ${caseData.surgeon || "TBD"}\nDate: ${selectedDate}\n\nMessage sent: ${msg}`,
+    });
+    log.push(`✓ ${s.name} (${s.role}) — ${voceraLine}`);
+  }
+
+  return { sent: staff.length, log };
+}
+
+export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unavailableSets, assignmentMap = {}, selectedDate = "" }) {
   // All cases start in the "case list" zone (bottom full cards)
   // Once moved to depot or board they leave the list
   const allIds = useMemo(() => new Set(cases.map((c) => c.id)), [cases]);
