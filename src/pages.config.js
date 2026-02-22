@@ -52,6 +52,7 @@ import Schedule from './pages/Schedule';
 import ScanHistory from './pages/ScanHistory';
 import Alerts from './pages/Alerts';
 import Vendors from './pages/Vendors';
+import SpecialtyEquipment from './pages/SpecialtyEquipment';
 import __Layout from './Layout.jsx';
 
 
@@ -61,6 +62,7 @@ export const PAGES = {
     "ScanHistory": ScanHistory,
     "Alerts": Alerts,
     "Vendors": Vendors,
+    "SpecialtyEquipment": SpecialtyEquipment,
 }
 
 export const pagesConfig = {
