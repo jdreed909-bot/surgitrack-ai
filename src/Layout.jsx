@@ -24,6 +24,8 @@ const NAV = [
   { label: "Instrument Sets", page: "Inventory", icon: Package },
   { label: "Scan Log",  page: "ScanHistory", icon: ScanLine },
   { label: "Alerts",    page: "Alerts",      icon: Bell, badge: true },
+  { label: "RN Call",   page: "RNCall",      icon: Users },
+  { label: "ST Call",   page: "STCall",      icon: Users },
   { label: "Vendors",   page: "Vendors",          icon: Building2 },
   { label: "Equipment", page: "SpecialtyEquipment", icon: Wrench },
   { label: "Staff Roster",      page: "StaffRoster",        icon: Users },
