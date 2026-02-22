@@ -125,7 +125,7 @@ export default function FiveDayLookout() {
 
     // Add manually created alerts
     manualAlerts.forEach((alert) => {
-      const dateStr = formatDate(today, "MMM d, yyyy");
+      const dateStr = alert.issue_date ? formatDate(new Date(alert.issue_date), "MMM d, yyyy") : formatDate(today, "MMM d, yyyy");
       if (!groups[dateStr]) {
         groups[dateStr] = [];
       }
@@ -135,6 +135,7 @@ export default function FiveDayLookout() {
         issue: alert.message,
         severity: alert.severity?.toLowerCase(),
         isManual: true,
+        surgeon: alert.surgeon,
         contacts: alert.points_of_contact || [],
       });
     });
