@@ -91,7 +91,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="w-8 h-8 bg-gradient-to-br from-teal-500 to-teal-700 rounded-lg flex items-center justify-center">
             <Activity className="w-4 h-4 text-white" />
           </div>
-          <span className="font-bold text-slate-900 text-sm">SurgTrack</span>
+          <span className="font-bold text-slate-900 text-sm">ModeRN OR</span>
         </div>
         <div className="flex items-center gap-3">
           {alertCount > 0 && (
