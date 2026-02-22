@@ -33,6 +33,7 @@ const NAV = [
   { label: "Staffing Schedule", page: "StaffingSchedule",   icon: CalendarDays },
   { label: "Text Notifications", page: "TextNotifications",  icon: MessageSquare },
   { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
+  { label: "Turnover", page: "Turnover", icon: Users },
   { label: "Admin", page: "Admin", icon: Building2 },
 ];
 
@@ -69,6 +70,7 @@ export default function Layout({ children, currentPageName }) {
       StaffingSchedule: "StaffManagement",
       TextNotifications: "TextNotifications",
       EducationalResources: "EducationalResources",
+      Turnover: "Turnover",
       Admin: "Admin",
     };
     const sectionName = sectionMap[section] || section;
