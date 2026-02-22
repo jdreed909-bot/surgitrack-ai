@@ -164,9 +164,64 @@ export default function CaseCard({ caseData, setsMap, conflictSetIds, unavailabl
         )}
       </div>
 
+      {/* Turnover modal */}
+      {turnoverOpen && (
+        <TurnoverCountdownModal
+          caseData={caseData}
+          assignmentMap={assignmentMap}
+          onClose={() => setTurnoverOpen(false)}
+          onTriggered={onUpdated}
+        />
+      )}
+
       {/* Expanded */}
       {expanded && (
         <div className="border-t border-slate-100 bg-slate-50 px-5 py-4 space-y-4">
+
+          {/* Providers section */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-xs font-bold uppercase tracking-wide text-slate-400">Providers</h4>
+              {!editingProviders ? (
+                <button onClick={() => setEditingProviders(true)} className="text-xs text-teal-600 hover:underline">Edit</button>
+              ) : (
+                <div className="flex gap-2">
+                  <button onClick={saveProviders} disabled={savingProviders} className="text-xs text-teal-600 font-semibold hover:underline">
+                    {savingProviders ? "Saving..." : "Save"}
+                  </button>
+                  <button onClick={() => setEditingProviders(false)} className="text-xs text-slate-400 hover:underline">Cancel</button>
+                </div>
+              )}
+            </div>
+            {editingProviders ? (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {[
+                  { label: "Physician", val: physician, set: setPhysician },
+                  { label: "Anesthesia Provider", val: anesthesiaProvider, set: setAnesthesiaProvider },
+                  { label: "Assistant", val: assistant, set: setAssistant },
+                ].map(({ label, val, set }) => (
+                  <div key={label}>
+                    <label className="text-xs text-slate-500 mb-1 block">{label}</label>
+                    <input
+                      value={val}
+                      onChange={(e) => set(e.target.value)}
+                      placeholder={label}
+                      className="w-full h-8 rounded-lg border border-slate-200 text-xs px-2 bg-white focus:outline-none focus:ring-1 focus:ring-teal-400"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-3 text-xs text-slate-600">
+                {caseData.physician && <span className="flex items-center gap-1"><Stethoscope className="w-3 h-3 text-slate-400" />Dr. {caseData.physician} <span className="text-slate-400">(Physician)</span></span>}
+                {caseData.anesthesia_provider && <span className="flex items-center gap-1"><Stethoscope className="w-3 h-3 text-slate-400" />{caseData.anesthesia_provider} <span className="text-slate-400">(Anesthesia)</span></span>}
+                {caseData.assistant && <span className="flex items-center gap-1"><User className="w-3 h-3 text-slate-400" />{caseData.assistant} <span className="text-slate-400">(Assistant)</span></span>}
+                {!caseData.physician && !caseData.anesthesia_provider && !caseData.assistant && (
+                  <span className="text-slate-300 italic">No providers assigned — click Edit</span>
+                )}
+              </div>
+            )}
+          </div>
           {/* Instrument sets detail */}
           {requiredSets.length > 0 && (
             <div>
