@@ -23,6 +23,7 @@ export default function SetStatusCard({ set, onUpdated }) {
   const [expanded, setExpanded] = useState(false);
   const [editStatus, setEditStatus] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
 
   const cfg = STATUS_CONFIG[set.status] || STATUS_CONFIG["Available"];
 
