@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ScanLine, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { ScanLine, CheckCircle2, AlertCircle, Loader2, Camera, X } from "lucide-react";
 
 const STATUS_OPTIONS = ["Available", "In Use", "Sterilizing", "Under Repair", "Missing", "Loaned Out"];
 const LOCATION_OPTIONS = ["Sterile Processing", "OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "Storage Room A", "Storage Room B", "Vendor", "Unknown"];
