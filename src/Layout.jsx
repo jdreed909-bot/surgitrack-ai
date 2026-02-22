@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   Activity,
+  Building2,
 } from "lucide-react";
 
 const NAV = [
