@@ -212,10 +212,13 @@ export default function StaffingSchedule() {
                       {/* Add staff button */}
                       <button
                         onClick={() => setAddModal({ date: dateStr })}
-                        className="mt-auto text-[10px] text-slate-300 hover:text-teal-500 flex items-center gap-0.5 transition-colors"
+                        className="mt-1 text-[10px] text-slate-300 hover:text-teal-500 flex items-center gap-0.5 transition-colors"
                       >
                         <Plus className="w-3 h-3" /> Add
                       </button>
+
+                      {/* Shift slots */}
+                      <ShiftSlots isWeekend={isWeekend} />
                     </div>
                   );
                 })}
