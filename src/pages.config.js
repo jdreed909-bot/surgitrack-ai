@@ -54,6 +54,7 @@ import Alerts from './pages/Alerts';
 import Vendors from './pages/Vendors';
 import SpecialtyEquipment from './pages/SpecialtyEquipment';
 import StaffRoster from './pages/StaffRoster';
+import TextNotifications from './pages/TextNotifications';
 import __Layout from './Layout.jsx';
 
 
@@ -65,6 +66,7 @@ export const PAGES = {
     "Vendors": Vendors,
     "SpecialtyEquipment": SpecialtyEquipment,
     "StaffRoster": StaffRoster,
+    "TextNotifications": TextNotifications,
 }
 
 export const pagesConfig = {
