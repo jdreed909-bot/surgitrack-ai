@@ -21,6 +21,7 @@ const NAV = [
   { label: "Inventory", page: "Inventory",   icon: Package },
   { label: "Scan Log",  page: "ScanHistory", icon: ScanLine },
   { label: "Alerts",    page: "Alerts",      icon: Bell, badge: true },
+  { label: "Vendors",   page: "Vendors",     icon: Building2 },
 ];
 
 export default function Layout({ children, currentPageName }) {
