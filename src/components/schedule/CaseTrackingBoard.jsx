@@ -253,7 +253,7 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
       }
       removed.or_room = dstId;
       // Notify team when case lands on an OR lane
-      notifyTeam(removed, dstId, assignmentMap, selectedDate).then(({ sent, log }) => {
+      notifyTeam(removed, dstId, assignmentMap, staffRoster, selectedDate).then(({ sent, log }) => {
         setNotifyBanner({ caseId: removed.id, room: dstId, sent, log, procedure: removed.procedure_name });
         setTimeout(() => setNotifyBanner(null), 8000);
       });
