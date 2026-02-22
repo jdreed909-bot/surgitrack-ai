@@ -70,6 +70,21 @@ export default function AddCaseModal({ onClose, onCreated, allSets, defaultDate 
     return null;
   };
 
+  const handleAddNewEquipment = async () => {
+    if (!newEq.name) return;
+    setAddingEq(true);
+    const created = await base44.entities.SpecialtyEquipment.create({
+      ...newEq,
+      quantity: Number(newEq.quantity) || 1,
+    });
+    await refetchEquipment();
+    // Auto-select the newly added equipment
+    setForm((f) => ({ ...f, required_equipment: [...f.required_equipment, created.id] }));
+    setNewEq({ name: "", quantity: 1, category: "", location: "", notes: "" });
+    setShowAddEquipment(false);
+    setAddingEq(false);
+  };
+
   const toggleEquipment = (id) => {
     setForm((f) => ({
       ...f,
