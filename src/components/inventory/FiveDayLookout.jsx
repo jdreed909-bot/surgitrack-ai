@@ -29,7 +29,7 @@ export default function FiveDayLookout() {
     refetchInterval: 30000,
   });
 
-  const { data: alerts = [] } = useQuery({
+  const { data: manualAlerts = [] } = useQuery({
     queryKey: ["alerts-lookout"],
     queryFn: () => base44.entities.Alert.filter({ is_resolved: false }, "-created_date", 50),
     refetchInterval: 30000,
