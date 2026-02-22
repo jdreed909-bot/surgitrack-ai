@@ -17,6 +17,7 @@ import {
   Users,
   MessageSquare,
   BookOpen,
+  Bot,
 } from "lucide-react";
 
 const NAV = [
@@ -34,6 +35,7 @@ const NAV = [
   { label: "Text Notifications", page: "TextNotifications",  icon: MessageSquare },
   { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
   { label: "Turnover", page: "Turnover", icon: Users },
+  { label: "OR Assistant", page: "PolicyBot", icon: Bot },
   { label: "Admin", page: "Admin", icon: Building2 },
 ];
 
@@ -71,6 +73,7 @@ export default function Layout({ children, currentPageName }) {
       TextNotifications: "TextNotifications",
       EducationalResources: "EducationalResources",
       Turnover: "Turnover",
+      PolicyBot: "PolicyBot",
       Admin: "Admin",
     };
     const sectionName = sectionMap[section] || section;
