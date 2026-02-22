@@ -3,8 +3,8 @@ import { base44 } from "@/api/base44Client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Plus, Search, ChevronRight, Image, Wrench, LayoutPanelLeft, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ResourceCard from "../components/education/ResourceCard";
-import ResourceModal from "../components/education/ResourceModal";
+import ResourceCard from "../components/education/ResourceCard.jsx";
+import ResourceModal from "../components/education/ResourceModal.jsx";
 
 const SPECIALTIES = [
   "General Surgery",
