@@ -20,6 +20,13 @@ export default function FiveDayLookout() {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
   const [manualIssueOpen, setManualIssueOpen] = useState(false);
+  const [contactsOpen, setContactsOpen] = useState(false);
+  const [globalContacts, setGlobalContacts] = useState({
+    SPD: [],
+    Materials: [],
+    Scheduling: [],
+    Nursing: [],
+  });
   const queryClient = useQueryClient();
   const today = new Date();
   const fiveDaysFromNow = addDays(today, 4);
