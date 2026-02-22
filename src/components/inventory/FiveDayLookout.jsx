@@ -213,7 +213,23 @@ export default function FiveDayLookout() {
                             </div>
                           </div>
                         ) : (
-                          <div className="text-slate-700 mt-1.5 text-xs leading-snug whitespace-pre-wrap break-words ml-5.5">{item.issue}</div>
+                          <>
+                            <div className="text-slate-700 mt-1.5 text-xs leading-snug whitespace-pre-wrap break-words ml-5.5">{item.issue}</div>
+                            {item.contacts && item.contacts.length > 0 && (
+                              <div className="mt-2 ml-5.5">
+                                <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wide flex items-center gap-1 mb-1">
+                                  <Mail className="w-2.5 h-2.5" /> Contacts
+                                </div>
+                                <div className="space-y-0.5">
+                                  {item.contacts.map((contact, cidx) => (
+                                    <div key={cidx} className="text-[10px] text-slate-600">
+                                      {contact.name ? `${contact.name} (${contact.email})` : contact.email}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     );
