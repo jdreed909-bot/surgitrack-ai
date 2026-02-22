@@ -13,6 +13,7 @@ import ImportSetsModal from "../components/inventory/ImportSetsModal";
 export default function Inventory() {
   const [scanOpen, setScanOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const [filters, setFilters] = useState({ status: "all", location: "all", search: "" });
   const [tab, setTab] = useState("hospital"); // "hospital" | "consignment"
   const queryClient = useQueryClient();
