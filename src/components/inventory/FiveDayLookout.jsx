@@ -55,18 +55,19 @@ export default function FiveDayLookout() {
     });
   }, [cases, today, fiveDaysFromNow]);
 
-  // Group cases by issue type
-  const issueGroups = useMemo(() => {
-    const groups = {
-      "SPD": [],
-      "Scheduling": [],
-      "Materials": [],
-    };
-
+  // Group issues by date
+  const dateGroups = useMemo(() => {
+    const groups = {};
+    
     upcomingCases.forEach((caseData) => {
+      const dateStr = formatDate(new Date(caseData.scheduled_date), "MMM d, yyyy");
+      if (!groups[dateStr]) {
+        groups[dateStr] = [];
+      }
+
       // Add SPD issues if case has missing or conflicted sets
       if (caseData.conflict_flags?.length > 0) {
-        groups["SPD"].push({
+        groups[dateStr].push({
           type: "SPD",
           caseId: caseData.id,
           date: caseData.scheduled_date,
@@ -78,7 +79,7 @@ export default function FiveDayLookout() {
 
       // Add scheduling issues
       if (caseData.status === "Delayed") {
-        groups["Scheduling"].push({
+        groups[dateStr].push({
           type: "Scheduling",
           caseId: caseData.id,
           date: caseData.scheduled_date,
@@ -90,7 +91,7 @@ export default function FiveDayLookout() {
 
       // Add materials/vendor notifications
       if (caseData.special_requests) {
-        groups["Materials"].push({
+        groups[dateStr].push({
           type: "Materials",
           caseId: caseData.id,
           date: caseData.scheduled_date,
