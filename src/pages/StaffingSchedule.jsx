@@ -328,7 +328,7 @@ export default function StaffingSchedule() {
                       </button>
 
                       {/* Shift slots */}
-                      <ShiftSlots isWeekend={isWeekend} />
+                      <ShiftSlots isWeekend={isWeekend} dayAssignments={assignmentsByDate[dateStr] || []} />
                     </div>
                   );
                 })}
