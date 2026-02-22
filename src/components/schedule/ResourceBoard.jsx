@@ -67,6 +67,101 @@ function DropSlot({ label, icon: Icon, iconColor, accepts, occupant, onDrop, onR
   );
 }
 
+// ── DepotSection ──────────────────────────────────────────────────────────────
+function DepotSection({ depotStaff, roster, dragOver, setDragOver, onDrop }) {
+  const [selectedRoster, setSelectedRoster] = useState("");
+  const [extras, setExtras] = useState([]); // staff added via dropdown
+
+  // Merge depot staff + extras (dedup by name)
+  const depotNames = new Set(depotStaff.map((p) => p.name));
+  const allDepot = [
+    ...depotStaff,
+    ...extras.filter((p) => !depotNames.has(p.name)),
+  ];
+
+  // Roster options not already in depot
+  const rosterOptions = (roster || []).filter(
+    (s) => s.is_active !== false && !depotNames.has(s.name) && !extras.find((e) => e.name === s.name)
+  );
+
+  function addFromRoster() {
+    if (!selectedRoster) return;
+    const member = roster.find((s) => s.name === selectedRoster);
+    if (!member) return;
+    setExtras((prev) => [...prev, { name: member.name, role: member.role, shift: null }]);
+    setSelectedRoster("");
+  }
+
+  function removeExtra(name) {
+    setExtras((prev) => prev.filter((p) => p.name !== name));
+  }
+
+  return (
+    <div
+      onDragOver={(e) => { e.preventDefault(); setDragOver("depot"); }}
+      onDragLeave={() => setDragOver(null)}
+      onDrop={onDrop}
+      className={`rounded-xl border-2 border-dashed p-3 transition-colors ${
+        dragOver === "depot" ? "border-teal-400 bg-teal-50" : "border-slate-200 bg-slate-50"
+      }`}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <Users className="w-4 h-4 text-slate-500" />
+        <span className="text-xs font-semibold text-slate-600">Staffing Depot — Working Today</span>
+        <span className="text-xs text-slate-400">({allDepot.length} available)</span>
+      </div>
+      {allDepot.length === 0 && (
+        <p className="text-xs text-slate-300 italic mb-2">All staff have been assigned — drag here to return someone</p>
+      )}
+      <div className="flex flex-wrap gap-2 mb-3">
+        {allDepot.map((p) => {
+          const isExtra = extras.find((e) => e.name === p.name);
+          return (
+            <div
+              key={p.name}
+              draggable
+              onDragStart={(e) => e.dataTransfer.setData("text/plain", JSON.stringify(p))}
+              className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-xs font-medium cursor-grab select-none shadow-sm ${roleBadgeColor(p.role).bg} ${roleBadgeColor(p.role).text} ${roleBadgeColor(p.role).border}`}
+            >
+              <span>{p.name}</span>
+              <span className="opacity-50 text-[10px]">{p.role}</span>
+              {p.shift && <span className="opacity-50 text-[10px]">{p.shift}</span>}
+              {isExtra && (
+                <button onClick={() => removeExtra(p.name)} className="ml-0.5 opacity-50 hover:opacity-100">
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Add from roster dropdown */}
+      <div className="flex items-center gap-2 pt-2 border-t border-slate-200">
+        <select
+          value={selectedRoster}
+          onChange={(e) => setSelectedRoster(e.target.value)}
+          className="flex-1 text-xs border border-slate-200 rounded-lg px-2 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-teal-400"
+        >
+          <option value="">Add staff from roster…</option>
+          {rosterOptions.map((s) => (
+            <option key={s.name} value={s.name}>
+              {s.name} ({s.role})
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={addFromRoster}
+          disabled={!selectedRoster}
+          className="flex items-center gap-1 px-2.5 py-1.5 bg-teal-600 text-white text-xs font-semibold rounded-lg disabled:opacity-40 hover:bg-teal-700 transition-colors"
+        >
+          <Plus className="w-3 h-3" /> Add
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ── main component ────────────────────────────────────────────────────────────
 export default function ResourceBoard({ orRooms, assignmentMap, roster }) {
   // Local state: resource assignments per room
