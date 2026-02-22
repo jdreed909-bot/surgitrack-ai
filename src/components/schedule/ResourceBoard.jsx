@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Users, ArrowLeftRight, Coffee, Utensils, Briefcase, X } from "lucide-react";
+import { Users, ArrowLeftRight, Coffee, Utensils, Briefcase, X, Plus } from "lucide-react";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 function roleBadgeColor(role) {
