@@ -98,6 +98,8 @@ export default function CaseCard({ caseData, setsMap, conflictSetIds, unavailabl
               <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />{caseData.scheduled_time}{caseData.estimated_duration ? ` · ${caseData.estimated_duration} min` : ""}</span>
               {caseData.or_room && <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" />{caseData.or_room}</span>}
               {caseData.surgeon && <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" />Dr. {caseData.surgeon}</span>}
+              {caseData.physician && <span className="flex items-center gap-1.5"><Stethoscope className="w-3.5 h-3.5" />Dr. {caseData.physician}</span>}
+              {caseData.anesthesia_provider && <span className="flex items-center gap-1.5"><Stethoscope className="w-3.5 h-3.5" />Anes: {caseData.anesthesia_provider}</span>}
               {caseData.patient_initials && <span className="flex items-center gap-1.5">Patient: <strong>{caseData.patient_initials}</strong></span>}
             </div>
           </div>
