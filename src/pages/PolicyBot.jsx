@@ -4,8 +4,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Send, BookOpen } from "lucide-react";
-import ChatBubble from "../components/bot/ChatBubble";
-import PolicyUploadModal from "../components/bot/PolicyUploadModal";
+import ChatBubble from "@/components/bot/ChatBubble";
+import PolicyUploadModal from "@/components/bot/PolicyUploadModal";
 
 export default function PolicyBot() {
   const [uploadOpen, setUploadOpen] = useState(false);
