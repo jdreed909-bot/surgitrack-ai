@@ -173,8 +173,12 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
         setDepot((prev) => ({ ...prev, [room]: dstList }));
         setMovedIds((prev) => new Set([...prev, caseId]));
       } else if (OR_ROOMS.includes(dstId)) {
+        const updatedCase = { ...caseData, or_room: dstId };
+        if (caseData.status === "Add-On") {
+          base44.entities.SurgicalCase.update(caseId, { or_room: dstId });
+        }
         const dstList = [...(board[dstId] || [])];
-        dstList.splice(destination.index, 0, caseData);
+        dstList.splice(destination.index, 0, updatedCase);
         setBoard((prev) => ({ ...prev, [dstId]: dstList }));
         setMovedIds((prev) => new Set([...prev, caseId]));
       }
