@@ -16,7 +16,7 @@ const ISSUE_CATEGORIES = {
   "OR": { icon: AlertTriangle, color: "text-purple-600", bg: "bg-purple-50" },
 };
 
-export default function FiveDayLookout() {
+export default function FiveDayLookout({ canModify: canUserModify = true }) {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
   const [manualIssueOpen, setManualIssueOpen] = useState(false);
@@ -164,22 +164,26 @@ export default function FiveDayLookout() {
           <p className="text-xs text-slate-400">Issues & alerts from today through next 4 days</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <Button
-            onClick={() => setContactsOpen(true)}
-            variant="outline"
-            className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
-            size="sm"
-          >
-            <Mail className="w-4 h-4 mr-1" /> Manage Contacts
-          </Button>
-          <Button
-            onClick={() => setManualIssueOpen(true)}
-            variant="outline"
-            className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
-            size="sm"
-          >
-            <Plus className="w-4 h-4 mr-1" /> Add Issue
-          </Button>
+          {canUserModify && (
+            <>
+              <Button
+                onClick={() => setContactsOpen(true)}
+                variant="outline"
+                className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
+                size="sm"
+              >
+                <Mail className="w-4 h-4 mr-1" /> Manage Contacts
+              </Button>
+              <Button
+                onClick={() => setManualIssueOpen(true)}
+                variant="outline"
+                className="border-slate-200 rounded-xl px-3 py-1.5 text-sm"
+                size="sm"
+              >
+                <Plus className="w-4 h-4 mr-1" /> Add Issue
+              </Button>
+            </>
+          )}
           {totalIssues > 0 && (
             <div className="bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">
               {totalIssues} Issue{totalIssues !== 1 ? "s" : ""}
