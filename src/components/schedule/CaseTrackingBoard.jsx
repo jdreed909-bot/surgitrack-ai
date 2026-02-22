@@ -189,6 +189,11 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
     const srcList = getList(srcId);
     const dstList = srcId === dstId ? srcList : getList(dstId);
     const [removed] = srcList.splice(source.index, 1);
+    // If dragging an Add-On case to a different OR lane, update or_room in DB
+    if (srcId !== dstId && OR_ROOMS.includes(dstId) && removed?.status === "Add-On") {
+      base44.entities.SurgicalCase.update(removed.id, { or_room: dstId });
+      removed.or_room = dstId;
+    }
     dstList.splice(destination.index, 0, removed);
 
     if (srcId === dstId) {
