@@ -52,12 +52,14 @@ import EducationalResources from './pages/EducationalResources';
 import Inventory from './pages/Inventory';
 import ScanHistory from './pages/ScanHistory';
 import Schedule from './pages/Schedule';
+import ScheduleLookout from './pages/ScheduleLookout';
 import SpecialtyEquipment from './pages/SpecialtyEquipment';
 import StaffRoster from './pages/StaffRoster';
 import StaffingSchedule from './pages/StaffingSchedule';
 import TextNotifications from './pages/TextNotifications';
 import Vendors from './pages/Vendors';
-import ScheduleLookout from './pages/ScheduleLookout';
+import RNCall from './pages/RNCall';
+import STCall from './pages/STCall';
 import __Layout from './Layout.jsx';
 
 
@@ -67,12 +69,14 @@ export const PAGES = {
     "Inventory": Inventory,
     "ScanHistory": ScanHistory,
     "Schedule": Schedule,
+    "ScheduleLookout": ScheduleLookout,
     "SpecialtyEquipment": SpecialtyEquipment,
     "StaffRoster": StaffRoster,
     "StaffingSchedule": StaffingSchedule,
     "TextNotifications": TextNotifications,
     "Vendors": Vendors,
-    "ScheduleLookout": ScheduleLookout,
+    "RNCall": RNCall,
+    "STCall": STCall,
 }
 
 export const pagesConfig = {
