@@ -51,7 +51,7 @@ export default function Layout({ children, currentPageName }) {
               <Activity className="w-5 h-5 text-white" />
             </div>
             <div>
-              <div className="text-sm font-bold text-slate-900 leading-tight">SurgTrack</div>
+              <div className="text-sm font-bold text-slate-900 leading-tight">ModeRN OR</div>
               <div className="text-xs text-slate-400">Instrument Management</div>
             </div>
           </div>
