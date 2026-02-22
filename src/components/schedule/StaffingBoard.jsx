@@ -124,55 +124,77 @@ export default function StaffingBoard({ date }) {
             <button onClick={cancelEdit} className="text-slate-400 hover:text-slate-600"><X className="w-4 h-4" /></button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
-            {/* RN */}
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block font-medium">RN</label>
-              <StaffSelect
-                role="RN"
-                value={editData.rn_name}
-                vocera_id={editData.rn_vocera_id}
-                roster={roster}
-                onChange={({ name, vocera_id }) => setEditData((d) => ({ ...d, rn_name: name, rn_vocera_id: vocera_id }))}
-              />
+          <div className="space-y-3 mb-3">
+            {/* RN row */}
+            <div className="bg-teal-50/60 rounded-xl p-3">
+              <div className="text-xs font-semibold text-teal-700 mb-2">RN</div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <StaffSelect
+                  role="RN"
+                  value={editData.rn_name}
+                  vocera_id={editData.rn_vocera_id}
+                  roster={roster}
+                  onChange={({ name, vocera_id }) => setEditData((d) => ({ ...d, rn_name: name, rn_vocera_id: vocera_id }))}
+                />
+                <div className="flex items-center gap-1">
+                  <label className="text-xs text-slate-500 w-10 shrink-0">Start</label>
+                  <Input type="time" value={editData.rn_shift_start} onChange={(e) => setEditData((d) => ({ ...d, rn_shift_start: e.target.value }))} className="h-8 text-sm" />
+                </div>
+                <div className="flex items-center gap-1">
+                  <label className="text-xs text-slate-500 w-10 shrink-0">End</label>
+                  <Input type="time" value={editData.rn_shift_end} onChange={(e) => setEditData((d) => ({ ...d, rn_shift_end: e.target.value }))} className="h-8 text-sm" />
+                </div>
+              </div>
             </div>
-            {/* Scrub Tech */}
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block font-medium">Scrub Tech</label>
-              <StaffSelect
-                role="Scrub Tech"
-                value={editData.scrub_tech_name}
-                vocera_id={editData.scrub_tech_vocera_id}
-                roster={roster}
-                onChange={({ name, vocera_id }) => setEditData((d) => ({ ...d, scrub_tech_name: name, scrub_tech_vocera_id: vocera_id }))}
-              />
+
+            {/* Scrub Tech row */}
+            <div className="bg-indigo-50/60 rounded-xl p-3">
+              <div className="text-xs font-semibold text-indigo-700 mb-2">Scrub Tech</div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <StaffSelect
+                  role="Scrub Tech"
+                  value={editData.scrub_tech_name}
+                  vocera_id={editData.scrub_tech_vocera_id}
+                  roster={roster}
+                  onChange={({ name, vocera_id }) => setEditData((d) => ({ ...d, scrub_tech_name: name, scrub_tech_vocera_id: vocera_id }))}
+                />
+                <div className="flex items-center gap-1">
+                  <label className="text-xs text-slate-500 w-10 shrink-0">Start</label>
+                  <Input type="time" value={editData.scrub_tech_shift_start} onChange={(e) => setEditData((d) => ({ ...d, scrub_tech_shift_start: e.target.value }))} className="h-8 text-sm" />
+                </div>
+                <div className="flex items-center gap-1">
+                  <label className="text-xs text-slate-500 w-10 shrink-0">End</label>
+                  <Input type="time" value={editData.scrub_tech_shift_end} onChange={(e) => setEditData((d) => ({ ...d, scrub_tech_shift_end: e.target.value }))} className="h-8 text-sm" />
+                </div>
+              </div>
             </div>
-            {/* Charge RN */}
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block font-medium">Charge RN</label>
-              <StaffSelect
-                role="Charge RN"
-                value={editData.charge_rn_name}
-                vocera_id={editData.charge_rn_vocera_id}
-                roster={roster}
-                onChange={({ name, vocera_id }) => setEditData((d) => ({ ...d, charge_rn_name: name, charge_rn_vocera_id: vocera_id }))}
-              />
+
+            {/* Charge RN row */}
+            <div className="bg-amber-50/60 rounded-xl p-3">
+              <div className="text-xs font-semibold text-amber-700 mb-2">Charge RN</div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <StaffSelect
+                  role="Charge RN"
+                  value={editData.charge_rn_name}
+                  vocera_id={editData.charge_rn_vocera_id}
+                  roster={roster}
+                  onChange={({ name, vocera_id }) => setEditData((d) => ({ ...d, charge_rn_name: name, charge_rn_vocera_id: vocera_id }))}
+                />
+                <div className="flex items-center gap-1">
+                  <label className="text-xs text-slate-500 w-10 shrink-0">Start</label>
+                  <Input type="time" value={editData.charge_rn_shift_start} onChange={(e) => setEditData((d) => ({ ...d, charge_rn_shift_start: e.target.value }))} className="h-8 text-sm" />
+                </div>
+                <div className="flex items-center gap-1">
+                  <label className="text-xs text-slate-500 w-10 shrink-0">End</label>
+                  <Input type="time" value={editData.charge_rn_shift_end} onChange={(e) => setEditData((d) => ({ ...d, charge_rn_shift_end: e.target.value }))} className="h-8 text-sm" />
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block font-medium">Shift Start</label>
-              <Input type="time" value={editData.shift_start} onChange={(e) => setEditData((d) => ({ ...d, shift_start: e.target.value }))} className="h-8 text-sm" />
-            </div>
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block font-medium">Shift End</label>
-              <Input type="time" value={editData.shift_end} onChange={(e) => setEditData((d) => ({ ...d, shift_end: e.target.value }))} className="h-8 text-sm" />
-            </div>
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block font-medium">Notes</label>
-              <Input value={editData.notes} onChange={(e) => setEditData((d) => ({ ...d, notes: e.target.value }))} placeholder="Optional notes" className="h-8 text-sm" />
-            </div>
+          <div>
+            <label className="text-xs text-slate-500 mb-1 block font-medium">Notes</label>
+            <Input value={editData.notes} onChange={(e) => setEditData((d) => ({ ...d, notes: e.target.value }))} placeholder="Optional notes" className="h-8 text-sm" />
           </div>
 
           <div className="flex gap-2 mt-4">
