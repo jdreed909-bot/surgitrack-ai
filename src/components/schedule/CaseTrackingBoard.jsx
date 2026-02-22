@@ -344,7 +344,7 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
                           <Draggable draggableId={caseData.id} index={index}>
                             {(prov, snap) => (
                               <div ref={prov.innerRef} {...prov.draggableProps} {...prov.dragHandleProps}>
-                                <CaseChip caseData={caseData} isDragging={snap.isDragging} />
+                                <CaseChip caseData={caseData} isDragging={snap.isDragging} onEdit={setEditingCase} />
                               </div>
                             )}
                           </Draggable>
