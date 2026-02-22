@@ -240,13 +240,6 @@ export default function ResourceBoard({ orRooms, assignmentMap, roster }) {
           dragOver={dragOver}
           setDragOver={setDragOver}
           onDrop={handleDropDepot}
-          onAddFromRoster={(person) => {
-            // Just make them draggable from depot by adding to a local "extra" list via state — handled inside DepotSection
-          }}
-          slottedNames={slottedNames}
-          onAddPerson={(person) => {
-            // person is already in depotStaff via roster, nothing to do; this is handled inside
-          }}
         />
 
         {/* Legend */}
