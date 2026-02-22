@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import CaseCard from "../components/schedule/CaseCard";
 import AddCaseModal from "../components/schedule/AddCaseModal";
 import StaffingBoard from "../components/schedule/StaffingBoard";
+import CaseTrackingBoard from "../components/schedule/CaseTrackingBoard";
 
 
 export default function Schedule() {
