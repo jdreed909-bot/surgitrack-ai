@@ -19,7 +19,12 @@ export default function ScanModal({ onClose, onScanned, sets }) {
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [cameraActive, setCameraActive] = useState(false);
+  const [issuePhoto, setIssuePhoto] = useState(null);
   const inputRef = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => inputRef.current?.focus(), 100);
