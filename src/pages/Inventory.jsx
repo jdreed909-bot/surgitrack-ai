@@ -172,6 +172,13 @@ export default function Inventory() {
           onCreated={() => queryClient.invalidateQueries(["sets"])}
         />
       )}
+
+      {importOpen && (
+        <ImportSetsModal
+          onClose={() => setImportOpen(false)}
+          onSuccess={() => queryClient.invalidateQueries(["sets"])}
+        />
+      )}
     </div>
   );
 }
