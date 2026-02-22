@@ -262,6 +262,30 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      {/* Notification banner */}
+      {notifyBanner && (
+        <div className="mb-4 bg-violet-50 border border-violet-200 rounded-2xl px-5 py-3 flex items-start gap-3">
+          <div className="w-7 h-7 bg-violet-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+            {notifyBanner.sent > 0
+              ? <CheckCircle className="w-4 h-4 text-violet-600" />
+              : <Bell className="w-4 h-4 text-violet-400" />}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="font-semibold text-violet-800 text-sm">
+              {notifyBanner.sent > 0
+                ? `Team notified — ${notifyBanner.procedure} → ${notifyBanner.room}`
+                : `No staff assigned to ${notifyBanner.room} yet`}
+            </div>
+            <div className="mt-1 space-y-0.5">
+              {notifyBanner.log.map((l, i) => (
+                <div key={i} className="text-xs text-violet-600">{l}</div>
+              ))}
+            </div>
+          </div>
+          <button onClick={() => setNotifyBanner(null)} className="text-violet-400 hover:text-violet-600 text-lg leading-none mt-0.5">×</button>
+        </div>
+      )}
+
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-6">
         {/* Header */}
         <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
