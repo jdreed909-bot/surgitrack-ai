@@ -160,7 +160,7 @@ async function notifyTeam(caseData, orRoom, assignmentMap, staffRoster = [], sel
   return { sent: staff.length, log };
 }
 
-export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unavailableSets, assignmentMap = {}, selectedDate = "" }) {
+export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unavailableSets, assignmentMap = {}, selectedDate = "", staffRoster = [] }) {
   // All cases start in the "case list" zone (bottom full cards)
   // Once moved to depot or board they leave the list
   const allIds = useMemo(() => new Set(cases.map((c) => c.id)), [cases]);
