@@ -13,6 +13,9 @@ const ISSUE_CATEGORIES = {
 };
 
 export default function FiveDayLookout() {
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState("");
+  const queryClient = useQueryClient();
   const today = new Date();
   const fiveDaysFromNow = addDays(today, 4);
 
@@ -27,6 +30,22 @@ export default function FiveDayLookout() {
     queryFn: () => base44.entities.Alert.filter({ is_resolved: false }, "-created_date", 50),
     refetchInterval: 30000,
   });
+
+  const handleEditStart = (caseId, currentText) => {
+    setEditingId(caseId);
+    setEditText(currentText);
+  };
+
+  const handleEditSave = async (caseId) => {
+    await base44.entities.SurgicalCase.update(caseId, { special_requests: editText });
+    queryClient.invalidateQueries(["cases-5day"]);
+    setEditingId(null);
+  };
+
+  const handleEditCancel = () => {
+    setEditingId(null);
+    setEditText("");
+  };
 
   const upcomingCases = useMemo(() => {
     return cases.filter((c) => {
