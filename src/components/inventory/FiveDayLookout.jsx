@@ -105,7 +105,7 @@ export default function FiveDayLookout() {
     return groups;
   }, [upcomingCases]);
 
-  const totalIssues = Object.values(issueGroups).reduce((sum, arr) => sum + arr.length, 0);
+  const totalIssues = Object.values(dateGroups).reduce((sum, arr) => sum + arr.length, 0);
 
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-8">
