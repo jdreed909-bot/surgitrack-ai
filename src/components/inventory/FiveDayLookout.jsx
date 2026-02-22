@@ -7,9 +7,10 @@ import { formatDate } from "date-fns";
 import { addDays } from "date-fns";
 
 const ISSUE_CATEGORIES = {
-  "SPD": { icon: Wrench, color: "text-red-600", bg: "bg-red-50" },
-  "Scheduling": { icon: Calendar, color: "text-amber-600", bg: "bg-amber-50" },
   "Materials": { icon: ShoppingCart, color: "text-blue-600", bg: "bg-blue-50" },
+  "Scheduling": { icon: Calendar, color: "text-amber-600", bg: "bg-amber-50" },
+  "SPD": { icon: Wrench, color: "text-red-600", bg: "bg-red-50" },
+  "OR": { icon: AlertTriangle, color: "text-purple-600", bg: "bg-purple-50" },
 };
 
 export default function FiveDayLookout() {
