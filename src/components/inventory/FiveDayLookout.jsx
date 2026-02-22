@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertCircle, Wrench, Calendar, Package, ShoppingCart, Edit2, Check, X, AlertTriangle, Zap } from "lucide-react";
+import { AlertCircle, Wrench, Calendar, Package, ShoppingCart, Edit2, Check, X, AlertTriangle, Zap, Plus, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { formatDate } from "date-fns";
 import { addDays } from "date-fns";
+import AddManualIssueModal from "./AddManualIssueModal";
 
 const ISSUE_CATEGORIES = {
   "Materials": { icon: ShoppingCart, color: "text-blue-600", bg: "bg-blue-50" },
