@@ -5,7 +5,7 @@ import ScanModal from "../components/inventory/ScanModal";
 import SetStatusCard from "../components/inventory/SetStatusCard";
 import InventoryFilters from "../components/inventory/InventoryFilters";
 import AlertBanner from "../components/inventory/AlertBanner";
-import FiveDayLookout from "../components/inventory/FiveDayLookout";
+
 import { Button } from "@/components/ui/button";
 import { ScanLine, Plus, Bell, Building2, Upload } from "lucide-react";
 import AddSetModal from "../components/inventory/AddSetModal";
