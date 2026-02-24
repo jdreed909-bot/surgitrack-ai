@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Clock, GripVertical, Plus, Calendar, AlertTriangle, Package, User, Bell, CheckCircle } from "lucide-react";
+import { Clock, GripVertical, Plus, Calendar, AlertTriangle, Package, User, Bell, CheckCircle, RotateCcw, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { base44 } from "@/api/base44Client";
 import EditCaseModal from "./EditCaseModal";
