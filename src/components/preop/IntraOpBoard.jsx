@@ -44,7 +44,21 @@ function ORTile({ room, patient, orRoomStatus, onStatusChange, onSendToPacu }) {
           orRoomStatus === "Ready for Next Case" ? "bg-emerald-500" :
           "bg-slate-100"}`}>
         <span className={`font-bold text-sm ${orRoomStatus ? "text-white" : "text-slate-600"}`}>{room}</span>
-        {hasPatient && patient.intraop_start && <ElapsedTimer startTime={patient.intraop_start} />}
+        {hasPatient && patient.intraop_start && (
+          <div className="flex items-center gap-1">
+            <ElapsedTimer startTime={patient.intraop_start} />
+            <button
+              title="Reset timer"
+              onClick={async () => {
+                await base44.entities.PreOpPatient.update(patient.id, { intraop_start: new Date().toISOString() });
+                queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
+              }}
+              className="text-white/60 hover:text-white text-[10px] font-bold border border-white/30 hover:border-white/60 rounded px-1 py-0.5 transition-all"
+            >
+              ↺
+            </button>
+          </div>
+        )}
         {orRoomStatus && (
           <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full
             ${orRoomStatus === "Case In Progress" ? "bg-blue-400 text-white" :
