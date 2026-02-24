@@ -58,6 +58,7 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
       setMode("manual");
       setSelectedPatientId("");
       setPullBay(defaultBay || "");
+      setPullPreppedBy("");
     }
   }, [open, defaultBay]);
 
