@@ -308,10 +308,15 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
     const srcList = getList(srcId);
     const dstList = srcId === dstId ? srcList : getList(dstId);
     const [removed] = srcList.splice(source.index, 1);
-    // If dragging to a different OR lane, update or_room and notify
+    // If dragging to a different OR lane, update or_room (and date if from depot) and notify
     if (srcId !== dstId && OR_ROOMS.includes(dstId)) {
-      if (removed?.status === "Add-On") {
-        base44.entities.SurgicalCase.update(removed.id, { or_room: dstId });
+      const updates = { or_room: dstId };
+      if (srcId.startsWith("depot-") && selectedDate) {
+        updates.scheduled_date = selectedDate;
+        removed.scheduled_date = selectedDate;
+      }
+      if (removed?.status === "Add-On" || srcId.startsWith("depot-")) {
+        base44.entities.SurgicalCase.update(removed.id, updates);
       }
       removed.or_room = dstId;
       // Notify team when case lands on an OR lane
