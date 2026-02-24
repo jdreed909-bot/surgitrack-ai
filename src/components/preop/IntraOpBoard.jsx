@@ -147,6 +147,7 @@ export default function IntraOpBoard({ patients, orRoomStatuses, onStatusChange 
             orRoomStatus={orRoomStatuses[room] || null}
             onStatusChange={onStatusChange}
             onSendToPacu={sendToPacu}
+            queryClient={queryClient}
           />
         ))}
       </div>
