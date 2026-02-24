@@ -107,6 +107,9 @@ export default function PreOpBoard() {
         onStatusChange={handleORStatusChange}
       />
 
+      {/* PACU Intake Queue — patients arriving, awaiting bay assignment */}
+      <PacuIntakeQueue patients={patients} />
+
       {/* PACU Section — Bays 1–11 */}
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
