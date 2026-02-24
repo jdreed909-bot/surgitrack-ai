@@ -26,6 +26,7 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
   const [mode, setMode] = useState("manual"); // "manual" | "pull"
   const [selectedPatientId, setSelectedPatientId] = useState("");
   const [pullBay, setPullBay] = useState(defaultBay || "");
+  const [pullPreppedBy, setPullPreppedBy] = useState("");
   const queryClient = useQueryClient();
 
   const { data: allPatients = [] } = useQuery({
