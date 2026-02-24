@@ -104,6 +104,7 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
           surgeon: sc.surgeon || "",
           or_room: sc.or_room || "",
           bay_number: Number(pullBay),
+          prepped_by: pullPreppedBy,
           status: "Pre-Op",
           checked_in_at: new Date().toISOString(),
           surgeon_visited: false,
