@@ -84,16 +84,27 @@ export default function PreOpCard({ patient }) {
   const timerColor = getTimerColor(elapsed);
   const timerBg = getTimerBg(elapsed, isPacu);
 
+  const isGoodToGo = !!patient.good_to_go;
+
+  const toggleGoodToGo = async () => {
+    await base44.entities.PreOpPatient.update(patient.id, { good_to_go: !isGoodToGo });
+    invalidate();
+  };
+
   const cardBorder = isPacu
     ? "border-purple-200 ring-1 ring-purple-100"
     : isDischarged
     ? "border-slate-200 opacity-60"
+    : isGoodToGo
+    ? "border-emerald-400 ring-2 ring-emerald-200"
     : allVisited
     ? "border-emerald-300 ring-1 ring-emerald-100"
     : "border-slate-200";
 
+  const cardBg = isGoodToGo && !isPacu && !isDischarged ? "bg-emerald-50" : "bg-white";
+
   return (
-    <div className={`bg-white rounded-2xl border shadow-sm p-5 flex flex-col gap-4 relative ${cardBorder}`}>
+    <div className={`${cardBg} rounded-2xl border shadow-sm p-5 flex flex-col gap-4 relative ${cardBorder}`}>
       {/* Remove button */}
       <button onClick={remove} className="absolute top-3 right-3 text-slate-300 hover:text-red-400 transition-colors z-10">
         <X className="w-4 h-4" />
@@ -184,19 +195,32 @@ export default function PreOpCard({ patient }) {
 
       {/* Actions */}
       {!isDischarged && (
-        <div className="flex gap-2 pt-1 border-t border-slate-100">
+        <div className="flex flex-col gap-2 pt-1 border-t border-slate-100">
           {!isPacu && (
-            <button onClick={moveToPacu}
-              className="flex-1 text-xs font-medium text-purple-600 hover:text-purple-800 border border-purple-200 hover:border-purple-400 rounded-lg px-3 py-2 transition-colors bg-purple-50 hover:bg-purple-100">
-              → Move to PACU
+            <button
+              onClick={toggleGoodToGo}
+              className={`w-full text-xs font-bold rounded-lg px-3 py-2.5 transition-all border
+                ${isGoodToGo
+                  ? "bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-500 shadow-sm"
+                  : "bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-300 hover:border-emerald-400"}`}
+            >
+              {isGoodToGo ? "✓ Good to Go!" : "✓ Mark Good to Go"}
             </button>
           )}
-          {isPacu && (
-            <button onClick={discharge}
-              className="flex-1 text-xs font-medium text-slate-600 hover:text-slate-800 border border-slate-200 hover:border-slate-400 rounded-lg px-3 py-2 transition-colors hover:bg-slate-50">
-              ✓ Discharge
-            </button>
-          )}
+          <div className="flex gap-2">
+            {!isPacu && (
+              <button onClick={moveToPacu}
+                className="flex-1 text-xs font-medium text-purple-600 hover:text-purple-800 border border-purple-200 hover:border-purple-400 rounded-lg px-3 py-2 transition-colors bg-purple-50 hover:bg-purple-100">
+                → Move to PACU
+              </button>
+            )}
+            {isPacu && (
+              <button onClick={discharge}
+                className="flex-1 text-xs font-medium text-slate-600 hover:text-slate-800 border border-slate-200 hover:border-slate-400 rounded-lg px-3 py-2 transition-colors hover:bg-slate-50">
+                ✓ Discharge
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
