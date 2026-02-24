@@ -3,32 +3,19 @@ import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, RefreshCw, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import PreOpCard from "@/components/preop/PreOpCard";
 import CheckInModal from "@/components/preop/CheckInModal";
 import IntraOpBoard from "@/components/preop/IntraOpBoard";
+import PreOpBayGrid from "@/components/preop/PreOpBayGrid";
+import PacuBayGrid from "@/components/preop/PacuBayGrid";
 
 const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
 
-function SectionHeader({ title, count, color = "slate" }) {
-  const colorMap = {
-    slate: "bg-slate-100 text-slate-600 border-slate-200",
-    purple: "bg-purple-100 text-purple-700 border-purple-200",
-    emerald: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  };
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <h2 className="text-xl font-bold text-slate-800">{title}</h2>
-      <span className={`text-sm font-semibold px-3 py-0.5 rounded-full border ${colorMap[color]}`}>
-        {count} patient{count !== 1 ? "s" : ""}
-      </span>
-    </div>
-  );
-}
-
 export default function PreOpBoard() {
   const [checkInOpen, setCheckInOpen] = useState(false);
+  const [checkInDefaultBay, setCheckInDefaultBay] = useState(null);
+  const [checkInStatus, setCheckInStatus] = useState("Pre-Op");
   const [showDischarged, setShowDischarged] = useState(false);
-  // OR room statuses stored locally (ephemeral operational state)
+
   const [orRoomStatuses, setOrRoomStatuses] = useState(() => {
     const init = {};
     OR_ROOMS.forEach(r => { init[r] = null; });
@@ -43,11 +30,17 @@ export default function PreOpBoard() {
 
   const preOpPatients = patients.filter(p => p.status === "Pre-Op" || p.status === "Ready");
   const intraOpPatients = patients.filter(p => p.status === "Intra-Op");
-  const pacuPatients  = patients.filter(p => p.status === "PACU");
-  const discharged    = patients.filter(p => p.status === "Discharged");
+  const pacuPatients = patients.filter(p => p.status === "PACU");
+  const discharged = patients.filter(p => p.status === "Discharged");
 
   const handleORStatusChange = (room, status) => {
     setOrRoomStatuses(prev => ({ ...prev, [room]: status }));
+  };
+
+  const openCheckIn = (bay = null, status = "Pre-Op") => {
+    setCheckInDefaultBay(bay);
+    setCheckInStatus(status);
+    setCheckInOpen(true);
   };
 
   return (
@@ -60,7 +53,7 @@ export default function PreOpBoard() {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Pre-Op & PACU Board</h1>
-            <p className="text-sm text-slate-500 mt-0.5">Live patient tracking · Visit checklist · Prep timers</p>
+            <p className="text-sm text-slate-500 mt-0.5">Live patient tracking · Bay assignments · Prep timers</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -70,7 +63,7 @@ export default function PreOpBoard() {
           >
             <RefreshCw className="w-4 h-4" />
           </button>
-          <Button onClick={() => setCheckInOpen(true)} className="bg-teal-600 hover:bg-teal-700 gap-2 rounded-xl px-5">
+          <Button onClick={() => openCheckIn(null, "Pre-Op")} className="bg-teal-600 hover:bg-teal-700 gap-2 rounded-xl px-5">
             <Plus className="w-4 h-4" />
             Check In Patient
           </Button>
@@ -92,21 +85,18 @@ export default function PreOpBoard() {
         ))}
       </div>
 
-      {/* Pre-Op Section */}
+      {/* Pre-Op Section — Bays 12–19 */}
       <section className="mb-10">
-        <SectionHeader title="Pre-Op" count={preOpPatients.length} color="slate" />
-        {preOpPatients.length === 0 ? (
-          <div className="bg-white rounded-2xl border-2 border-dashed border-slate-200 p-14 text-center">
-            <p className="text-slate-400 text-sm">No patients currently in Pre-Op</p>
-            <button onClick={() => setCheckInOpen(true)} className="mt-2 text-teal-600 text-sm font-semibold hover:underline">
-              + Check in a patient
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            {preOpPatients.map(p => <PreOpCard key={p.id} patient={p} />)}
-          </div>
-        )}
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-xl font-bold text-slate-800">Pre-Op</h2>
+          <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-blue-100 text-blue-700 border-blue-200">
+            Bays 12–19
+          </span>
+          <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-slate-100 text-slate-600 border-slate-200">
+            {preOpPatients.length} patient{preOpPatients.length !== 1 ? "s" : ""}
+          </span>
+        </div>
+        <PreOpBayGrid patients={patients} onCheckIn={(bay) => openCheckIn(bay, "Pre-Op")} />
       </section>
 
       {/* Intra-Op Board */}
@@ -116,18 +106,24 @@ export default function PreOpBoard() {
         onStatusChange={handleORStatusChange}
       />
 
-      {/* PACU Section */}
+      {/* PACU Section — Bays 1–11 */}
       <section className="mb-10">
-        <SectionHeader title="PACU" count={pacuPatients.length} color="purple" />
-        {pacuPatients.length === 0 ? (
-          <div className="bg-purple-50 rounded-2xl border-2 border-dashed border-purple-200 p-14 text-center">
-            <p className="text-purple-300 text-sm">No patients currently in PACU</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            {pacuPatients.map(p => <PreOpCard key={p.id} patient={p} />)}
-          </div>
-        )}
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-xl font-bold text-slate-800">PACU</h2>
+          <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-purple-100 text-purple-700 border-purple-200">
+            Bays 1–11
+          </span>
+          <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-slate-100 text-slate-600 border-slate-200">
+            {pacuPatients.length} patient{pacuPatients.length !== 1 ? "s" : ""}
+          </span>
+          <button
+            onClick={() => openCheckIn(null, "PACU")}
+            className="ml-auto text-xs font-semibold text-purple-600 border border-purple-200 bg-purple-50 hover:bg-purple-100 rounded-lg px-3 py-1.5 transition-colors"
+          >
+            + Assign PACU Bay
+          </button>
+        </div>
+        <PacuBayGrid patients={patients} onAssign={(bay) => openCheckIn(bay, "PACU")} />
       </section>
 
       {/* Discharged (collapsible) */}
@@ -141,14 +137,25 @@ export default function PreOpBoard() {
             Discharged Today ({discharged.length})
           </button>
           {showDischarged && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-              {discharged.map(p => <PreOpCard key={p.id} patient={p} />)}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 text-sm text-slate-600">
+              {discharged.map(p => (
+                <div key={p.id} className="bg-white rounded-xl border border-slate-200 p-3 opacity-60">
+                  <div className="font-bold text-xs">{p.patient_initials}</div>
+                  <div className="text-[11px] text-slate-400 truncate">{p.procedure_name}</div>
+                  {p.bay_number && <div className="text-[10px] text-slate-400">Bay {p.bay_number}</div>}
+                </div>
+              ))}
             </div>
           )}
         </section>
       )}
 
-      <CheckInModal open={checkInOpen} onClose={() => setCheckInOpen(false)} />
+      <CheckInModal
+        open={checkInOpen}
+        onClose={() => setCheckInOpen(false)}
+        defaultBay={checkInDefaultBay}
+        defaultStatus={checkInStatus}
+      />
     </div>
   );
 }
