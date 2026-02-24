@@ -49,6 +49,7 @@
  */
 import Admin from './pages/Admin';
 import Alerts from './pages/Alerts';
+import CaseTracking from './pages/CaseTracking';
 import EducationalResources from './pages/EducationalResources';
 import Inventory from './pages/Inventory';
 import PolicyBot from './pages/PolicyBot';
@@ -61,16 +62,17 @@ import SpecialtyEquipment from './pages/SpecialtyEquipment';
 import StaffRoster from './pages/StaffRoster';
 import StaffingSchedule from './pages/StaffingSchedule';
 import TextNotifications from './pages/TextNotifications';
+import TrackCore from './pages/TrackCore';
 import Turnover from './pages/Turnover';
 import Vendors from './pages/Vendors';
-import TrackCore from './pages/TrackCore';
-import CaseTracking from './pages/CaseTracking';
+import PreOpBoard from './pages/PreOpBoard';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Admin": Admin,
     "Alerts": Alerts,
+    "CaseTracking": CaseTracking,
     "EducationalResources": EducationalResources,
     "Inventory": Inventory,
     "PolicyBot": PolicyBot,
@@ -83,10 +85,10 @@ export const PAGES = {
     "StaffRoster": StaffRoster,
     "StaffingSchedule": StaffingSchedule,
     "TextNotifications": TextNotifications,
+    "TrackCore": TrackCore,
     "Turnover": Turnover,
     "Vendors": Vendors,
-    "TrackCore": TrackCore,
-    "CaseTracking": CaseTracking,
+    "PreOpBoard": PreOpBoard,
 }
 
 export const pagesConfig = {
