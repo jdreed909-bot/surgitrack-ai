@@ -37,11 +37,19 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
   // For PACU: pull from OR/Pre-Op patients. For Pre-Op: pull from SurgicalCase schedule.
   const orPatients = allPatients.filter(p => p.status === "Intra-Op" || p.status === "Pre-Op" || p.status === "Ready");
 
-  const { data: scheduledCases = [] } = useQuery({
-    queryKey: ["surgical-cases-today"],
-    queryFn: () => base44.entities.SurgicalCase.filter({ scheduled_date: new Date().toISOString().split("T")[0] }, "scheduled_time", 50),
+  const todayStr = new Date().toISOString().split("T")[0];
+  const { data: scheduledCasesToday = [] } = useQuery({
+    queryKey: ["surgical-cases-today", todayStr],
+    queryFn: () => base44.entities.SurgicalCase.filter({ scheduled_date: todayStr }, "scheduled_time", 50),
     enabled: open && defaultStatus !== "PACU",
   });
+  // Fall back to recent/upcoming cases if none scheduled for today
+  const { data: scheduledCasesAll = [] } = useQuery({
+    queryKey: ["surgical-cases-recent"],
+    queryFn: () => base44.entities.SurgicalCase.list("-scheduled_date", 50),
+    enabled: open && defaultStatus !== "PACU" && scheduledCasesToday.length === 0,
+  });
+  const scheduledCases = scheduledCasesToday.length > 0 ? scheduledCasesToday : scheduledCasesAll;
 
   React.useEffect(() => {
     if (open) {
