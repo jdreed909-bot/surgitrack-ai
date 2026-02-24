@@ -186,17 +186,40 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
     return d;
   });
 
-  // Track which case ids have been moved out of the list
+  // Track which case ids have been pulled onto board/depot (hidden from list)
+  // Cases are ALWAYS kept in the schedule list, just visually hidden when on board
   const [movedIds, setMovedIds] = useState(new Set());
   const [notifyBanner, setNotifyBanner] = useState(null); // { caseId, room, sent, log }
   const [editingCase, setEditingCase] = useState(null);
 
+  // listCases: cases not currently on depot or board
   const listCases = cases.filter((c) => !movedIds.has(c.id));
 
   function moveToDepot(caseData) {
     const room = OR_ROOMS.includes(caseData.or_room) ? caseData.or_room : OR_ROOMS[0];
     setDepot((prev) => ({ ...prev, [room]: [...prev[room], caseData] }));
     setMovedIds((prev) => new Set([...prev, caseData.id]));
+  }
+
+  // Postpone: remove from board/depot and send back to the schedule list
+  function postponeCase(caseData) {
+    const id = caseData.id;
+    // Remove from board
+    setBoard((prev) => {
+      const next = { ...prev };
+      OR_ROOMS.forEach((r) => { next[r] = next[r].filter((c) => c.id !== id); });
+      return next;
+    });
+    // Remove from depot
+    setDepot((prev) => {
+      const next = { ...prev };
+      OR_ROOMS.forEach((r) => { next[r] = next[r].filter((c) => c.id !== id); });
+      return next;
+    });
+    // Return to schedule list
+    setMovedIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+    // Update status in DB
+    base44.entities.SurgicalCase.update(id, { status: "Delayed" });
   }
 
   function getList(id) {
