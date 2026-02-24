@@ -22,8 +22,23 @@ function ElapsedTimer({ startTime }) {
     const t = setInterval(calc, 1000);
     return () => clearInterval(t);
   }, [startTime]);
-  const color = elapsed < 1800 ? "text-emerald-600" : elapsed < 3600 ? "text-amber-500" : "text-red-500";
-  return <span className={`font-mono text-xs font-bold ${color}`}>{formatElapsed(elapsed)}</span>;
+  const color = elapsed < 1800 ? "text-emerald-300" : elapsed < 3600 ? "text-amber-300" : "text-red-300";
+  return <span className={`font-mono text-sm font-bold tracking-wide ${color}`}>{formatElapsed(elapsed)}</span>;
+}
+
+// Returns header bg based on elapsed seconds (and overrides if good-to-go)
+function getHeaderStyle(elapsed, isGoodToGo) {
+  if (isGoodToGo) return "bg-emerald-500";
+  if (elapsed < 1800) return "bg-blue-600";        // < 30 min — normal
+  if (elapsed < 3600) return "bg-amber-500";        // 30–60 min — caution
+  return "bg-red-600";                              // > 60 min — urgent
+}
+
+function getCardBorder(elapsed, isGoodToGo) {
+  if (isGoodToGo) return "bg-emerald-50 border-emerald-400 ring-2 ring-emerald-200";
+  if (elapsed < 1800) return "bg-white border-slate-200";
+  if (elapsed < 3600) return "bg-amber-50 border-amber-300 ring-1 ring-amber-200";
+  return "bg-red-50 border-red-400 ring-2 ring-red-200";
 }
 
 const VISITS = [
