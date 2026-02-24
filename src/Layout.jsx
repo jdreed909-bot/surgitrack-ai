@@ -19,6 +19,7 @@ import {
   BookOpen,
   Bot,
   Droplet,
+  Stethoscope,
 } from "lucide-react";
 
 const NAV = [
@@ -37,6 +38,7 @@ const NAV = [
   { label: "Text Notifications", page: "TextNotifications",  icon: MessageSquare },
   { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
   { label: "Turnover", page: "Turnover", icon: Users },
+  { label: "Pre-Op / PACU", page: "PreOpBoard", icon: Stethoscope },
   { label: "OR Assistant", page: "PolicyBot", icon: Bot },
   { label: "TrackCore", page: "TrackCore", icon: Droplet },
   { label: "Admin", page: "Admin", icon: Building2 },
@@ -78,6 +80,7 @@ export default function Layout({ children, currentPageName }) {
       EducationalResources: "EducationalResources",
       Turnover: "Turnover",
       PolicyBot: "PolicyBot",
+      PreOpBoard: "PreOpBoard",
       TrackCore: "TrackCore",
       Admin: "Admin",
       };
