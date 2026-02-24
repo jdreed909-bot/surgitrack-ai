@@ -28,6 +28,15 @@ function formatElapsed(startIso) {
   return `${m}m`;
 }
 
+function PacuElapsedTimer({ startIso }) {
+  const [, tick] = React.useState(0);
+  React.useEffect(() => {
+    const t = setInterval(() => tick(n => n + 1), 10000);
+    return () => clearInterval(t);
+  }, []);
+  return <span className="text-white/80 text-[10px] font-mono">{formatElapsed(startIso)} in PACU</span>;
+}
+
 function WaitingBedTimer({ startIso }) {
   const [, tick] = React.useState(0);
   React.useEffect(() => {
