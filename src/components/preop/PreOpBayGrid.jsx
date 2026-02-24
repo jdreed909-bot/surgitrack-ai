@@ -78,17 +78,22 @@ function OccupiedBay({ patient, bay }) {
   };
 
   const sendToOR = async () => {
-    await base44.entities.PreOpPatient.update(patient.id, {
+    const updateData = {
       status: "Intra-Op",
       intraop_start: new Date().toISOString(),
-    });
+    };
+    // Auto-assign to the patient's booked OR room if set
+    if (patient.or_room) updateData.or_room = patient.or_room;
+    await base44.entities.PreOpPatient.update(patient.id, updateData);
     invalidate();
   };
 
   const moveToPacu = async () => {
+    // Move to PACU with NO bay assigned — drops into the PACU intake queue
     await base44.entities.PreOpPatient.update(patient.id, {
       status: "PACU",
       pacu_start: new Date().toISOString(),
+      bay_number: null,
     });
     invalidate();
   };
