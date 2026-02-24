@@ -205,18 +205,30 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
             </div>
 
             {selectedPatient && (
-              <div>
-                <label className="text-xs font-semibold text-slate-600 mb-1.5 block">
-                  {defaultStatus === "PACU" ? "Assign to PACU Bay" : "Assign to Pre-Op Bay"}
-                </label>
-                <select
-                  value={pullBay}
-                  onChange={e => setPullBay(e.target.value)}
-                  className="w-full border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring bg-background"
-                >
-                  <option value="">Select bay...</option>
-                  {bays.map(b => <option key={b} value={b}>Bay {b}</option>)}
-                </select>
+              <div className="space-y-3">
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 mb-1.5 block">
+                    {defaultStatus === "PACU" ? "Assign to PACU Bay" : "Assign to Pre-Op Bay"}
+                  </label>
+                  <select
+                    value={pullBay}
+                    onChange={e => setPullBay(e.target.value)}
+                    className="w-full border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring bg-background"
+                  >
+                    <option value="">Select bay...</option>
+                    {bays.map(b => <option key={b} value={b}>Bay {b}</option>)}
+                  </select>
+                </div>
+                {defaultStatus !== "PACU" && (
+                  <div>
+                    <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Prepped By</label>
+                    <Input
+                      placeholder="Staff name"
+                      value={pullPreppedBy}
+                      onChange={e => setPullPreppedBy(e.target.value)}
+                    />
+                  </div>
+                )}
               </div>
             )}
 
