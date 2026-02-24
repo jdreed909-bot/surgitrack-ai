@@ -35,39 +35,69 @@ function TurnoverSlot({ startMins, endMins }) {
   );
 }
 
-function CaseChip({ caseData, isDragging, compact = false, onEdit }) {
+function CaseChip({ caseData, isDragging, compact = false, onEdit, onPostpone }) {
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef(null);
   const start = caseData.scheduled_time ? minutesToDisplay(parseTime(caseData.scheduled_time)) : "";
   const end = caseData.scheduled_time && caseData.estimated_duration
     ? minutesToDisplay(parseTime(caseData.scheduled_time) + Number(caseData.estimated_duration))
     : "";
 
+  useEffect(() => {
+    if (!showMenu) return;
+    function handler(e) { if (menuRef.current && !menuRef.current.contains(e.target)) setShowMenu(false); }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showMenu]);
+
   return (
-    <div
-      className={`bg-white border rounded-xl px-3 py-2.5 shadow-sm flex items-start gap-2 transition-all cursor-grab active:cursor-grabbing
-      ${isDragging ? "shadow-lg ring-2 ring-teal-400 border-teal-300" : "border-slate-200 hover:border-teal-300 hover:shadow-md"}`}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onEdit?.(caseData);
-      }}
-    >
-      <GripVertical className="w-4 h-4 text-slate-300 mt-0.5 shrink-0" />
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <div className="font-semibold text-slate-800 text-xs truncate">{caseData.procedure_name}</div>
-          {caseData.status === "Add-On" && (
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200 shrink-0">Add-On</span>
+    <div className="relative">
+      <div
+        className={`bg-white border rounded-xl px-3 py-2.5 shadow-sm flex items-start gap-2 transition-all cursor-grab active:cursor-grabbing
+        ${isDragging ? "shadow-lg ring-2 ring-teal-400 border-teal-300" : "border-slate-200 hover:border-teal-300 hover:shadow-md"}`}
+        onClick={(e) => { e.stopPropagation(); setShowMenu((v) => !v); }}
+        onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); onEdit?.(caseData); }}
+      >
+        <GripVertical className="w-4 h-4 text-slate-300 mt-0.5 shrink-0" />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="font-semibold text-slate-800 text-xs truncate">{caseData.procedure_name}</div>
+            {caseData.status === "Add-On" && (
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200 shrink-0">Add-On</span>
+            )}
+          </div>
+          <div className="text-[11px] text-slate-400 mt-0.5">
+            #{caseData.case_number}
+            {start && <> · {start}{end && ` – ${end}`}</>}
+            {caseData.estimated_duration && <> · {caseData.estimated_duration}m</>}
+          </div>
+          {!compact && caseData.surgeon && (
+            <div className="text-[11px] text-slate-400 truncate">{caseData.surgeon}</div>
           )}
         </div>
-        <div className="text-[11px] text-slate-400 mt-0.5">
-          #{caseData.case_number}
-          {start && <> · {start}{end && ` – ${end}`}</>}
-          {caseData.estimated_duration && <> · {caseData.estimated_duration}m</>}
-        </div>
-        {!compact && caseData.surgeon && (
-          <div className="text-[11px] text-slate-400 truncate">{caseData.surgeon}</div>
-        )}
       </div>
+      {showMenu && (
+        <div
+          ref={menuRef}
+          className="absolute z-50 left-0 top-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg py-1 min-w-[170px]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+            onClick={() => { setShowMenu(false); onEdit?.(caseData); }}
+          >
+            <Calendar className="w-3.5 h-3.5 text-teal-500" />
+            Edit Case
+          </button>
+          <button
+            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-amber-700 hover:bg-amber-50 transition-colors"
+            onClick={() => { setShowMenu(false); onPostpone?.(caseData); }}
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-amber-500" />
+            Postpone → Return to Schedule
+          </button>
+        </div>
+      )}
     </div>
   );
 }
