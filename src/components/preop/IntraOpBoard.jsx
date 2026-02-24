@@ -27,7 +27,7 @@ function ElapsedTimer({ startTime }) {
   return <span className="font-mono text-xs font-semibold text-slate-500">{display}</span>;
 }
 
-function ORTile({ room, patient, orRoomStatus, onStatusChange, onSendToPacu }) {
+function ORTile({ room, patient, orRoomStatus, onStatusChange, onSendToPacu, queryClient }) {
   const statusConfig = OR_STATUSES.find(s => s.value === orRoomStatus) || null;
   const hasPatient = !!patient;
 
