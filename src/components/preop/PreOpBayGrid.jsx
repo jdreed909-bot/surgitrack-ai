@@ -98,12 +98,13 @@ function OccupiedBay({ patient, bay }) {
     invalidate();
   };
 
-  const cardBg = isGoodToGo ? "bg-emerald-50 border-emerald-400 ring-2 ring-emerald-200" : "bg-white border-slate-200";
+  const cardBg = getCardBorder(elapsed, isGoodToGo);
+  const headerBg = getHeaderStyle(elapsed, isGoodToGo);
 
   return (
     <div className={`rounded-2xl border shadow-sm flex flex-col overflow-hidden h-full ${cardBg}`}>
       {/* Bay header */}
-      <div className={`px-3 py-2 flex items-center justify-between ${isGoodToGo ? "bg-emerald-500" : "bg-blue-600"}`}>
+      <div className={`px-3 py-2.5 flex items-center justify-between ${headerBg}`}>
         <span className="text-white font-bold text-sm">Bay {bay}</span>
         <div className="flex items-center gap-2">
           <Clock className="w-3 h-3 text-white/70" />
