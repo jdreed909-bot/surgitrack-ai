@@ -111,9 +111,19 @@ function OccupiedBay({ patient, bay }) {
       {/* Bay header */}
       <div className={`px-3 py-2.5 flex items-center justify-between ${headerBg}`}>
         <span className="text-white font-bold text-sm">Bay {bay}</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Clock className="w-3 h-3 text-white/70" />
           <ElapsedTimer startTime={patient.checked_in_at} />
+          <button
+            title="Reset timer"
+            onClick={async () => {
+              await base44.entities.PreOpPatient.update(patient.id, { checked_in_at: new Date().toISOString() });
+              invalidate();
+            }}
+            className="ml-1 text-white/60 hover:text-white text-[10px] font-bold border border-white/30 hover:border-white/60 rounded px-1 py-0.5 transition-all"
+          >
+            ↺
+          </button>
         </div>
       </div>
 
