@@ -88,9 +88,19 @@ function OccupiedPacuBay({ patient, bay }) {
       <div className={`px-3 py-2 flex items-center justify-between ${patient.waiting_on_bed ? "bg-orange-400" : "bg-purple-600"}`}>
         <span className="text-white font-bold text-sm">Bay {bay}</span>
         {patient.pacu_start && (
-          <span className="text-white/80 text-[10px] font-mono">
-            {formatElapsed(patient.pacu_start)} in PACU
-          </span>
+          <div className="flex items-center gap-1.5">
+            <PacuElapsedTimer startIso={patient.pacu_start} />
+            <button
+              title="Reset timer"
+              onClick={async () => {
+                await base44.entities.PreOpPatient.update(patient.id, { pacu_start: new Date().toISOString() });
+                invalidate();
+              }}
+              className="text-white/60 hover:text-white text-[10px] font-bold border border-white/30 hover:border-white/60 rounded px-1 py-0.5 transition-all"
+            >
+              ↺
+            </button>
+          </div>
         )}
       </div>
 
