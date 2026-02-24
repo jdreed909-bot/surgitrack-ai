@@ -63,6 +63,14 @@ export default function PreOpCard({ patient }) {
     invalidate();
   };
 
+  const sendToOR = async () => {
+    await base44.entities.PreOpPatient.update(patient.id, {
+      status: "Intra-Op",
+      intraop_start: new Date().toISOString(),
+    });
+    invalidate();
+  };
+
   const moveToPacu = async () => {
     await base44.entities.PreOpPatient.update(patient.id, { status: "PACU", pacu_start: new Date().toISOString() });
     invalidate();
@@ -209,10 +217,16 @@ export default function PreOpCard({ patient }) {
           )}
           <div className="flex gap-2">
             {!isPacu && (
-              <button onClick={moveToPacu}
-                className="flex-1 text-xs font-medium text-purple-600 hover:text-purple-800 border border-purple-200 hover:border-purple-400 rounded-lg px-3 py-2 transition-colors bg-purple-50 hover:bg-purple-100">
-                → Move to PACU
-              </button>
+              <>
+                <button onClick={sendToOR}
+                  className="flex-1 text-xs font-medium text-blue-600 hover:text-blue-800 border border-blue-200 hover:border-blue-400 rounded-lg px-3 py-2 transition-colors bg-blue-50 hover:bg-blue-100">
+                  → OR
+                </button>
+                <button onClick={moveToPacu}
+                  className="flex-1 text-xs font-medium text-purple-600 hover:text-purple-800 border border-purple-200 hover:border-purple-400 rounded-lg px-3 py-2 transition-colors bg-purple-50 hover:bg-purple-100">
+                  → PACU
+                </button>
+              </>
             )}
             {isPacu && (
               <button onClick={discharge}
