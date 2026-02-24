@@ -5,6 +5,9 @@ import { Plus, RefreshCw, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PreOpCard from "@/components/preop/PreOpCard";
 import CheckInModal from "@/components/preop/CheckInModal";
+import IntraOpBoard from "@/components/preop/IntraOpBoard";
+
+const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
 
 function SectionHeader({ title, count, color = "slate" }) {
   const colorMap = {
@@ -25,6 +28,12 @@ function SectionHeader({ title, count, color = "slate" }) {
 export default function PreOpBoard() {
   const [checkInOpen, setCheckInOpen] = useState(false);
   const [showDischarged, setShowDischarged] = useState(false);
+  // OR room statuses stored locally (ephemeral operational state)
+  const [orRoomStatuses, setOrRoomStatuses] = useState(() => {
+    const init = {};
+    OR_ROOMS.forEach(r => { init[r] = null; });
+    return init;
+  });
 
   const { data: patients = [], refetch, isFetching } = useQuery({
     queryKey: ["preop-patients"],
@@ -33,8 +42,13 @@ export default function PreOpBoard() {
   });
 
   const preOpPatients = patients.filter(p => p.status === "Pre-Op" || p.status === "Ready");
+  const intraOpPatients = patients.filter(p => p.status === "Intra-Op");
   const pacuPatients  = patients.filter(p => p.status === "PACU");
   const discharged    = patients.filter(p => p.status === "Discharged");
+
+  const handleORStatusChange = (room, status) => {
+    setOrRoomStatuses(prev => ({ ...prev, [room]: status }));
+  };
 
   return (
     <div className="min-h-screen bg-[#F0F4F8] p-6">
@@ -64,9 +78,10 @@ export default function PreOpBoard() {
       </div>
 
       {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-4 gap-4 mb-8">
         {[
           { label: "In Pre-Op", count: preOpPatients.length, color: "text-blue-700", bg: "bg-blue-50", border: "border-blue-200" },
+          { label: "Intra-Op", count: intraOpPatients.length, color: "text-teal-700", bg: "bg-teal-50", border: "border-teal-200" },
           { label: "In PACU", count: pacuPatients.length, color: "text-purple-700", bg: "bg-purple-50", border: "border-purple-200" },
           { label: "Discharged Today", count: discharged.length, color: "text-slate-600", bg: "bg-white", border: "border-slate-200" },
         ].map(({ label, count, color, bg, border }) => (
@@ -93,6 +108,13 @@ export default function PreOpBoard() {
           </div>
         )}
       </section>
+
+      {/* Intra-Op Board */}
+      <IntraOpBoard
+        patients={patients}
+        orRoomStatuses={orRoomStatuses}
+        onStatusChange={handleORStatusChange}
+      />
 
       {/* PACU Section */}
       <section className="mb-10">
