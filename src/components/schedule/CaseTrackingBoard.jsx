@@ -442,7 +442,7 @@ export default function CaseTrackingBoard({ cases, setsMap, conflictSetIds, unav
                           <Draggable key={c.id} draggableId={c.id} index={i}>
                             {(prov, snap) => (
                               <div ref={prov.innerRef} {...prov.draggableProps} {...prov.dragHandleProps} style={{ ...prov.draggableProps.style, width: 160 }}>
-                                <CaseChip caseData={c} isDragging={snap.isDragging} compact onEdit={setEditingCase} />
+                                <CaseChip caseData={c} isDragging={snap.isDragging} compact onEdit={setEditingCase} onPostpone={postponeCase} />
                               </div>
                             )}
                           </Draggable>
