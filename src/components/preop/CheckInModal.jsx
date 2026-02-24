@@ -34,7 +34,14 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
     enabled: open && defaultStatus === "PACU",
   });
 
+  // For PACU: pull from OR/Pre-Op patients. For Pre-Op: pull from SurgicalCase schedule.
   const orPatients = allPatients.filter(p => p.status === "Intra-Op" || p.status === "Pre-Op" || p.status === "Ready");
+
+  const { data: scheduledCases = [] } = useQuery({
+    queryKey: ["surgical-cases-today"],
+    queryFn: () => base44.entities.SurgicalCase.filter({ scheduled_date: new Date().toISOString().split("T")[0] }, "scheduled_time", 50),
+    enabled: open && defaultStatus !== "PACU",
+  });
 
   React.useEffect(() => {
     if (open) {
@@ -67,19 +74,44 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
   };
 
   const handlePull = async () => {
-    if (!selectedPatientId || !pullBay) return;
-    setSaving(true);
-    await base44.entities.PreOpPatient.update(selectedPatientId, {
-      status: "PACU",
-      pacu_start: new Date().toISOString(),
-      bay_number: Number(pullBay),
-    });
+    if (defaultStatus === "PACU") {
+      if (!selectedPatientId || !pullBay) return;
+      setSaving(true);
+      await base44.entities.PreOpPatient.update(selectedPatientId, {
+        status: "PACU",
+        pacu_start: new Date().toISOString(),
+        bay_number: Number(pullBay),
+      });
+    } else {
+      // Pre-Op: create from scheduled case
+      if (!selectedPatientId || !pullBay) return;
+      setSaving(true);
+      const sc = scheduledCases.find(c => c.id === selectedPatientId);
+      if (sc) {
+        await base44.entities.PreOpPatient.create({
+          patient_initials: sc.patient_initials || "",
+          procedure_name: sc.procedure_name,
+          surgeon: sc.surgeon || "",
+          or_room: sc.or_room || "",
+          bay_number: Number(pullBay),
+          status: "Pre-Op",
+          checked_in_at: new Date().toISOString(),
+          surgeon_visited: false,
+          anesthesia_visited: false,
+          or_rn_visited: false,
+        });
+      }
+    }
     queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
     setSaving(false);
     onClose();
   };
 
-  const selectedPatient = orPatients.find(p => p.id === selectedPatientId);
+  const selectedPatient = defaultStatus === "PACU"
+    ? orPatients.find(p => p.id === selectedPatientId)
+    : scheduledCases.find(c => c.id === selectedPatientId);
+
+  const pullList = defaultStatus === "PACU" ? orPatients : scheduledCases;
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -90,70 +122,89 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
           </DialogTitle>
         </DialogHeader>
 
-        {/* Mode toggle — only for PACU */}
-        {defaultStatus === "PACU" && (
+        {/* Mode toggle */}
+        {(defaultStatus === "PACU" || defaultStatus === "Pre-Op") && (
           <div className="flex rounded-xl border border-slate-200 overflow-hidden">
             <button
               onClick={() => setMode("pull")}
               className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-semibold transition-all
-                ${mode === "pull" ? "bg-purple-600 text-white" : "bg-white text-slate-500 hover:bg-slate-50"}`}
+                ${mode === "pull"
+                  ? defaultStatus === "PACU" ? "bg-purple-600 text-white" : "bg-teal-600 text-white"
+                  : "bg-white text-slate-500 hover:bg-slate-50"}`}
             >
               <ArrowDownToLine className="w-4 h-4" />
-              Pull from OR
+              {defaultStatus === "PACU" ? "Pull from OR" : "Pull from Schedule"}
             </button>
             <button
               onClick={() => setMode("manual")}
               className={`flex-1 py-2 text-sm font-semibold transition-all
-                ${mode === "manual" ? "bg-purple-600 text-white" : "bg-white text-slate-500 hover:bg-slate-50"}`}
+                ${mode === "manual"
+                  ? defaultStatus === "PACU" ? "bg-purple-600 text-white" : "bg-teal-600 text-white"
+                  : "bg-white text-slate-500 hover:bg-slate-50"}`}
             >
               Manual Entry
             </button>
           </div>
         )}
 
-        {/* Pull from OR mode */}
-        {defaultStatus === "PACU" && mode === "pull" ? (
+        {/* Pull mode */}
+        {mode === "pull" ? (
           <div className="space-y-4 pt-1">
             <div>
-              <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Select OR Patient</label>
-              {orPatients.length === 0 ? (
-                <div className="text-sm text-slate-400 italic py-4 text-center">No active OR / Pre-Op patients found</div>
+              <label className="text-xs font-semibold text-slate-600 mb-1.5 block">
+                {defaultStatus === "PACU" ? "Select OR / Pre-Op Patient" : "Select from Today's Schedule"}
+              </label>
+              {pullList.length === 0 ? (
+                <div className="text-sm text-slate-400 italic py-4 text-center">
+                  {defaultStatus === "PACU" ? "No active OR / Pre-Op patients found" : "No cases scheduled for today"}
+                </div>
               ) : (
                 <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
-                  {orPatients.map(p => (
-                    <button
-                      key={p.id}
-                      onClick={() => setSelectedPatientId(p.id)}
-                      className={`w-full text-left px-3 py-2.5 rounded-xl border transition-all
-                        ${selectedPatientId === p.id
-                          ? "border-purple-400 bg-purple-50 ring-1 ring-purple-300"
-                          : "border-slate-200 bg-white hover:border-purple-200 hover:bg-purple-50/40"}`}
-                    >
-                      <div className="font-bold text-sm text-slate-800">{p.patient_initials}</div>
-                      <div className="text-xs text-slate-500 truncate">{p.procedure_name}</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        {p.or_room && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-teal-100 text-teal-700">{p.or_room}</span>}
-                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded
-                          ${p.status === "Intra-Op" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"}`}>
-                          {p.status}
-                        </span>
-                      </div>
-                    </button>
-                  ))}
+                  {pullList.map(p => {
+                    const isPacu = defaultStatus === "PACU";
+                    const id = p.id;
+                    const initials = isPacu ? p.patient_initials : p.patient_initials;
+                    const proc = p.procedure_name;
+                    const room = isPacu ? p.or_room : p.or_room;
+                    const tag = isPacu ? p.status : p.scheduled_time;
+                    const tagColor = isPacu
+                      ? (p.status === "Intra-Op" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600")
+                      : "bg-slate-100 text-slate-600";
+                    const accent = defaultStatus === "PACU" ? "border-purple-400 bg-purple-50 ring-1 ring-purple-300" : "border-teal-400 bg-teal-50 ring-1 ring-teal-300";
+                    const hoverColor = defaultStatus === "PACU" ? "hover:border-purple-200 hover:bg-purple-50/40" : "hover:border-teal-200 hover:bg-teal-50/40";
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => setSelectedPatientId(id)}
+                        className={`w-full text-left px-3 py-2.5 rounded-xl border transition-all
+                          ${selectedPatientId === id ? accent : `border-slate-200 bg-white ${hoverColor}`}`}
+                      >
+                        <div className="font-bold text-sm text-slate-800">{initials || <span className="text-slate-400 italic">No initials</span>}</div>
+                        <div className="text-xs text-slate-500 truncate">{proc}</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          {room && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-teal-100 text-teal-700">{room}</span>}
+                          {tag && <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${tagColor}`}>{tag}</span>}
+                          {!isPacu && p.surgeon && <span className="text-[10px] text-slate-400 truncate">{p.surgeon}</span>}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
 
             {selectedPatient && (
               <div>
-                <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Assign to PACU Bay</label>
+                <label className="text-xs font-semibold text-slate-600 mb-1.5 block">
+                  {defaultStatus === "PACU" ? "Assign to PACU Bay" : "Assign to Pre-Op Bay"}
+                </label>
                 <select
                   value={pullBay}
                   onChange={e => setPullBay(e.target.value)}
                   className="w-full border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring bg-background"
                 >
                   <option value="">Select bay...</option>
-                  {PACU_BAYS.map(b => <option key={b} value={b}>Bay {b}</option>)}
+                  {bays.map(b => <option key={b} value={b}>Bay {b}</option>)}
                 </select>
               </div>
             )}
@@ -163,9 +214,11 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
               <Button
                 onClick={handlePull}
                 disabled={saving || !selectedPatientId || !pullBay}
-                className="flex-1 bg-purple-600 hover:bg-purple-700"
+                className={`flex-1 ${defaultStatus === "PACU" ? "bg-purple-600 hover:bg-purple-700" : "bg-teal-600 hover:bg-teal-700"}`}
               >
-                {saving ? "Moving..." : "→ Move to PACU"}
+                {saving
+                  ? "Saving..."
+                  : defaultStatus === "PACU" ? "→ Move to PACU" : "→ Check In to Pre-Op"}
               </Button>
             </div>
           </div>
