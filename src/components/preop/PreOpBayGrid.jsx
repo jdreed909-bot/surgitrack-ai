@@ -50,6 +50,15 @@ const VISITS = [
 function OccupiedBay({ patient, bay }) {
   const queryClient = useQueryClient();
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
+  const [elapsed, setElapsed] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!patient.checked_in_at) return;
+    const calc = () => setElapsed(Math.max(0, Math.floor((Date.now() - new Date(patient.checked_in_at).getTime()) / 1000)));
+    calc();
+    const t = setInterval(calc, 1000);
+    return () => clearInterval(t);
+  }, [patient.checked_in_at]);
 
   const isGoodToGo = !!patient.good_to_go;
   const allVisited = VISITS.every(v => patient[v.key]);
