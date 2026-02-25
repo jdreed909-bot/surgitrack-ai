@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import FiveDayLookout from "../components/inventory/FiveDayLookout";
 import { canModify } from "../lib/PageNotFound";
+import { base44 } from "@/api/base44Client";
 
 export default function ScheduleLookout() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const { base44 } = require("@/api/base44Client");
     base44.auth.me().then(setCurrentUser).catch(() => null);
   }, []);
 

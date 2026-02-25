@@ -53,6 +53,7 @@ import CaseTracking from './pages/CaseTracking';
 import EducationalResources from './pages/EducationalResources';
 import Inventory from './pages/Inventory';
 import PolicyBot from './pages/PolicyBot';
+import PreOpBoard from './pages/PreOpBoard';
 import RNCall from './pages/RNCall';
 import STCall from './pages/STCall';
 import ScanHistory from './pages/ScanHistory';
@@ -65,7 +66,6 @@ import TextNotifications from './pages/TextNotifications';
 import TrackCore from './pages/TrackCore';
 import Turnover from './pages/Turnover';
 import Vendors from './pages/Vendors';
-import PreOpBoard from './pages/PreOpBoard';
 import __Layout from './Layout.jsx';
 
 
@@ -76,6 +76,7 @@ export const PAGES = {
     "EducationalResources": EducationalResources,
     "Inventory": Inventory,
     "PolicyBot": PolicyBot,
+    "PreOpBoard": PreOpBoard,
     "RNCall": RNCall,
     "STCall": STCall,
     "ScanHistory": ScanHistory,
@@ -88,7 +89,6 @@ export const PAGES = {
     "TrackCore": TrackCore,
     "Turnover": Turnover,
     "Vendors": Vendors,
-    "PreOpBoard": PreOpBoard,
 }
 
 export const pagesConfig = {
