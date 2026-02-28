@@ -5,7 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const SPECIALTIES = ["General Surgery", "Orthopedic", "Cardiovascular", "Neurosurgery", "OB/GYN", "ENT", "Ophthalmology", "Urology", "Plastics", "Laparoscopic", "Mixed"];
-const ROLES = ["admin", "manager", "charge_nurse", "user"];
+const ROLES = [
+  { value: "admin", label: "Admin" },
+  { value: "anm", label: "ANM (Asst. Nurse Manager)" },
+  { value: "charge_nurse", label: "Charge Nurse" },
+  { value: "prepacu_nurse", label: "Pre/PACU Nurse" },
+  { value: "or_nurse", label: "OR Nurse" },
+  { value: "surgical_tech", label: "Surgical Technician" },
+];
 
 export default function StaffRow({ staff, onUpdate, onDelete, canModify }) {
   const [isEditing, setIsEditing] = useState(false);
