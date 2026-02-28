@@ -73,7 +73,9 @@ export default function StaffRow({ staff, onUpdate, onDelete, canModify }) {
       </div>
       <div className="text-xs text-slate-600">{staff.email}</div>
       <div className="text-xs font-medium text-teal-700 bg-teal-50 px-2 py-1 rounded">{staff.specialty || "—"}</div>
-      <div className="text-xs font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded">{staff.role}</div>
+      <div className="text-xs font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded">
+        {ROLES.find(r => r.value === staff.role)?.label || staff.role}
+      </div>
       {canModify && (
         <div className="flex gap-1">
           <Button size="sm" variant="ghost" onClick={() => setIsEditing(true)} className="h-7 w-7"><Edit2 className="w-3 h-3" /></Button>
