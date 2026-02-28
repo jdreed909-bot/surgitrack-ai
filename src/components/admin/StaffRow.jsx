@@ -56,7 +56,7 @@ export default function StaffRow({ staff, onUpdate, onDelete, canModify }) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {ROLES.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+            {ROLES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
           </SelectContent>
         </Select>
         <Button size="sm" onClick={handleSave} className="bg-teal-600 hover:bg-teal-700 text-xs">Save</Button>
