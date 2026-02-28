@@ -3,67 +3,57 @@
  * Defines what each role can do in specific sections
  */
 
+const ALL_SECTIONS_FULL = {
+  Schedule: ["view", "modify"],
+  CaseTracking: ["view", "modify"],
+  ScheduleLookout: ["view", "modify"],
+  RNCall: ["view", "modify"],
+  STCall: ["view", "modify"],
+  TextNotifications: ["view", "modify"],
+  Inventory: ["view", "modify"],
+  Alerts: ["view", "modify"],
+  StaffRoster: ["view", "modify"],
+  StaffingSchedule: ["view", "modify"],
+  Vendors: ["view", "modify"],
+  SpecialtyEquipment: ["view", "modify"],
+  EducationalResources: ["view", "modify"],
+  Turnover: ["view", "modify"],
+  PolicyBot: ["view", "modify"],
+  PreOpBoard: ["view", "modify"],
+  TrackCore: ["view"],
+  Admin: ["view", "modify"],
+};
+
 const PERMISSIONS = {
-  admin: {
-    Schedule: ["view", "modify"],
-    CaseTracking: ["view", "modify"],
-    ScheduleLookout: ["view", "modify"],
-    RNCall: ["view", "modify"],
-    STCall: ["view", "modify"],
-    TextNotifications: ["view", "modify"],
-    Inventory: ["view", "modify"],
-    Alerts: ["view", "modify"],
-    StaffRoster: ["view", "modify"],
-    StaffingSchedule: ["view", "modify"],
-    Vendors: ["view", "modify"],
-    SpecialtyEquipment: ["view", "modify"],
-    EducationalResources: ["view", "modify"],
-    Turnover: ["view", "modify"],
-    PolicyBot: ["view", "modify"],
-    PreOpBoard: ["view", "modify"],
-    TrackCore: ["view"],
-    Admin: ["view", "modify"],
-  },
-  manager: {
-    Schedule: ["view", "modify"],
-    CaseTracking: ["view", "modify"],
-    ScheduleLookout: ["view", "modify"],
-    RNCall: ["view", "modify"],
-    STCall: ["view", "modify"],
-    TextNotifications: ["view", "modify"],
-    Inventory: ["view"],
-    Alerts: ["view"],
-    StaffRoster: ["view"],
-    StaffingSchedule: ["view"],
-    Vendors: ["view"],
-    SpecialtyEquipment: ["view"],
-    EducationalResources: ["view"],
-    Turnover: ["view", "modify"],
-    PolicyBot: ["view", "modify"],
-    PreOpBoard: ["view", "modify"],
-    TrackCore: ["view"],
-    Admin: ["view", "modify"],
-  },
+  // Full access including Admin
+  admin: { ...ALL_SECTIONS_FULL },
+
+  // ANM (Assistant Nurse Manager) — full access including Admin
+  anm: { ...ALL_SECTIONS_FULL },
+
+  // Charge Nurse — all features except Admin tab
   charge_nurse: {
-    Schedule: ["view", "modify"],
-    CaseTracking: ["view", "modify"],
-    ScheduleLookout: ["view", "modify"],
-    RNCall: ["view"],
-    STCall: ["view"],
-    TextNotifications: ["view"],
-    Inventory: ["view"],
-    Alerts: ["view"],
-    StaffRoster: ["view"],
-    StaffingSchedule: ["view"],
-    Vendors: ["view"],
-    SpecialtyEquipment: ["view"],
-    EducationalResources: ["view"],
-    Turnover: ["view", "modify"],
-    PolicyBot: ["view", "modify"],
-    PreOpBoard: ["view", "modify"],
-    TrackCore: ["view"],
-    Admin: ["view"],
+    ...ALL_SECTIONS_FULL,
+    Admin: [],
   },
+
+  // Pre/PACU Nurse — only PreOpBoard, RNCall, Alerts, EducationalResources, TextNotifications
+  prepacu_nurse: {
+    PreOpBoard: ["view", "modify"],
+    RNCall: ["view", "modify"],
+    Alerts: ["view", "modify"],
+    EducationalResources: ["view", "modify"],
+    TextNotifications: ["view", "modify"],
+  },
+
+  // OR Nurse — all features including Admin
+  or_nurse: { ...ALL_SECTIONS_FULL },
+
+  // Surgical Technician — all features including Admin
+  surgical_tech: { ...ALL_SECTIONS_FULL },
+
+  // Legacy roles kept for backwards compatibility
+  manager: { ...ALL_SECTIONS_FULL },
   user: {
     Schedule: ["view"],
     CaseTracking: ["view"],
@@ -82,7 +72,6 @@ const PERMISSIONS = {
     PolicyBot: ["view"],
     PreOpBoard: ["view", "modify"],
     TrackCore: ["view"],
-    Admin: ["view"],
   },
 };
 
