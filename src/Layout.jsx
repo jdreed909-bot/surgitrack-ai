@@ -84,6 +84,7 @@ export default function Layout({ children, currentPageName }) {
       PolicyBot: "PolicyBot",
       PreOpBoard: "PreOpBoard",
       TrackCore: "TrackCore",
+      SurgeonDirectory: "SurgeonDirectory",
       Admin: "Admin",
       };
     const sectionName = sectionMap[section] || section;
