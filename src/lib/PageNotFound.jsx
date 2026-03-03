@@ -4,6 +4,7 @@
  */
 
 const ALL_SECTIONS_FULL = {
+  SurgeonDirectory: ["view", "modify"],
   Schedule: ["view", "modify"],
   CaseTracking: ["view", "modify"],
   ScheduleLookout: ["view", "modify"],
