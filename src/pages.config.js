@@ -66,6 +66,7 @@ import TextNotifications from './pages/TextNotifications';
 import TrackCore from './pages/TrackCore';
 import Turnover from './pages/Turnover';
 import Vendors from './pages/Vendors';
+import SurgeonDirectory from './pages/SurgeonDirectory';
 import __Layout from './Layout.jsx';
 
 
@@ -89,6 +90,7 @@ export const PAGES = {
     "TrackCore": TrackCore,
     "Turnover": Turnover,
     "Vendors": Vendors,
+    "SurgeonDirectory": SurgeonDirectory,
 }
 
 export const pagesConfig = {
