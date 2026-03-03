@@ -39,6 +39,7 @@ const NAV = [
   { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
   { label: "Turnover", page: "Turnover", icon: Users },
   { label: "Pre-Op / PACU", page: "PreOpBoard", icon: Stethoscope },
+  { label: "Surgeon Directory", page: "SurgeonDirectory", icon: Phone },
   { label: "OR Assistant", page: "PolicyBot", icon: Bot },
   { label: "TrackCore", page: "TrackCore", icon: Droplet },
   { label: "Admin", page: "Admin", icon: Building2 },
