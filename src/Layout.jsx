@@ -20,6 +20,7 @@ import {
   Bot,
   Droplet,
   Stethoscope,
+  Phone,
 } from "lucide-react";
 
 const NAV = [
