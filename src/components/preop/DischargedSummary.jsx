@@ -100,34 +100,38 @@ function PatientRow({ p }) {
   );
 }
 
-const SPECIALTY_ORDER = ["OR", "CCL", "IR", "GI"];
+const SECTION_ORDER = ["Pre-Op", "CDA", "2nd Floor Pavilion", "PACU Direct"];
+const SECTION_COLORS = {
+  "Pre-Op": "bg-blue-50 border-blue-200 text-blue-700",
+  "CDA": "bg-teal-50 border-teal-200 text-teal-700",
+  "2nd Floor Pavilion": "bg-indigo-50 border-indigo-200 text-indigo-700",
+  "PACU Direct": "bg-purple-50 border-purple-200 text-purple-700",
+};
 
 export default function DischargedSummary({ patients }) {
-  // Group by specialty
+  // Group by origin section
   const groups = {};
   patients.forEach(p => {
-    const key = p.specialty || "Other";
+    const key = p.origin_section || "Pre-Op";
     if (!groups[key]) groups[key] = [];
     groups[key].push(p);
   });
 
   const orderedKeys = [
-    ...SPECIALTY_ORDER.filter(s => groups[s]),
-    ...Object.keys(groups).filter(k => !SPECIALTY_ORDER.includes(k)),
+    ...SECTION_ORDER.filter(s => groups[s]),
+    ...Object.keys(groups).filter(k => !SECTION_ORDER.includes(k)),
   ];
 
   return (
-    <div className="space-y-6">
-      {orderedKeys.map(specialty => (
-        <div key={specialty}>
-          <div className="flex items-center gap-2 mb-3">
-            <span className={`text-xs font-bold px-2 py-0.5 rounded border ${SPECIALTY_COLORS[specialty] || "bg-slate-100 text-slate-600 border-slate-200"}`}>
-              {specialty}
-            </span>
-            <span className="text-xs text-slate-400">{groups[specialty].length} patient{groups[specialty].length !== 1 ? "s" : ""}</span>
+    <div className="space-y-8">
+      {orderedKeys.map(section => (
+        <div key={section}>
+          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border font-bold text-sm mb-4 ${SECTION_COLORS[section] || "bg-slate-50 border-slate-200 text-slate-600"}`}>
+            {section}
+            <span className="font-normal text-xs opacity-70">{groups[section].length} patient{groups[section].length !== 1 ? "s" : ""}</span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-            {groups[specialty].map(p => <PatientRow key={p.id} p={p} />)}
+            {groups[section].map(p => <PatientRow key={p.id} p={p} />)}
           </div>
         </div>
       ))}

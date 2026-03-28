@@ -22,6 +22,14 @@ const PROCEDURE_ROOMS = [
   { value: "OR 7", label: "OR 7", group: "Operating Rooms" },
 ];
 const PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 34, 35, 36, 37];
+
+function getBayOrigin(bay) {
+  const b = Number(bay);
+  if ([34, 35, 36, 37].includes(b)) return "CDA";
+  if ([20, 21, 22, 23].includes(b)) return "2nd Floor Pavilion";
+  if ([12, 13, 14, 15, 16, 17, 18, 19].includes(b)) return "Pre-Op";
+  return "Pre-Op";
+}
 const PACU_BAYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 const SPECIALTIES = ["OR", "CCL", "IR", "GI"];
@@ -89,6 +97,7 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
     await base44.entities.PreOpPatient.create({
       ...form,
       bay_number: form.bay_number ? Number(form.bay_number) : null,
+      origin_section: defaultStatus === "PACU" ? "PACU Direct" : getBayOrigin(form.bay_number),
       status: defaultStatus,
       checked_in_at: new Date().toISOString(),
       pacu_start: defaultStatus === "PACU" ? new Date().toISOString() : undefined,
@@ -122,6 +131,7 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
           surgeon: sc.surgeon || "",
           or_room: sc.or_room || "",
           bay_number: Number(pullBay),
+          origin_section: getBayOrigin(pullBay),
           prepped_by: pullPreppedBy,
           specialty: form.specialty || "",
           is_inpatient: form.is_inpatient || false,

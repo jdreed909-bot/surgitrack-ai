@@ -16,11 +16,21 @@
     },
     "or_room": {
       "type": "string",
-      "description": "Assigned OR room"
+      "description": "Assigned OR/Procedure room"
     },
     "bay_number": {
       "type": "number",
       "description": "Physical bay/space number (Pre-Op: 12-19, PACU: 1-11)"
+    },
+    "origin_section": {
+      "type": "string",
+      "enum": [
+        "Pre-Op",
+        "CDA",
+        "2nd Floor Pavilion",
+        "PACU Direct"
+      ],
+      "description": "Which area the patient originally started in"
     },
     "specialty": {
       "type": "string",
