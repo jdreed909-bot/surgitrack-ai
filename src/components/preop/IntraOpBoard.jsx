@@ -103,7 +103,7 @@ function ORTile({ room, patient, orRoomStatus, onStatusChange, onSendToPacu, que
             {label}
           </button>
         ))}
-        {hasPatient && orRoomStatus === "Case In Progress" && (
+        {hasPatient && (
           <button
             onClick={() => onSendToPacu(patient)}
             className="w-full text-[11px] font-semibold py-1.5 px-2 rounded-lg border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 transition-all mt-0.5"
