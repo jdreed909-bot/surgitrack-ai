@@ -7,6 +7,18 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { ArrowDownToLine } from "lucide-react";
 
 const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
+const PROCEDURE_ROOMS = [
+  { value: "PR1", label: "PR1 — GI", group: "Procedure Rooms" },
+  { value: "PR2", label: "PR2 — CCL 1", group: "Procedure Rooms" },
+  { value: "PR3", label: "PR3 — IR 1", group: "Procedure Rooms" },
+  { value: "OR 1", label: "OR 1", group: "Operating Rooms" },
+  { value: "OR 2", label: "OR 2", group: "Operating Rooms" },
+  { value: "OR 3", label: "OR 3", group: "Operating Rooms" },
+  { value: "OR 4", label: "OR 4", group: "Operating Rooms" },
+  { value: "OR 5", label: "OR 5", group: "Operating Rooms" },
+  { value: "OR 6", label: "OR 6", group: "Operating Rooms" },
+  { value: "OR 7", label: "OR 7", group: "Operating Rooms" },
+];
 const PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 34, 35, 36, 37];
 const PACU_BAYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -331,14 +343,19 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-semibold text-slate-600 mb-1.5 block">OR Room</label>
+                <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Procedure Room</label>
                 <select
                   value={form.or_room}
                   onChange={e => set("or_room", e.target.value)}
                   className="w-full border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring bg-background"
                 >
                   <option value="">Select room...</option>
-                  {OR_ROOMS.map(r => <option key={r} value={r}>{r}</option>)}
+                  <optgroup label="Procedure Rooms">
+                    {PROCEDURE_ROOMS.filter(r => r.group === "Procedure Rooms").map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+                  </optgroup>
+                  <optgroup label="Operating Rooms">
+                    {PROCEDURE_ROOMS.filter(r => r.group === "Operating Rooms").map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+                  </optgroup>
                 </select>
               </div>
               {defaultStatus !== "PACU" && (
