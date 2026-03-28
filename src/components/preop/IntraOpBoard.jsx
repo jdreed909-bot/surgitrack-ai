@@ -4,6 +4,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Clock } from "lucide-react";
 
 const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
+const GI_ROOMS = ["PR1", "PR2", "PR3"];
+const CCL_IR_ROOMS = ["CCL1", "IR1"];
+
+const ROOM_SECTIONS = [
+  { label: "Surgery", rooms: OR_ROOMS, accent: "text-blue-700", badge: "bg-blue-50 border-blue-200 text-blue-700" },
+  { label: "GI", rooms: GI_ROOMS, accent: "text-amber-700", badge: "bg-amber-50 border-amber-200 text-amber-700" },
+  { label: "CCL / IR", rooms: CCL_IR_ROOMS, accent: "text-rose-700", badge: "bg-rose-50 border-rose-200 text-rose-700" },
+];
 
 const OR_STATUSES = [
   { value: "Case In Progress", label: "Case In Progress", color: "bg-blue-500", light: "bg-blue-50 border-blue-300 text-blue-800", dot: "bg-blue-500" },
@@ -139,19 +147,29 @@ export default function IntraOpBoard({ patients, orRoomStatuses, onStatusChange 
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        {OR_ROOMS.map(room => (
-          <ORTile
-            key={room}
-            room={room}
-            patient={intraOpPatientByRoom[room] || null}
-            orRoomStatus={orRoomStatuses[room] || null}
-            onStatusChange={onStatusChange}
-            onSendToPacu={sendToPacu}
-            queryClient={queryClient}
-          />
-        ))}
-      </div>
+
+      {ROOM_SECTIONS.map(({ label, rooms, badge }) => (
+        <div key={label} className="mb-6">
+          <span className={`inline-flex items-center text-xs font-bold px-2.5 py-1 rounded-lg border mb-3 ${badge}`}>{label}</span>
+          <div className={`grid gap-3 ${
+            rooms.length <= 2 ? "grid-cols-2" :
+            rooms.length === 3 ? "grid-cols-3" :
+            "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7"
+          }`}>
+            {rooms.map(room => (
+              <ORTile
+                key={room}
+                room={room}
+                patient={intraOpPatientByRoom[room] || null}
+                orRoomStatus={orRoomStatuses[room] || null}
+                onStatusChange={onStatusChange}
+                onSendToPacu={sendToPacu}
+                queryClient={queryClient}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
     </section>
   );
 }
