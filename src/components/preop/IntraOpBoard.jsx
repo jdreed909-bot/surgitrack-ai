@@ -121,6 +121,7 @@ export default function IntraOpBoard({ patients, orRoomStatuses, onStatusChange 
     await base44.entities.PreOpPatient.update(patient.id, {
       status: "PACU",
       pacu_start: new Date().toISOString(),
+      bay_number: null,
     });
     queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
   };
