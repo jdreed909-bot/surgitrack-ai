@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Plus, RefreshCw, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CheckInModal from "@/components/preop/CheckInModal";
+import DischargedSummary from "@/components/preop/DischargedSummary";
 import IntraOpBoard from "@/components/preop/IntraOpBoard";
 import PreOpBayGrid from "@/components/preop/PreOpBayGrid";
 import PacuBayGrid from "@/components/preop/PacuBayGrid";
@@ -162,17 +163,7 @@ export default function PreOpBoard() {
             <span className="text-base">{showDischarged ? "▾" : "▸"}</span>
             Discharged Today ({discharged.length})
           </button>
-          {showDischarged && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 text-sm text-slate-600">
-              {discharged.map(p => (
-                <div key={p.id} className="bg-white rounded-xl border border-slate-200 p-3 opacity-60">
-                  <div className="font-bold text-xs">{p.patient_initials}</div>
-                  <div className="text-[11px] text-slate-400 truncate">{p.procedure_name}</div>
-                  {p.bay_number && <div className="text-[10px] text-slate-400">Bay {p.bay_number}</div>}
-                </div>
-              ))}
-            </div>
-          )}
+          {showDischarged && <DischargedSummary patients={discharged} />}
         </section>
       )}
 
