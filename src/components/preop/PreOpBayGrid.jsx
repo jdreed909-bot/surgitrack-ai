@@ -48,6 +48,13 @@ const SPECIALTY_COLORS = {
   GI:  "bg-amber-500 text-white",
 };
 
+const SPECIALTY_ROOMS = {
+  GI:  ["PR1", "PR2", "PR3"],
+  CCL: ["CCL1"],
+  IR:  ["IR1"],
+  OR:  ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"],
+};
+
 const VISITS = [
   { key: "surgeon_visited", label: "Surg", atKey: "surgeon_visited_at" },
   { key: "anesthesia_visited", label: "Anes", atKey: "anesthesia_visited_at" },
@@ -58,6 +65,7 @@ function OccupiedBay({ patient, bay }) {
   const queryClient = useQueryClient();
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
   const [elapsed, setElapsed] = React.useState(0);
+  const [selectedRoom, setSelectedRoom] = React.useState("");
 
   React.useEffect(() => {
     if (!patient.checked_in_at) return;
@@ -84,14 +92,14 @@ function OccupiedBay({ patient, bay }) {
     invalidate();
   };
 
-  const sendToOR = async () => {
-    const updateData = {
+  const roomOptions = SPECIALTY_ROOMS[patient.specialty] || SPECIALTY_ROOMS.OR;
+
+  const sendToOR = async (room) => {
+    await base44.entities.PreOpPatient.update(patient.id, {
       status: "Intra-Op",
       intraop_start: new Date().toISOString(),
-    };
-    // Auto-assign to the patient's booked OR room if set
-    if (patient.or_room) updateData.or_room = patient.or_room;
-    await base44.entities.PreOpPatient.update(patient.id, updateData);
+      or_room: room || patient.or_room || "",
+    });
     invalidate();
   };
 
@@ -194,13 +202,19 @@ function OccupiedBay({ patient, bay }) {
           {isGoodToGo ? "✓ Good to Go!" : "✓ Mark Good to Go"}
         </button>
         <div className="flex gap-1.5">
-          <button onClick={sendToOR}
-            className="flex-1 text-[10px] font-semibold text-blue-600 border border-blue-200 bg-blue-50 hover:bg-blue-100 rounded-lg py-1.5 transition-colors">
-            → OR
-          </button>
-          <button onClick={moveToPacu}
-            className="flex-1 text-[10px] font-semibold text-purple-600 border border-purple-200 bg-purple-50 hover:bg-purple-100 rounded-lg py-1.5 transition-colors">
-            → PACU
+          <select
+            value={selectedRoom}
+            onChange={e => setSelectedRoom(e.target.value)}
+            className="flex-1 text-[10px] border border-blue-200 bg-blue-50 text-blue-700 rounded-lg px-1 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-400"
+          >
+            <option value="">Room...</option>
+            {roomOptions.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
+          <button
+            onClick={() => sendToOR(selectedRoom)}
+            disabled={!selectedRoom}
+            className="text-[10px] font-semibold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 rounded-lg py-1.5 px-2 transition-colors">
+            → Go
           </button>
           <button onClick={remove}
             className="text-[10px] font-semibold text-slate-400 border border-slate-200 hover:border-red-200 hover:text-red-400 rounded-lg py-1.5 px-2 transition-colors">
