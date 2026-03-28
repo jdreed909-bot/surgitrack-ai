@@ -45,7 +45,7 @@ const SPECIALTY_COLORS = {
   OR:  "bg-blue-500 text-white",
   CCL: "bg-rose-500 text-white",
   IR:  "bg-purple-500 text-white",
-  EP:  "bg-amber-500 text-white",
+  GI:  "bg-amber-500 text-white",
 };
 
 const VISITS = [
