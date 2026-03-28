@@ -9,8 +9,10 @@ import { ArrowDownToLine } from "lucide-react";
 const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
 const PROCEDURE_ROOMS = [
   { value: "PR1", label: "PR1 — GI", group: "Procedure Rooms" },
-  { value: "PR2", label: "PR2 — CCL 1", group: "Procedure Rooms" },
-  { value: "PR3", label: "PR3 — IR 1", group: "Procedure Rooms" },
+  { value: "PR2", label: "PR2 — GI", group: "Procedure Rooms" },
+  { value: "PR3", label: "PR3 — GI", group: "Procedure Rooms" },
+  { value: "CCL1", label: "CCL1", group: "Procedure Rooms" },
+  { value: "IR1", label: "IR1", group: "Procedure Rooms" },
   { value: "OR 1", label: "OR 1", group: "Operating Rooms" },
   { value: "OR 2", label: "OR 2", group: "Operating Rooms" },
   { value: "OR 3", label: "OR 3", group: "Operating Rooms" },
