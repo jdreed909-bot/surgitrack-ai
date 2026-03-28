@@ -10,7 +10,7 @@ import PreOpBayGrid from "@/components/preop/PreOpBayGrid";
 import PacuBayGrid from "@/components/preop/PacuBayGrid";
 import PacuIntakeQueue from "@/components/preop/PacuIntakeQueue";
 
-const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
+const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7", "PR1", "PR2", "PR3", "CCL1", "IR1"];
 
 export default function PreOpBoard() {
   const [checkInOpen, setCheckInOpen] = useState(false);
