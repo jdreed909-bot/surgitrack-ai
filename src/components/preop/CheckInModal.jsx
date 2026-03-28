@@ -10,6 +10,8 @@ const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
 const PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 34, 35, 36, 37];
 const PACU_BAYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
+const SPECIALTIES = ["OR", "CCL", "IR", "EP"];
+
 const defaultForm = {
   patient_initials: "",
   procedure_name: "",
@@ -17,6 +19,8 @@ const defaultForm = {
   or_room: "",
   prepped_by: "",
   bay_number: "",
+  specialty: "",
+  is_inpatient: false,
   notes: "",
 };
 
@@ -105,6 +109,8 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
           or_room: sc.or_room || "",
           bay_number: Number(pullBay),
           prepped_by: pullPreppedBy,
+          specialty: form.specialty || "",
+          is_inpatient: form.is_inpatient || false,
           status: "Pre-Op",
           checked_in_at: new Date().toISOString(),
           surgeon_visited: false,
@@ -220,14 +226,38 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
                   </select>
                 </div>
                 {defaultStatus !== "PACU" && (
-                  <div>
-                    <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Prepped By</label>
-                    <Input
-                      placeholder="Staff name"
-                      value={pullPreppedBy}
-                      onChange={e => setPullPreppedBy(e.target.value)}
-                    />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Prepped By</label>
+                      <Input
+                        placeholder="Staff name"
+                        value={pullPreppedBy}
+                        onChange={e => setPullPreppedBy(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Specialty</label>
+                      <select
+                        value={form.specialty}
+                        onChange={e => set("specialty", e.target.value)}
+                        className="w-full border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring bg-background"
+                      >
+                        <option value="">Select...</option>
+                        {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                    </div>
                   </div>
+                )}
+                {defaultStatus !== "PACU" && (
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.is_inpatient}
+                      onChange={e => set("is_inpatient", e.target.checked)}
+                      className="w-4 h-4 rounded"
+                    />
+                    <span className="text-sm font-semibold text-slate-600">Inpatient</span>
+                  </label>
                 )}
               </div>
             )}
@@ -270,6 +300,30 @@ export default function CheckInModal({ open, onClose, defaultBay = null, default
             <div>
               <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Procedure *</label>
               <Input placeholder="e.g. Total Knee Arthroplasty" value={form.procedure_name} onChange={e => set("procedure_name", e.target.value)} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Specialty</label>
+                <select
+                  value={form.specialty}
+                  onChange={e => set("specialty", e.target.value)}
+                  className="w-full border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring bg-background"
+                >
+                  <option value="">Select...</option>
+                  {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+              <div className="flex items-end pb-1">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.is_inpatient}
+                    onChange={e => set("is_inpatient", e.target.checked)}
+                    className="w-4 h-4 rounded"
+                  />
+                  <span className="text-sm font-semibold text-slate-600">Inpatient</span>
+                </label>
+              </div>
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-600 mb-1.5 block">Surgeon</label>

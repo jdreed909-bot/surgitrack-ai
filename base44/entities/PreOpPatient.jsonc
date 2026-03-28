@@ -1,0 +1,147 @@
+{
+  "name": "PreOpPatient",
+  "type": "object",
+  "properties": {
+    "patient_initials": {
+      "type": "string",
+      "description": "Patient initials for privacy (e.g. J.D.)"
+    },
+    "procedure_name": {
+      "type": "string",
+      "description": "Surgical procedure name"
+    },
+    "surgeon": {
+      "type": "string",
+      "description": "Surgeon name"
+    },
+    "or_room": {
+      "type": "string",
+      "description": "Assigned OR room"
+    },
+    "bay_number": {
+      "type": "number",
+      "description": "Physical bay/space number (Pre-Op: 12-19, PACU: 1-11)"
+    },
+    "specialty": {
+      "type": "string",
+      "enum": [
+        "OR",
+        "CCL",
+        "IR",
+        "EP"
+      ],
+      "description": "Procedure specialty destination"
+    },
+    "is_inpatient": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether patient is inpatient (shows bed icon)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pre-Op",
+        "Ready",
+        "Intra-Op",
+        "PACU",
+        "Discharged"
+      ],
+      "default": "Pre-Op",
+      "description": "Current patient status"
+    },
+    "or_room_status": {
+      "type": "string",
+      "enum": [
+        "Case In Progress",
+        "Turnover In Progress",
+        "Ready for Next Case"
+      ],
+      "description": "Intra-op OR room status"
+    },
+    "checked_in_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the patient was checked in"
+    },
+    "prepped_by": {
+      "type": "string",
+      "description": "Staff member prepping the patient"
+    },
+    "good_to_go": {
+      "type": "boolean",
+      "default": false,
+      "description": "Patient cleared and ready to go to OR"
+    },
+    "surgeon_visited": {
+      "type": "boolean",
+      "default": false
+    },
+    "surgeon_visited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "anesthesia_visited": {
+      "type": "boolean",
+      "default": false
+    },
+    "anesthesia_visited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "or_rn_visited": {
+      "type": "boolean",
+      "default": false
+    },
+    "or_rn_visited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "pacu_start": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When patient arrived in PACU"
+    },
+    "intraop_start": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When patient entered OR"
+    },
+    "admit_status": {
+      "type": "string",
+      "enum": [
+        "Outpatient",
+        "23-Hour Obs",
+        "Inpatient",
+        "ICU"
+      ],
+      "description": "PACU admit/disposition status"
+    },
+    "hbs_number": {
+      "type": "string",
+      "description": "HBS # / bed request number"
+    },
+    "time_zero": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time Zero timestamp for PACU discharge readiness"
+    },
+    "waiting_on_bed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether patient is waiting on a bed"
+    },
+    "waiting_on_bed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When waiting on bed was marked"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    }
+  },
+  "required": [
+    "patient_initials",
+    "procedure_name"
+  ]
+}

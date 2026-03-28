@@ -1,5 +1,5 @@
 import React from "react";
-import { Plus, CheckCircle2, Circle, Clock, User } from "lucide-react";
+import { Plus, CheckCircle2, Circle, Clock, User, Bed } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -40,6 +40,13 @@ function getCardBorder(elapsed, isGoodToGo) {
   if (elapsed < 3600) return "bg-amber-50 border-amber-300 ring-1 ring-amber-200";
   return "bg-red-50 border-red-400 ring-2 ring-red-200";
 }
+
+const SPECIALTY_COLORS = {
+  OR:  "bg-blue-500 text-white",
+  CCL: "bg-rose-500 text-white",
+  IR:  "bg-purple-500 text-white",
+  EP:  "bg-amber-500 text-white",
+};
 
 const VISITS = [
   { key: "surgeon_visited", label: "Surg", atKey: "surgeon_visited_at" },
@@ -110,7 +117,19 @@ function OccupiedBay({ patient, bay }) {
     <div className={`rounded-2xl border shadow-sm flex flex-col overflow-hidden h-full ${cardBg}`}>
       {/* Bay header */}
       <div className={`px-3 py-2.5 flex items-center justify-between ${headerBg}`}>
-        <span className="text-white font-bold text-sm">Bay {bay}</span>
+        <div className="flex items-center gap-1.5">
+          <span className="text-white font-bold text-sm">Bay {bay}</span>
+          {patient.specialty && (
+            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${SPECIALTY_COLORS[patient.specialty] || "bg-white/20 text-white"}`}>
+              {patient.specialty}
+            </span>
+          )}
+          {patient.is_inpatient && (
+            <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-orange-400 text-white">
+              <Bed className="w-3 h-3" /> IP
+            </span>
+          )}
+        </div>
         <div className="flex items-center gap-1.5">
           <Clock className="w-3 h-3 text-white/70" />
           <ElapsedTimer startTime={patient.checked_in_at} />
