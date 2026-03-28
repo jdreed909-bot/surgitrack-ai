@@ -7,7 +7,7 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { ArrowDownToLine } from "lucide-react";
 
 const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7"];
-const PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19];
+const PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 34, 35, 36, 37];
 const PACU_BAYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 const defaultForm = {

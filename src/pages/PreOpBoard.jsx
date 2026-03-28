@@ -87,7 +87,7 @@ export default function PreOpBoard() {
       </div>
 
       {/* Pre-Op Section — Bays 12–19 */}
-      <section className="mb-10">
+      <section className="mb-6">
         <div className="flex items-center gap-3 mb-4">
           <h2 className="text-xl font-bold text-slate-800">Pre-Op</h2>
           <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-blue-100 text-blue-700 border-blue-200">
@@ -98,6 +98,28 @@ export default function PreOpBoard() {
           </span>
         </div>
         <PreOpBayGrid patients={patients} onCheckIn={(bay) => openCheckIn(bay, "Pre-Op")} />
+      </section>
+
+      {/* CDA Bays 34–37 */}
+      <section className="mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-xl font-bold text-slate-800">CDA</h2>
+          <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-blue-100 text-blue-700 border-blue-200">
+            Bays 34–37
+          </span>
+        </div>
+        <PreOpBayGrid patients={patients} onCheckIn={(bay) => openCheckIn(bay, "Pre-Op")} bays={[34, 35, 36, 37]} />
+      </section>
+
+      {/* 2nd Floor Pavilion — Bays 20–23 */}
+      <section className="mb-10">
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-xl font-bold text-slate-800">2nd Floor Pavilion</h2>
+          <span className="text-sm font-semibold px-3 py-0.5 rounded-full border bg-blue-100 text-blue-700 border-blue-200">
+            Bays 20–23
+          </span>
+        </div>
+        <PreOpBayGrid patients={patients} onCheckIn={(bay) => openCheckIn(bay, "Pre-Op")} bays={[20, 21, 22, 23]} />
       </section>
 
       {/* Intra-Op Board */}

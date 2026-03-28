@@ -3,7 +3,7 @@ import { Plus, CheckCircle2, Circle, Clock, User } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useQueryClient } from "@tanstack/react-query";
 
-const PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19];
+const DEFAULT_PREOP_BAYS = [12, 13, 14, 15, 16, 17, 18, 19];
 
 function formatElapsed(seconds) {
   const h = Math.floor(seconds / 3600);
@@ -214,7 +214,7 @@ function EmptyBay({ bay, onCheckIn }) {
   );
 }
 
-export default function PreOpBayGrid({ patients, onCheckIn }) {
+export default function PreOpBayGrid({ patients, onCheckIn, bays = DEFAULT_PREOP_BAYS }) {
   const patientByBay = {};
   patients
     .filter(p => p.status === "Pre-Op" || p.status === "Ready")
@@ -222,7 +222,7 @@ export default function PreOpBayGrid({ patients, onCheckIn }) {
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-      {PREOP_BAYS.map(bay => (
+      {bays.map(bay => (
         <div key={bay} className="min-h-[280px] flex flex-col">
           {patientByBay[bay]
             ? <OccupiedBay patient={patientByBay[bay]} bay={bay} />
