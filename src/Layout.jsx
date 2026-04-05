@@ -21,6 +21,7 @@ import {
   Droplet,
   Stethoscope,
   Phone,
+  ClipboardList,
 } from "lucide-react";
 
 const NAV = [
@@ -41,6 +42,7 @@ const NAV = [
   { label: "Turnover", page: "Turnover", icon: Users },
   { label: "Pre-Op / PACU", page: "PreOpBoard", icon: Stethoscope },
   { label: "Surgeon Directory", page: "SurgeonDirectory", icon: Phone },
+  { label: "Preference Cards", page: "SurgeonPreferenceCards", icon: ClipboardList },
   { label: "OR Assistant", page: "PolicyBot", icon: Bot },
   { label: "TrackCore", page: "TrackCore", icon: Droplet },
   { label: "Admin", page: "Admin", icon: Building2 },
