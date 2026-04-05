@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ScanLine, Plus, Bell, Building2, Upload } from "lucide-react";
 import AddSetModal from "../components/inventory/AddSetModal";
 import ImportSetsModal from "../components/inventory/ImportSetsModal";
+import SurgeonPreferencePanel from "../components/inventory/SurgeonPreferencePanel";
 
 export default function Inventory() {
   const [scanOpen, setScanOpen] = useState(false);
@@ -92,46 +93,17 @@ export default function Inventory() {
           </div>
         </div>
 
+        {/* Two-column layout: Preference Panel + Inventory */}
+        <div className="flex gap-6">
+          {/* Left: Surgeon Preference Cards */}
+          <div className="w-72 shrink-0">
+            <SurgeonPreferencePanel />
+          </div>
+
+          {/* Right: main inventory content */}
+          <div className="flex-1 min-w-0">
+
         {/* Sub-category Tabs */}
-        <div className="flex gap-1 mb-6 bg-white border border-slate-100 rounded-2xl p-1 w-fit shadow-sm">
-          <button
-            onClick={() => setTab("hospital")}
-            className={`flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-medium transition-all ${tab === "hospital" ? "bg-teal-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
-          >
-            <ScanLine className="w-4 h-4" />
-            Hospital Sets
-            <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${tab === "hospital" ? "bg-teal-500 text-white" : "bg-slate-100 text-slate-500"}`}>
-              {sets.filter((s) => !s.is_loaner).length}
-            </span>
-          </button>
-          <button
-            onClick={() => setTab("consignment")}
-            className={`flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-medium transition-all ${tab === "consignment" ? "bg-purple-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
-          >
-            <Building2 className="w-4 h-4" />
-            Consignment / Vendor Sets
-            <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${tab === "consignment" ? "bg-purple-500 text-white" : "bg-slate-100 text-slate-500"}`}>
-              {sets.filter((s) => s.is_loaner).length}
-            </span>
-          </button>
-        </div>
-
-        {/* Status Summary */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
-          {Object.entries(statusCounts).map(([status, count]) => (
-            <StatusSummaryCard key={status} status={status} count={count} total={sets.length} />
-          ))}
-        </div>
-
-        {/* Alerts */}
-        {activeAlerts.length > 0 && (
-          <AlertBanner alerts={activeAlerts} onResolve={() => queryClient.invalidateQueries(["alerts"])} />
-        )}
-
-        {/* Filters */}
-        <InventoryFilters filters={filters} onChange={setFilters} />
-
-        {/* Grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...Array(6)].map((_, i) => (
@@ -154,6 +126,10 @@ export default function Inventory() {
             ))}
           </div>
         )}
+
+
+          </div> {/* end right column */}
+        </div> {/* end two-column layout */}
 
         {scanOpen && (
         <ScanModal

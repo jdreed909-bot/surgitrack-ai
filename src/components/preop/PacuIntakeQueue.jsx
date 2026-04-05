@@ -5,10 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const PACU_BAYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-function formatElapsed(startIso) {
-  const [, tick] = React.useState(0);
-  return null; // handled inline below
-}
+
 
 function QueueTimer({ startIso }) {
   const [elapsed, setElapsed] = React.useState(0);

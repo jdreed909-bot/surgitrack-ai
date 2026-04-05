@@ -1,0 +1,42 @@
+{
+  "name": "SurgeonPreferenceCard",
+  "type": "object",
+  "properties": {
+    "surgeon": {
+      "type": "string",
+      "description": "Surgeon name"
+    },
+    "procedure_name": {
+      "type": "string",
+      "description": "Procedure name"
+    },
+    "patient_position": {
+      "type": "string",
+      "description": "Patient positioning (e.g., Supine, Lateral, Prone)"
+    },
+    "glove_size": {
+      "type": "string",
+      "description": "Surgeon glove size"
+    },
+    "sets_required": {
+      "type": "string",
+      "description": "Instrument sets required (comma-separated or free text)"
+    },
+    "equipment": {
+      "type": "string",
+      "description": "Special equipment needed"
+    },
+    "suture_preferences": {
+      "type": "string",
+      "description": "Suture preferences"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional preferences and notes"
+    }
+  },
+  "required": [
+    "surgeon",
+    "procedure_name"
+  ]
+}
