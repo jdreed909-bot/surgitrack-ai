@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
-import { useQuery } from "@tanstack/react-query";
-import { Plus, RefreshCw, Stethoscope } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Plus, RefreshCw, Stethoscope, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CheckInModal from "@/components/preop/CheckInModal";
 import DischargedSummary from "@/components/preop/DischargedSummary";
@@ -12,11 +12,19 @@ import PacuIntakeQueue from "@/components/preop/PacuIntakeQueue";
 
 const OR_ROOMS = ["OR 1", "OR 2", "OR 3", "OR 4", "OR 5", "OR 6", "OR 7", "PR1", "PR2", "PR3", "CCL1", "IR1"];
 
+function getTodayStr() {
+  return new Date().toISOString().split("T")[0];
+}
+
 export default function PreOpBoard() {
   const [checkInOpen, setCheckInOpen] = useState(false);
   const [checkInDefaultBay, setCheckInDefaultBay] = useState(null);
   const [checkInStatus, setCheckInStatus] = useState("Pre-Op");
   const [showDischarged, setShowDischarged] = useState(false);
+  const [resetConfirm, setResetConfirm] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const queryClient = useQueryClient();
+  const midnightTimerRef = useRef(null);
 
   const [orRoomStatuses, setOrRoomStatuses] = useState(() => {
     const init = {};
@@ -29,6 +37,53 @@ export default function PreOpBoard() {
     queryFn: () => base44.entities.PreOpPatient.list("-checked_in_at", 200),
     refetchInterval: 15000,
   });
+
+  // Auto-reset at midnight: delete all patients checked in before today
+  useEffect(() => {
+    const scheduleReset = () => {
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 100);
+      const msUntilMidnight = tomorrow - now;
+
+      midnightTimerRef.current = setTimeout(async () => {
+        const todayStr = getTodayStr();
+        try {
+          const all = await base44.entities.PreOpPatient.list("-checked_in_at", 500);
+          const stale = all.filter(p => {
+            if (!p.checked_in_at) return false;
+            const checkedInDay = p.checked_in_at.split("T")[0];
+            return checkedInDay < todayStr;
+          });
+          await Promise.all(stale.map(p => base44.entities.PreOpPatient.delete(p.id)));
+          queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
+        } catch (e) {
+          // silent fail
+        }
+        scheduleReset(); // re-schedule for next midnight
+      }, msUntilMidnight);
+    };
+
+    scheduleReset();
+    return () => clearTimeout(midnightTimerRef.current);
+  }, [queryClient]);
+
+  // Manual reset: delete all patients that are NOT in Pre-Op or Ready status
+  const handleReset = async () => {
+    setResetting(true);
+    const todayStr = getTodayStr();
+    const toDelete = patients.filter(p =>
+      p.status === "Discharged" ||
+      p.status === "PACU" ||
+      p.status === "Intra-Op" ||
+      (p.checked_in_at && p.checked_in_at.split("T")[0] < todayStr)
+    );
+    await Promise.all(toDelete.map(p => base44.entities.PreOpPatient.delete(p.id)));
+    queryClient.invalidateQueries({ queryKey: ["preop-patients"] });
+    setResetting(false);
+    setResetConfirm(false);
+  };
 
   const preOpPatients = patients.filter(p => p.status === "Pre-Op" || p.status === "Ready");
   const intraOpPatients = patients.filter(p => p.status === "Intra-Op");
@@ -65,6 +120,33 @@ export default function PreOpBoard() {
           >
             <RefreshCw className="w-4 h-4" />
           </button>
+          {!resetConfirm ? (
+            <Button
+              variant="outline"
+              onClick={() => setResetConfirm(true)}
+              className="gap-2 rounded-xl border-red-200 text-red-600 hover:bg-red-50"
+            >
+              <RotateCcw className="w-4 h-4" />
+              Reset Dashboard
+            </Button>
+          ) : (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-3 py-1.5">
+              <span className="text-sm text-red-700 font-semibold">Clear PACU, Intra-Op & Discharged?</span>
+              <button
+                onClick={handleReset}
+                disabled={resetting}
+                className="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 disabled:opacity-50"
+              >
+                {resetting ? "Clearing…" : "Yes, Reset"}
+              </button>
+              <button
+                onClick={() => setResetConfirm(false)}
+                className="px-3 py-1 bg-white border border-slate-200 text-slate-600 text-xs font-bold rounded-lg hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
           <Button onClick={() => openCheckIn(null, "Pre-Op")} className="bg-teal-600 hover:bg-teal-700 gap-2 rounded-xl px-5">
             <Plus className="w-4 h-4" />
             Check In Patient
