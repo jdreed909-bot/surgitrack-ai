@@ -1,0 +1,64 @@
+{
+  "name": "StaffRoster",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Staff member full name"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "RN",
+        "Scrub Tech",
+        "Charge RN",
+        "Surgeon",
+        "Anesthesia Provider",
+        "RNFA",
+        "PA",
+        "NP"
+      ],
+      "description": "Staff role"
+    },
+    "seniority_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of hire / seniority date \u2014 used for notification order"
+    },
+    "fte_status": {
+      "type": "string",
+      "enum": [
+        "Full-Time",
+        "Part-Time",
+        "Per Diem"
+      ],
+      "default": "Full-Time",
+      "description": "Full-time or part-time employment status"
+    },
+    "vocera_id": {
+      "type": "string",
+      "description": "Vocera badge ID or user ID for notifications"
+    },
+    "vocera_group": {
+      "type": "string",
+      "description": "Vocera group/address (e.g. @OR Nurses)"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number for SMS notifications"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Is this staff member currently active?"
+    }
+  },
+  "required": [
+    "name",
+    "role"
+  ]
+}

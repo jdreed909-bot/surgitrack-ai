@@ -11,6 +11,7 @@ import CallCalendar from "../components/call/CallCalendar";
 import CallSlot from "../components/call/CallSlot";
 import SwitchLedger from "../components/call/SwitchLedger";
 import HolidaySchedule from "../components/call/HolidaySchedule";
+import StaffCallPanel from "../components/call/StaffCallPanel";
 import { canModify } from "../lib/PageNotFound";
 
 export default function STCall() {
@@ -161,6 +162,7 @@ export default function STCall() {
               callSchedules={schedules}
               role="ST"
             />
+            <StaffCallPanel role="ST" />
           </div>
 
           {/* Call Slots for Selected Date */}

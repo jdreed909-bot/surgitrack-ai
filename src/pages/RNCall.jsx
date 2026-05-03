@@ -11,6 +11,7 @@ import CallCalendar from "../components/call/CallCalendar";
 import CallSlot from "../components/call/CallSlot";
 import SwitchLedger from "../components/call/SwitchLedger";
 import HolidaySchedule from "../components/call/HolidaySchedule";
+import StaffCallPanel from "../components/call/StaffCallPanel";
 import { canModify } from "../lib/PageNotFound";
 
 export default function RNCall() {
@@ -161,6 +162,7 @@ export default function RNCall() {
               callSchedules={schedules}
               role="RN"
             />
+            <StaffCallPanel role="RN" />
           </div>
 
           {/* Call Slots for Selected Date */}
