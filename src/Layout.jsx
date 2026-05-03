@@ -65,36 +65,38 @@ export default function Layout({ children, currentPageName }) {
   });
   const alertCount = alerts.length;
 
-  // Filter nav items based on user role
-  const visibleNav = NAV.filter(item => {
-    const section = item.page;
-    // Map page names to section names for permission check
-    const sectionMap = {
-      Schedule: "Schedule",
-      CaseTracking: "CaseTracking",
-      ScheduleLookout: "ScheduleLookout",
-      Inventory: "Inventory",
-      ScanHistory: "Inventory",
-      Alerts: "Alerts",
-      RNCall: "RNCall",
-      STCall: "STCall",
-      Vendors: "Vendors",
-      SpecialtyEquipment: "Equipment",
-      StaffRoster: "StaffManagement",
-      StaffingSchedule: "StaffManagement",
-      TextNotifications: "TextNotifications",
-      EducationalResources: "EducationalResources",
-      Turnover: "Turnover",
-      PolicyBot: "PolicyBot",
-      PreOpBoard: "PreOpBoard",
-      TrackCore: "TrackCore",
-      SurgeonDirectory: "SurgeonDirectory",
-      UsageDashboard: "UsageDashboard",
-      Admin: "Admin",
-      };
-    const sectionName = sectionMap[section] || section;
-    return canView(currentUser?.role || "user", sectionName);
-  });
+  const sectionMap = {
+    Schedule: "Schedule",
+    CaseTracking: "CaseTracking",
+    ScheduleLookout: "ScheduleLookout",
+    Inventory: "Inventory",
+    ScanHistory: "Inventory",
+    Alerts: "Alerts",
+    RNCall: "RNCall",
+    STCall: "STCall",
+    Vendors: "Vendors",
+    SpecialtyEquipment: "Equipment",
+    StaffRoster: "StaffManagement",
+    StaffingSchedule: "StaffManagement",
+    TextNotifications: "TextNotifications",
+    EducationalResources: "EducationalResources",
+    Turnover: "Turnover",
+    PolicyBot: "PolicyBot",
+    PreOpBoard: "PreOpBoard",
+    TrackCore: "TrackCore",
+    SurgeonDirectory: "SurgeonDirectory",
+    SurgeonPreferenceCards: "SurgeonPreferenceCards",
+    UsageDashboard: "UsageDashboard",
+    Admin: "Admin",
+  };
+
+  // Show all nav while user is still loading to avoid flicker/empty sidebar
+  const visibleNav = currentUser === null
+    ? NAV
+    : NAV.filter(item => {
+        const sectionName = sectionMap[item.page] || item.page;
+        return canView(currentUser.role || "user", sectionName);
+      });
 
   return (
     <div className="min-h-screen bg-[#F0F4F8] flex">
