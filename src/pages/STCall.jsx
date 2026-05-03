@@ -162,7 +162,6 @@ export default function STCall() {
               callSchedules={schedules}
               role="ST"
             />
-            <StaffCallPanel role="ST" />
           </div>
 
           {/* Call Slots for Selected Date */}
@@ -207,6 +206,7 @@ export default function STCall() {
               userRole={currentUser?.role}
               canApprove={canUserModify}
             />
+            <StaffCallPanel role="ST" />
           </div>
         </div>
       </div>

@@ -162,7 +162,6 @@ export default function RNCall() {
               callSchedules={schedules}
               role="RN"
             />
-            <StaffCallPanel role="RN" />
           </div>
 
           {/* Call Slots for Selected Date */}
@@ -207,6 +206,7 @@ export default function RNCall() {
               userRole={currentUser?.role}
               canApprove={canUserModify}
             />
+            <StaffCallPanel role="RN" />
           </div>
         </div>
       </div>
