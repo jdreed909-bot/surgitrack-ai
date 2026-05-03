@@ -12,6 +12,8 @@
         "RN",
         "Scrub Tech",
         "Charge RN",
+        "PCT",
+        "UA",
         "Surgeon",
         "Anesthesia Provider",
         "RNFA",
@@ -33,15 +35,7 @@
         "Per Diem"
       ],
       "default": "Full-Time",
-      "description": "Full-time or part-time employment status"
-    },
-    "vocera_id": {
-      "type": "string",
-      "description": "Vocera badge ID or user ID for notifications"
-    },
-    "vocera_group": {
-      "type": "string",
-      "description": "Vocera group/address (e.g. @OR Nurses)"
+      "description": "Employment status"
     },
     "phone": {
       "type": "string",
@@ -50,6 +44,14 @@
     "email": {
       "type": "string",
       "description": "Email address"
+    },
+    "vocera_id": {
+      "type": "string",
+      "description": "Vocera badge ID or user ID for notifications"
+    },
+    "vocera_group": {
+      "type": "string",
+      "description": "Vocera group/address (e.g. @OR Nurses)"
     },
     "is_active": {
       "type": "boolean",
