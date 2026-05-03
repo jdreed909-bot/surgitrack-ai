@@ -12,6 +12,7 @@ import CallSlot from "../components/call/CallSlot";
 import SwitchLedger from "../components/call/SwitchLedger";
 import HolidaySchedule from "../components/call/HolidaySchedule";
 import StaffCallPanel from "../components/call/StaffCallPanel";
+import CallBroadcast from "../components/call/CallBroadcast";
 import { canModify } from "../lib/PageNotFound";
 
 export default function STCall() {
@@ -197,6 +198,8 @@ export default function STCall() {
                 </div>
               )}
             </div>
+
+            <CallBroadcast role="ST" />
 
             {/* Switch Ledger */}
             <SwitchLedger
