@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 
 import SurgeonPreferenceCards from './pages/SurgeonPreferenceCards';
+import UsageDashboard from './pages/UsageDashboard';
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
 const MainPage = mainPageKey ? Pages[mainPageKey] : <></>;
@@ -60,6 +61,7 @@ const AuthenticatedApp = () => {
         />
       ))}
       <Route path="/SurgeonPreferenceCards" element={<LayoutWrapper currentPageName="SurgeonPreferenceCards"><SurgeonPreferenceCards /></LayoutWrapper>} />
+      <Route path="/UsageDashboard" element={<LayoutWrapper currentPageName="UsageDashboard"><UsageDashboard /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
