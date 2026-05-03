@@ -5,6 +5,8 @@
 
 const ALL_SECTIONS_FULL = {
   SurgeonDirectory: ["view", "modify"],
+  UsageDashboard: ["view", "modify"],
+  SurgeonPreferenceCards: ["view", "modify"],
   Schedule: ["view", "modify"],
   CaseTracking: ["view", "modify"],
   ScheduleLookout: ["view", "modify"],
@@ -73,6 +75,9 @@ const PERMISSIONS = {
     PolicyBot: ["view"],
     PreOpBoard: ["view", "modify"],
     TrackCore: ["view"],
+    UsageDashboard: ["view"],
+    SurgeonDirectory: ["view"],
+    SurgeonPreferenceCards: ["view"],
   },
 };
 
