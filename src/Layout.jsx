@@ -36,7 +36,7 @@ const NAV = [
   { label: "ST Call",   page: "STCall",      icon: Users },
   { label: "Vendors",   page: "Vendors",          icon: Building2 },
   { label: "Equipment", page: "SpecialtyEquipment", icon: Wrench },
-  { label: "Staff Roster",      page: "StaffRoster",        icon: Users },
+  { label: "Staff Directory",    page: "StaffRoster",        icon: Users },
   { label: "Staffing Schedule", page: "StaffingSchedule",   icon: CalendarDays },
   { label: "Text Notifications", page: "TextNotifications",  icon: MessageSquare },
   { label: "Educational Resources", page: "EducationalResources", icon: BookOpen },
