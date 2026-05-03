@@ -22,7 +22,6 @@ import {
   Stethoscope,
   Phone,
   ClipboardList,
-  BarChart2,
 } from "lucide-react";
 
 const NAV = [
@@ -44,7 +43,6 @@ const NAV = [
   { label: "Pre-Op / PACU", page: "PreOpBoard", icon: Stethoscope },
   { label: "Surgeon Directory", page: "SurgeonDirectory", icon: Phone },
   { label: "Preference Cards", page: "SurgeonPreferenceCards", icon: ClipboardList },
-  { label: "Usage Analytics", page: "UsageDashboard", icon: BarChart2 },
   { label: "OR Assistant", page: "PolicyBot", icon: Bot },
   { label: "TrackCore", page: "TrackCore", icon: Droplet },
   { label: "Admin", page: "Admin", icon: Building2 },
@@ -89,8 +87,6 @@ export default function Layout({ children, currentPageName }) {
       PreOpBoard: "PreOpBoard",
       TrackCore: "TrackCore",
       SurgeonDirectory: "SurgeonDirectory",
-      SurgeonPreferenceCards: "SurgeonDirectory",
-      UsageDashboard: "Schedule",
       Admin: "Admin",
       };
     const sectionName = sectionMap[section] || section;
