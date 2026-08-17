@@ -1,0 +1,87 @@
+{
+  "name": "Turnover",
+  "type": "object",
+  "properties": {
+    "or_room": {
+      "type": "string",
+      "description": "Operating room (e.g., OR 1)"
+    },
+    "case_id": {
+      "type": "string",
+      "description": "Related surgical case ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "cleaning",
+        "completed"
+      ],
+      "default": "active",
+      "description": "Current turnover status"
+    },
+    "heads_up_sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When heads up notification was sent"
+    },
+    "heads_up_duration": {
+      "type": "string",
+      "enum": [
+        "10-mins",
+        "15-mins",
+        "30-mins"
+      ],
+      "description": "Duration for heads up notification"
+    },
+    "wheels_out_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When wheels out was triggered"
+    },
+    "cleaning_start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When cleaning started"
+    },
+    "cleaning_finish_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When cleaning finished"
+    },
+    "broadcast_sent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether broadcast message was sent"
+    },
+    "broadcast_message": {
+      "type": "string",
+      "description": "Custom broadcast message"
+    },
+    "assigned_staff": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "alert_sent_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "Staff assigned to this room"
+    }
+  },
+  "required": [
+    "or_room"
+  ]
+}

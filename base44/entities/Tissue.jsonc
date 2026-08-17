@@ -1,0 +1,40 @@
+{
+  "name": "Tissue",
+  "type": "object",
+  "properties": {
+    "tissue_type": {
+      "type": "string",
+      "description": "Type of tissue (e.g., Allograft, Skin, Bone, Tendon)"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Number of units in storage"
+    },
+    "unit_type": {
+      "type": "string",
+      "description": "Unit measurement (e.g., units, pieces, mm)"
+    },
+    "expiration_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Expiration/discard date"
+    },
+    "storage_location": {
+      "type": "string",
+      "description": "Physical storage location"
+    },
+    "trackcore_id": {
+      "type": "string",
+      "description": "TrackCore system ID for syncing"
+    },
+    "last_synced": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last sync from TrackCore"
+    }
+  },
+  "required": [
+    "tissue_type",
+    "quantity"
+  ]
+}

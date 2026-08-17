@@ -1,0 +1,109 @@
+{
+  "name": "SurgicalSet",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the surgical instrument set"
+    },
+    "set_code": {
+      "type": "string",
+      "description": "Unique barcode/scan code for the set"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "General Surgery",
+        "Orthopedic",
+        "Cardiovascular",
+        "Neurosurgery",
+        "OB/GYN",
+        "ENT",
+        "Ophthalmology",
+        "Urology",
+        "Plastics",
+        "Laparoscopic"
+      ],
+      "description": "Surgical specialty category"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Available",
+        "In Use",
+        "Sterilizing",
+        "Under Repair",
+        "Missing",
+        "Loaned Out"
+      ],
+      "default": "Available",
+      "description": "Current status of the set"
+    },
+    "location": {
+      "type": "string",
+      "enum": [
+        "Sterile Processing",
+        "OR 1",
+        "OR 2",
+        "OR 3",
+        "OR 4",
+        "OR 5",
+        "OR 6",
+        "Storage Room A",
+        "Storage Room B",
+        "Vendor",
+        "Unknown"
+      ],
+      "default": "Sterile Processing",
+      "description": "Physical location of the set"
+    },
+    "vendor_name": {
+      "type": "string",
+      "description": "Vendor/manufacturer name"
+    },
+    "vendor_contact": {
+      "type": "string",
+      "description": "Vendor contact phone or email"
+    },
+    "last_sterilized": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last sterilization timestamp"
+    },
+    "sterilization_expiry": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When sterilization expires"
+    },
+    "tray_count": {
+      "type": "number",
+      "description": "Number of trays in this set"
+    },
+    "instrument_count": {
+      "type": "number",
+      "description": "Total instrument count"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Special notes or limitations"
+    },
+    "is_loaner": {
+      "type": "boolean",
+      "default": false,
+      "description": "Is this a loaner set from vendor?"
+    },
+    "last_scan_by": {
+      "type": "string",
+      "description": "Email of nurse who last scanned"
+    },
+    "alert_triggered": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a timing alert has been sent"
+    }
+  },
+  "required": [
+    "name",
+    "set_code"
+  ]
+}

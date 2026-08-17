@@ -1,0 +1,71 @@
+{
+  "name": "StaffNotification",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "Shift Available",
+        "Call Shift Pickup",
+        "General"
+      ],
+      "description": "Type of notification"
+    },
+    "message": {
+      "type": "string",
+      "description": "Notification message body"
+    },
+    "shift_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the shift being offered"
+    },
+    "shift_start": {
+      "type": "string",
+      "description": "Shift start time HH:MM"
+    },
+    "shift_end": {
+      "type": "string",
+      "description": "Shift end time HH:MM"
+    },
+    "or_room": {
+      "type": "string",
+      "description": "OR room if applicable"
+    },
+    "target_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Which roles to notify (RN, Scrub Tech, Charge RN)"
+    },
+    "sent_to": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Names of staff who received the notification (in seniority order)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Sent",
+        "Claimed"
+      ],
+      "default": "Draft"
+    },
+    "claimed_by": {
+      "type": "string",
+      "description": "Staff member who claimed the shift"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "type",
+    "message"
+  ]
+}

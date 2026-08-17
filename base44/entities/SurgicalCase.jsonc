@@ -1,0 +1,130 @@
+{
+  "name": "SurgicalCase",
+  "type": "object",
+  "properties": {
+    "case_number": {
+      "type": "string",
+      "description": "Unique case identifier"
+    },
+    "patient_initials": {
+      "type": "string",
+      "description": "Patient initials for privacy"
+    },
+    "procedure_name": {
+      "type": "string",
+      "description": "Name of the surgical procedure"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of surgery"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "description": "Scheduled start time"
+    },
+    "estimated_duration": {
+      "type": "number",
+      "description": "Estimated duration in minutes"
+    },
+    "or_room": {
+      "type": "string",
+      "enum": [
+        "OR 1",
+        "OR 2",
+        "OR 3",
+        "OR 4",
+        "OR 5",
+        "OR 6",
+        "OR 7"
+      ],
+      "description": "Assigned operating room"
+    },
+    "surgeon": {
+      "type": "string",
+      "description": "Surgeon name"
+    },
+    "physician": {
+      "type": "string",
+      "description": "Physician / attending name"
+    },
+    "anesthesia_provider": {
+      "type": "string",
+      "description": "Anesthesia provider name"
+    },
+    "assistant": {
+      "type": "string",
+      "description": "Surgical assistant name"
+    },
+    "required_sets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of SurgicalSet IDs required for this case"
+    },
+    "required_equipment": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of SpecialtyEquipment IDs required for this case"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Scheduled",
+        "Add-On",
+        "In Progress",
+        "Completed",
+        "Cancelled",
+        "Delayed"
+      ],
+      "default": "Scheduled"
+    },
+    "conflict_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of conflict descriptions"
+    },
+    "special_requests": {
+      "type": "string",
+      "description": "Special equipment requests"
+    },
+    "special_limitations": {
+      "type": "string",
+      "description": "Known limitations or restrictions"
+    },
+    "vendor_notification_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "vendor_notified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "vendor_notified_by": {
+      "type": "string"
+    },
+    "turnover_triggered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When turnover countdown was last triggered"
+    },
+    "turnover_triggered_by": {
+      "type": "string",
+      "description": "Who triggered the turnover"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "case_number",
+    "procedure_name",
+    "scheduled_date",
+    "scheduled_time"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "name": "Alert",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "Set Not Returned",
+        "Sterilization Overdue",
+        "Case Conflict",
+        "Set Missing",
+        "Vendor Notification",
+        "Materials",
+        "Scheduling",
+        "SPD",
+        "OR"
+      ],
+      "description": "Type of alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "Critical",
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "default": "Medium"
+    },
+    "set_id": {
+      "type": "string",
+      "description": "Related set ID"
+    },
+    "case_id": {
+      "type": "string",
+      "description": "Related case ID"
+    },
+    "message": {
+      "type": "string",
+      "description": "Alert message"
+    },
+    "surgeon": {
+      "type": "string",
+      "description": "Surgeon associated with the alert"
+    },
+    "issue_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the surgery or issue"
+    },
+    "points_of_contact": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact person name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact email address"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "description": "Points of contact to notify via email"
+    },
+    "is_resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolved_by": {
+      "type": "string"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolution_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "severity",
+    "message"
+  ]
+}

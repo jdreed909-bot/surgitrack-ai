@@ -1,0 +1,62 @@
+{
+  "name": "ScanLog",
+  "type": "object",
+  "properties": {
+    "set_id": {
+      "type": "string",
+      "description": "ID of the SurgicalSet scanned"
+    },
+    "set_code": {
+      "type": "string",
+      "description": "Barcode/code that was scanned"
+    },
+    "set_name": {
+      "type": "string",
+      "description": "Name of the set at time of scan"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "Checked Out",
+        "Checked In",
+        "Status Update",
+        "Location Update"
+      ],
+      "description": "What type of scan action was performed"
+    },
+    "from_status": {
+      "type": "string",
+      "description": "Status before scan"
+    },
+    "to_status": {
+      "type": "string",
+      "description": "Status after scan"
+    },
+    "from_location": {
+      "type": "string",
+      "description": "Location before scan"
+    },
+    "to_location": {
+      "type": "string",
+      "description": "Location after scan"
+    },
+    "scanned_by": {
+      "type": "string",
+      "description": "Email of nurse who performed scan"
+    },
+    "case_id": {
+      "type": "string",
+      "description": "Associated case ID if applicable"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Scan notes"
+    }
+  },
+  "required": [
+    "set_id",
+    "set_code",
+    "action",
+    "scanned_by"
+  ]
+}

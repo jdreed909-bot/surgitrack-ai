@@ -1,0 +1,45 @@
+{
+  "name": "Vendor",
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "description": "Vendor company name"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Primary contact person"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Surgical specialties this vendor covers"
+    },
+    "website": {
+      "type": "string",
+      "description": "Company website URL"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Is this vendor active?"
+    }
+  },
+  "required": [
+    "company_name"
+  ]
+}

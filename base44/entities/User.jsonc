@@ -1,0 +1,20 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "anm",
+        "charge_nurse",
+        "prepacu_nurse",
+        "or_nurse",
+        "surgical_tech"
+      ],
+      "default": "or_nurse",
+      "description": "User role: admin, ANM (Assistant Nurse Manager), Charge Nurse, Pre/PACU Nurse, OR Nurse, Surgical Technician"
+    }
+  },
+  "required": []
+}

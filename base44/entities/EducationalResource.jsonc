@@ -1,0 +1,66 @@
+{
+  "name": "EducationalResource",
+  "type": "object",
+  "properties": {
+    "specialty": {
+      "type": "string",
+      "enum": [
+        "General Surgery",
+        "Robotics-GYN",
+        "GEN",
+        "URO",
+        "HPB",
+        "Hepatobiliary-HPB",
+        "GYN",
+        "Plastics-Reimplantations",
+        "Flaps",
+        "ORTHO",
+        "ORTHO-Trauma",
+        "SPINE",
+        "PODIATRY",
+        "VASCULAR"
+      ],
+      "description": "Surgical specialty this resource belongs to"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the resource / case"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Case",
+        "Equipment",
+        "Room Layout"
+      ],
+      "description": "Type of educational resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description, notes, or instructions"
+    },
+    "equipment_list": {
+      "type": "string",
+      "description": "Equipment needed (free text or comma-separated)"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of uploaded image URLs (room setup, back tables, demonstrations)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional tags for searching"
+    }
+  },
+  "required": [
+    "specialty",
+    "title",
+    "category"
+  ]
+}

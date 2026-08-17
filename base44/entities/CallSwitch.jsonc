@@ -1,0 +1,88 @@
+{
+  "name": "CallSwitch",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "RN",
+        "ST"
+      ],
+      "description": "Role type for this switch"
+    },
+    "call_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the call shift being switched"
+    },
+    "call_type": {
+      "type": "string",
+      "enum": [
+        "Night",
+        "Evening"
+      ],
+      "description": "Type of call shift"
+    },
+    "switch_type": {
+      "type": "string",
+      "enum": [
+        "Pickup",
+        "Giveaway",
+        "Switch"
+      ],
+      "description": "Type of switch transaction"
+    },
+    "from_staff": {
+      "type": "string",
+      "description": "Name of staff member giving the call"
+    },
+    "from_email": {
+      "type": "string",
+      "description": "Email of staff member giving the call"
+    },
+    "to_staff": {
+      "type": "string",
+      "description": "Name of staff member receiving the call (pickup/switch only)"
+    },
+    "to_email": {
+      "type": "string",
+      "description": "Email of staff member receiving the call (pickup/switch only)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Auto-Approved",
+        "Pending",
+        "Approved",
+        "Denied"
+      ],
+      "default": "Pending",
+      "description": "Status of the switch request"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the switch"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Email of person who approved"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the switch was approved"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    }
+  },
+  "required": [
+    "role",
+    "call_date",
+    "call_type",
+    "switch_type",
+    "from_staff",
+    "from_email"
+  ]
+}

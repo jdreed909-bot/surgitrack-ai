@@ -1,0 +1,45 @@
+{
+  "name": "SurgeonContact",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name of the surgeon or PA"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title/credential (M.D., PA-C, NP, etc.)"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Cell phone number"
+    },
+    "specialty": {
+      "type": "string",
+      "enum": [
+        "General Surgery",
+        "Plastic Surgery",
+        "Orthopedics",
+        "Podiatry",
+        "OB/GYN",
+        "Ophthalmology",
+        "Head & Neck",
+        "Urology"
+      ],
+      "description": "Surgical specialty"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Surgeon",
+        "PA/NP"
+      ],
+      "default": "Surgeon",
+      "description": "Provider type"
+    }
+  },
+  "required": [
+    "name",
+    "specialty"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "name": "SpecialtyEquipment",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Equipment name"
+    },
+    "equipment_code": {
+      "type": "string",
+      "description": "Unique identifier/code"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Imaging & Visualization",
+        "Navigation & Robotics",
+        "Energy Devices",
+        "Retraction Systems",
+        "Perfusion Equipment",
+        "Anesthesia Equipment",
+        "Power Tools",
+        "Microscopes & Scopes",
+        "Other"
+      ]
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Total quantity available",
+      "default": 1
+    },
+    "location": {
+      "type": "string",
+      "description": "Storage location"
+    },
+    "vendor_name": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "quantity"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "ORSettings",
+  "type": "object",
+  "properties": {
+    "or_count": {
+      "type": "number",
+      "description": "Number of operating rooms",
+      "default": 6
+    },
+    "or_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Custom names for each OR"
+    }
+  },
+  "required": []
+}

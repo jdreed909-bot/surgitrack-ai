@@ -1,0 +1,80 @@
+{
+  "name": "CallSchedule",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "RN",
+        "ST"
+      ],
+      "description": "Role type for this call schedule"
+    },
+    "staff_member": {
+      "type": "string",
+      "description": "Name of the staff member"
+    },
+    "staff_email": {
+      "type": "string",
+      "description": "Email of the staff member"
+    },
+    "call_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the call shift"
+    },
+    "call_type": {
+      "type": "string",
+      "enum": [
+        "Night",
+        "Evening"
+      ],
+      "description": "Type of call shift"
+    },
+    "start_time": {
+      "type": "string",
+      "description": "Start time (e.g., 11:00 PM)"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "End time (e.g., 7:00 AM)"
+    },
+    "day_of_week": {
+      "type": "string",
+      "enum": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "description": "Day of the week"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Assigned",
+        "Available",
+        "Picked Up"
+      ],
+      "default": "Assigned",
+      "description": "Current status of the call slot"
+    },
+    "assigned_by": {
+      "type": "string",
+      "description": "Who originally assigned this call"
+    }
+  },
+  "required": [
+    "role",
+    "staff_member",
+    "staff_email",
+    "call_date",
+    "call_type",
+    "start_time",
+    "end_time",
+    "day_of_week"
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "name": "StaffAssignment",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the assignment"
+    },
+    "or_room": {
+      "type": "string",
+      "description": "Operating room (e.g. OR 1)"
+    },
+    "rn_name": {
+      "type": "string",
+      "description": "Registered Nurse name"
+    },
+    "rn_vocera_id": {
+      "type": "string",
+      "description": "RN Vocera badge ID"
+    },
+    "rn_shift_start": {
+      "type": "string",
+      "description": "RN shift start time (HH:MM)"
+    },
+    "rn_shift_end": {
+      "type": "string",
+      "description": "RN shift end time (HH:MM)"
+    },
+    "scrub_tech_name": {
+      "type": "string",
+      "description": "Surgical Tech / Scrub Tech name"
+    },
+    "scrub_tech_vocera_id": {
+      "type": "string",
+      "description": "Scrub Tech Vocera badge ID"
+    },
+    "scrub_tech_shift_start": {
+      "type": "string",
+      "description": "Scrub Tech shift start time (HH:MM)"
+    },
+    "scrub_tech_shift_end": {
+      "type": "string",
+      "description": "Scrub Tech shift end time (HH:MM)"
+    },
+    "charge_rn_name": {
+      "type": "string",
+      "description": "Charge RN name for this assignment"
+    },
+    "charge_rn_vocera_id": {
+      "type": "string",
+      "description": "Charge RN Vocera badge ID"
+    },
+    "charge_rn_shift_start": {
+      "type": "string",
+      "description": "Charge RN shift start time (HH:MM)"
+    },
+    "charge_rn_shift_end": {
+      "type": "string",
+      "description": "Charge RN shift end time (HH:MM)"
+    },
+    "shift_start": {
+      "type": "string",
+      "description": "Legacy / default shift start time (HH:MM)"
+    },
+    "shift_end": {
+      "type": "string",
+      "description": "Legacy / default shift end time (HH:MM)"
+    },
+    "vocera_notified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether Vocera notification was sent for this assignment"
+    },
+    "vocera_notified_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the Vocera notification was sent"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional notes"
+    }
+  },
+  "required": [
+    "date",
+    "or_room"
+  ]
+}

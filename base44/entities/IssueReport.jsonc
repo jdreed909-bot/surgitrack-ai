@@ -1,0 +1,75 @@
+{
+  "name": "IssueReport",
+  "type": "object",
+  "properties": {
+    "set_id": {
+      "type": "string",
+      "description": "ID of the SurgicalSet"
+    },
+    "set_name": {
+      "type": "string"
+    },
+    "set_code": {
+      "type": "string"
+    },
+    "issue_type": {
+      "type": "string",
+      "enum": [
+        "Missing Instrument",
+        "Missing Filter",
+        "Bioburden",
+        "Packaging Compromised",
+        "Damaged Instrument",
+        "Rust / Corrosion",
+        "Incorrect Count",
+        "Sterilization Failure",
+        "Other"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "Critical",
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "default": "Medium"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the issue"
+    },
+    "affected_instruments": {
+      "type": "string",
+      "description": "Specific instruments affected"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "In Progress",
+        "Resolved"
+      ],
+      "default": "Open"
+    },
+    "reported_by": {
+      "type": "string"
+    },
+    "resolved_by": {
+      "type": "string"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolution_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "set_id",
+    "issue_type",
+    "description"
+  ]
+}

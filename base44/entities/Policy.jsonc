@@ -1,0 +1,43 @@
+{
+  "name": "Policy",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Policy title"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "OR Protocol",
+        "Safety",
+        "Equipment",
+        "Sterilization",
+        "Staff",
+        "General"
+      ],
+      "description": "Policy category"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full policy text/content"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL to uploaded policy document"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Is this policy currently active?"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "title",
+    "content"
+  ]
+}
