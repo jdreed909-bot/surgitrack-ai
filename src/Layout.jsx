@@ -113,7 +113,7 @@ export default function Layout({ children, currentPageName }) {
             </div>
           </div>
         </div>
-        <nav className="flex-1 px-3 py-4 space-y-1">
+        <nav className="flex-1 min-h-0 overflow-y-auto px-3 py-4 space-y-1">
           {visibleNav.map(({ label, page, icon: Icon, badge }) => {
             const active = currentPageName === page;
             return (
@@ -168,7 +168,7 @@ export default function Layout({ children, currentPageName }) {
       {/* Mobile nav drawer */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-20 bg-black/30" onClick={() => setMobileOpen(false)}>
-          <div className="bg-white w-64 h-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white w-64 h-full shadow-xl overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 pt-16 pb-4 space-y-1">
                 {visibleNav.map(({ label, page, icon: Icon, badge }) => {
                 const active = currentPageName === page;
